@@ -49,7 +49,7 @@ typedef union _sys_para{
        uint16 un16PedalAd[11];      //46
        struct{
 		uint16 un16Inj_HV_Time;//6
-		uint16 un16Inj_Lv_Time;
+		uint16 un16Inj_LV_Time;
 		uint16 un16Inj_Gap_Time;
 		uint16 un16InjCurAD;
 		uint16 Reversed1;
@@ -108,8 +108,8 @@ void SysTaskProcess(void);
 void SysDigProcess(void);
 void SysOutputProcess(void);
 
-void SingleModeJudge();
-void SingleAppExcute();
+void SingleModeJudge(void);
+void SingleAppExcute(void);
 void DuralModeJudge(void);
 void DuralAppExcute(void);
 

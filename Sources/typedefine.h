@@ -29,6 +29,6 @@ typedef double FLOAT64;
 #define ON  1
 #define OFF 0
 
-enum  {ON,OFF} bool;
+//enum  {ON,OFF} bool;
 
 #endif

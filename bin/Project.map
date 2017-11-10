@@ -33,6 +33,7 @@ StepperModule.c.o                       Model: BANKED,        Lang: ANSI-C
 SysTask.c.o                             Model: BANKED,        Lang: ANSI-C
 MC9S12XET256.c.o                        Model: BANKED,        Lang: ANSI-C
 DFlashModule.c.o                        Model: BANKED,        Lang: ANSI-C
+CamshiftModule.c.o                      Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -41,8 +42,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x2100     2563
-  _Copy    *toCopyDownBeg 0xC266
+  _Range   pZeroOut       0x2100     2978
+  _Copy    *toCopyDownBeg 0xC2F5
 } _startupData;
 
 *********************************************************************************************
@@ -51,8 +52,8 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        18     R     0xC00F     0xC020   ROM_C000
-NON_BANKED                       581     R     0xC021     0xC265   ROM_C000
-.copy                           1453     R     0xC266     0xC812   ROM_C000
+NON_BANKED                       724     R     0xC021     0xC2F4   ROM_C000
+.copy                           1453     R     0xC2F5     0xC8A1   ROM_C000
 .text                           4267     R   0xFE8000   0xFE90AA   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .data                           1467   R/W     0x2100     0x26BA   RAM
@@ -608,13 +609,14 @@ NON_BANKED                       581     R     0xC021     0xC265   ROM_C000
 .abs_section_3aa                   2   N/I      0x3AA      0x3AB   .absSeg549
 .abs_section_3ac                   2   N/I      0x3AC      0x3AD   .absSeg550
 .abs_section_3ae                   2   N/I      0x3AE      0x3AF   .absSeg551
-.bss                             440   R/W     0x26BB     0x2872   RAM
-.common                          656   R/W     0x2873     0x2B02   RAM
-.vectSeg552_vect                   2     R     0xFFFE     0xFFFF   .vectSeg552
+.abs_section_ffec                  2     R     0xFFEC     0xFFED   .absSeg552
+.bss                             855   R/W     0x26BB     0x2A11   RAM
+.common                          656   R/W     0x2A12     0x2CA1   RAM
+.vectSeg553_vect                   2     R     0xFFFE     0xFFFF   .vectSeg553
 
 Summary of section sizes per section type:
-READ_ONLY (R):        18C8 (dec:     6344)
-READ_WRITE (R/W):      B03 (dec:     2819)
+READ_ONLY (R):        1959 (dec:     6489)
+READ_WRITE (R/W):      CA2 (dec:     3234)
 NO_INIT (N/I):         2AB (dec:      683)
 
 *********************************************************************************************
@@ -645,7 +647,7 @@ MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
      _ISHRU                                    C029       B      11       1   NON_BANKED  
      _LMULU16x32                               C034       F      15       1   NON_BANKED  
      _lDivMod                                  C043      B9     185       1   NON_BANKED  
-     _LDIVU                                    C0FC       E      14       3   NON_BANKED  
+     _LDIVU                                    C0FC       E      14       4   NON_BANKED  
      _COPY                                     C10A       8       8       2   NON_BANKED  
      _CASE_CHECKED_BYTE                        C112      14      20       3   NON_BANKED  
 - VARIABLES:
@@ -727,7 +729,7 @@ MODULE:                 -- MSCAN.c.o --
      MSCANMsgProcess                         FE879A      62      98       2   .text       
      MSCANProcess                            FE87FC      25      37       2   .text       
 - VARIABLES:
-     msg                                       2873       E      14       2   .common     
+     msg                                       2A12       E      14       2   .common     
 MODULE:                 -- PIT.c.o --
 - PROCEDURES:
      PITInit                                 FE8821      47      71       2   .text       
@@ -745,10 +747,10 @@ MODULE:                 -- SensorModule.c.o --
      SensorModuleInit                        FE891B      1D      29       2   .text       
      SensorScan                              FE8938      40      64       2   .text       
 - VARIABLES:
-     stppos_sensor                             2881      10      16       3   .common     
-     pedalpos_sensor                           2891      10      16       3   .common     
-     esttemp_sensor                            28A1      10      16       2   .common     
-     crankspeed_sensor                         28B1      10      16       2   .common     
+     stppos_sensor                             2A20      10      16       3   .common     
+     pedalpos_sensor                           2A30      10      16       3   .common     
+     esttemp_sensor                            2A40      10      16       2   .common     
+     crankspeed_sensor                         2A50      10      16       2   .common     
 MODULE:                 -- SPI.c.o --
 - PROCEDURES:
      SPIInit                                 FE8978      55      85       2   .text       
@@ -804,7 +806,7 @@ MODULE:                 -- SysTask.c.o --
      nTicks.1                                  2868       2       2       6   .bss        
      nSeq.2                                    286A       2       2       5   .bss        
      nCycle.7                                  286C       2       2       3   .bss        
-     sys_para                                  28C1     200     512     113   .common     
+     sys_para                                  2A60     200     512     113   .common     
 MODULE:                 -- MC9S12XET256.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -862,7 +864,7 @@ MODULE:                 -- MC9S12XET256.c.o --
      _ECT_TCTL4                                  4B       1       1       1   .abs_section_4b
      _ECT_TIE                                    4C       1       1       1   .abs_section_4c
      _ECT_TSCR2                                  4D       1       1       1   .abs_section_4d
-     _ECT_TFLG1                                  4E       1       1       2   .abs_section_4e
+     _ECT_TFLG1                                  4E       1       1       3   .abs_section_4e
      _ECT_TFLG2                                  4F       1       1       1   .abs_section_4f
      _ECT_PACTL                                  60       1       1       0   .abs_section_60
      _ECT_PAFLG                                  61       1       1       0   .abs_section_61
@@ -1228,7 +1230,7 @@ MODULE:                 -- MC9S12XET256.c.o --
      _PARTID                                     1A       2       2       0   .abs_section_1a
      _DBGTB                                      24       2       2       0   .abs_section_24
      _ECT_TCNT                                   44       2       2       0   .abs_section_44
-     _ECT_TC0                                    50       2       2       1   .abs_section_50
+     _ECT_TC0                                    50       2       2       2   .abs_section_50
      _ECT_TC1                                    52       2       2       0   .abs_section_52
      _ECT_TC2                                    54       2       2       0   .abs_section_54
      _ECT_TC3                                    56       2       2       0   .abs_section_56
@@ -1366,9 +1368,17 @@ MODULE:                 -- DFlashModule.c.o --
      PedalSaveFlag                             286E       1       1       3   .bss        
      data_Address                              286F       2       2      17   .bss        
      A_FlashPara                               2871       2       2       2   .bss        
-     Buffer_Pedal                              2AC1      16      22      12   .common     
-     MapData_read                              2AD7      16      22      12   .common     
-     data_read                                 2AED      16      22       8   .common     
+     Buffer_Pedal                              2C60      16      22      12   .common     
+     MapData_read                              2C76      16      22      12   .common     
+     data_read                                 2C8C      16      22       8   .common     
+MODULE:                 -- CamshiftModule.c.o --
+- PROCEDURES:
+     ECT_IC1                                   C266      8F     143       1   NON_BANKED  
+- VARIABLES:
+     u16TCrank.1                               2873       2       2       3   .bss        
+     u16TCrank0.2                              2875       2       2       4   .bss        
+     A_camshift                                2877     19B     411      18   .bss        
+     _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -1395,6 +1405,7 @@ MODULE STATISTIC
   SysTask.c.o                               1897   1002      0
   MC9S12XET256.c.o                           683      0      0
   DFlashModule.c.o                            71    338      0
+  CamshiftModule.c.o                         415    143      2
   other                                      256     20   1453
 
 *********************************************************************************************
@@ -1421,12 +1432,12 @@ SECTION: ".data"
 SECTION: ".bss"
   u16TCrank.1 u16TCrank0.2 A_crank LDOStatus InjectorIndex nTicks.1 
   StepperCurPos StepperDesPos StepperPhase Ret ticks.1 nTicks.1 nSeq.2 nCycle.7 
-  PedalSaveFlag data_Address A_FlashPara 
+  PedalSaveFlag data_Address A_FlashPara u16TCrank.1 u16TCrank0.2 A_camshift 
 SECTION: ".init"
   _Startup 
 SECTION: "NON_BANKED"
   _BSHL _ISHRU _LMULU16x32 _lDivMod _LDIVU _COPY _CASE_CHECKED_BYTE ECT_IC0 
-  PIT1_ISR PIT2_ISR SYSTEM_TIMER_ISR 
+  PIT1_ISR PIT2_ISR SYSTEM_TIMER_ISR ECT_IC1 
 SECTION: ".common"
   msg stppos_sensor pedalpos_sensor esttemp_sensor crankspeed_sensor sys_para 
   Buffer_Pedal MapData_read data_read 
@@ -2534,6 +2545,8 @@ SECTION: ".abs_section_3ac"
   _XGR6 
 SECTION: ".abs_section_3ae"
   _XGR7 
+SECTION: ".abs_section_ffec"
+  _Vector_9 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -2600,9 +2613,9 @@ OBJECT LIST SORTED BY ADDRESS
      _ECT_TCTL4                                  4B       1       1       1   .abs_section_4b
      _ECT_TIE                                    4C       1       1       1   .abs_section_4c
      _ECT_TSCR2                                  4D       1       1       1   .abs_section_4d
-     _ECT_TFLG1                                  4E       1       1       2   .abs_section_4e
+     _ECT_TFLG1                                  4E       1       1       3   .abs_section_4e
      _ECT_TFLG2                                  4F       1       1       1   .abs_section_4f
-     _ECT_TC0                                    50       2       2       1   .abs_section_50
+     _ECT_TC0                                    50       2       2       2   .abs_section_50
      _ECT_TC1                                    52       2       2       0   .abs_section_52
      _ECT_TC2                                    54       2       2       0   .abs_section_54
      _ECT_TC3                                    56       2       2       0   .abs_section_56
@@ -3124,30 +3137,35 @@ OBJECT LIST SORTED BY ADDRESS
      PedalSaveFlag                             286E       1       1       3   .bss        
      data_Address                              286F       2       2      17   .bss        
      A_FlashPara                               2871       2       2       2   .bss        
-     msg                                       2873       E      14       2   .common     
-     stppos_sensor                             2881      10      16       3   .common     
-     pedalpos_sensor                           2891      10      16       3   .common     
-     esttemp_sensor                            28A1      10      16       2   .common     
-     crankspeed_sensor                         28B1      10      16       2   .common     
-     sys_para                                  28C1     200     512     113   .common     
-     Buffer_Pedal                              2AC1      16      22      12   .common     
-     MapData_read                              2AD7      16      22      12   .common     
-     data_read                                 2AED      16      22       8   .common     
+     u16TCrank.1                               2873       2       2       3   .bss        
+     u16TCrank0.2                              2875       2       2       4   .bss        
+     A_camshift                                2877     19B     411      18   .bss        
+     msg                                       2A12       E      14       2   .common     
+     stppos_sensor                             2A20      10      16       3   .common     
+     pedalpos_sensor                           2A30      10      16       3   .common     
+     esttemp_sensor                            2A40      10      16       2   .common     
+     crankspeed_sensor                         2A50      10      16       2   .common     
+     sys_para                                  2A60     200     512     113   .common     
+     Buffer_Pedal                              2C60      16      22      12   .common     
+     MapData_read                              2C76      16      22      12   .common     
+     data_read                                 2C8C      16      22       8   .common     
      _Startup                                  C000       F      15       0   .init       
      _BSHL                                     C021       8       8       2   NON_BANKED  
      _ISHRU                                    C029       B      11       1   NON_BANKED  
      _LMULU16x32                               C034       F      15       1   NON_BANKED  
      _lDivMod                                  C043      B9     185       1   NON_BANKED  
-     _LDIVU                                    C0FC       E      14       3   NON_BANKED  
+     _LDIVU                                    C0FC       E      14       4   NON_BANKED  
      _COPY                                     C10A       8       8       2   NON_BANKED  
      _CASE_CHECKED_BYTE                        C112      14      20       3   NON_BANKED  
      ECT_IC0                                   C126      8F     143       1   NON_BANKED  
      PIT1_ISR                                  C1B5      30      48       1   NON_BANKED  
      PIT2_ISR                                  C1E5      2F      47       1   NON_BANKED  
      SYSTEM_TIMER_ISR                          C214      52      82       1   NON_BANKED  
+     ECT_IC1                                   C266      8F     143       1   NON_BANKED  
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
+     _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
      _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
      main                                    FE8000      59      89       2   .text       
      Init                                    FE8059      29      41       2   .text       
@@ -3236,6 +3254,8 @@ lookup_table.c.o:
   look2D_U8_U16_U16 look2D_U16_U8_U8 look2D_U16_U8_U16 look2D_U16_U16_U8 
 SysTask.c.o:
   CopyPedalMap 
+CamshiftModule.c.o:
+  CamshiftModuleInit camshiftSpeedRead 
 NOT USED VARIABLES
 rtshc12.c.o (ansixbi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
@@ -3256,53 +3276,53 @@ DFlashModule.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC266 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC2F5 ---- SIZE       4 ---
 Filling bytes inserted
  000C2100
-------- ROM-ADDRESS: 0xC26A ---- RAM-ADDRESS: 0x2100 ---- SIZE      12 ---
+------- ROM-ADDRESS: 0xC2F9 ---- RAM-ADDRESS: 0x2100 ---- SIZE      12 ---
 Name of initialized Object : pHDOCtrlPort
  0258025802 5802580258 0248
-------- ROM-ADDRESS: 0xC276 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC305 ---- SIZE       4 ---
 Filling bytes inserted
  02FC2118
-------- ROM-ADDRESS: 0xC27A ---- RAM-ADDRESS: 0x2118 ---- SIZE      24 ---
+------- ROM-ADDRESS: 0xC309 ---- RAM-ADDRESS: 0x2118 ---- SIZE      24 ---
 Name of initialized Object : pHDOCtrlPortDDR
  025A025A02 5A025A025A 024A000200
  0200020002 00020002
-------- ROM-ADDRESS: 0xC292 ---- RAM-ADDRESS: 0x2130 ---- SIZE      12 ---
+------- ROM-ADDRESS: 0xC321 ---- RAM-ADDRESS: 0x2130 ---- SIZE      12 ---
 Name of initialized Object : HDOCtrlPortMask
  0102040810 0202040810 2040
-------- ROM-ADDRESS: 0xC29E ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC32D ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC29F ---- RAM-ADDRESS: 0x213D ---- SIZE       7 ---
+------- ROM-ADDRESS: 0xC32E ---- RAM-ADDRESS: 0x213D ---- SIZE       7 ---
 Name of initialized Object : pDIPortDDR:1
  0300030003 0003
-------- ROM-ADDRESS: 0xC2A6 ---- RAM-ADDRESS: 0x2144 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC335 ---- RAM-ADDRESS: 0x2144 ---- SIZE       4 ---
 Name of initialized Object : DIPortMask
  02040810
-------- ROM-ADDRESS: 0xC2AA ---- RAM-ADDRESS: 0x2148 ---- SIZE       8 ---
+------- ROM-ADDRESS: 0xC339 ---- RAM-ADDRESS: 0x2148 ---- SIZE       8 ---
 Name of initialized Object : pPITLDn
  0348034C03 500354
-------- ROM-ADDRESS: 0xC2B2 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC341 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC2B3 ---- RAM-ADDRESS: 0x2151 ---- SIZE       7 ---
+------- ROM-ADDRESS: 0xC342 ---- RAM-ADDRESS: 0x2151 ---- SIZE       7 ---
 Name of initialized Object : CMD_L9935_PHASE:1
  1B00130012 001A
-------- ROM-ADDRESS: 0xC2BA ---- RAM-ADDRESS: 0x2158 ---- SIZE      40 ---
+------- ROM-ADDRESS: 0xC349 ---- RAM-ADDRESS: 0x2158 ---- SIZE      40 ---
 Name of initialized Object : u16TabSpeedX
  03E8044C04 B005140578 05DC064006
  A40708076C 07D0083408 9808FC0960
  09C40A280A 8C0AF00BB8
-------- ROM-ADDRESS: 0xC2E2 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC371 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC2E3 ---- RAM-ADDRESS: 0x2181 ---- SIZE      29 ---
+------- ROM-ADDRESS: 0xC372 ---- RAM-ADDRESS: 0x2181 ---- SIZE      29 ---
 Name of initialized Object : u16TabPedalY:1
  1400190023 0028002D00 320037003C
  0041004600 4B00500055 005A0064
-------- ROM-ADDRESS: 0xC300 ---- RAM-ADDRESS: 0x219E ---- SIZE     600 ---
+------- ROM-ADDRESS: 0xC38F ---- RAM-ADDRESS: 0x219E ---- SIZE     600 ---
 Name of initialized Object : u16TabInjWidth
  07D007D007 D007D007D0 07D007D007
  D007D007D0 07D007D007 D007D007D0
@@ -3344,29 +3364,29 @@ Name of initialized Object : u16TabInjWidth
  803E803E80 2328232823 2823282328
  2328232823 2823282328 2328232823
  2823282328 2328232823 2823282328
-------- ROM-ADDRESS: 0xC558 ---- RAM-ADDRESS: 0x23F6 ---- SIZE      30 ---
+------- ROM-ADDRESS: 0xC5E7 ---- RAM-ADDRESS: 0x23F6 ---- SIZE      30 ---
 Name of initialized Object : u16TabStepperPos
  030E032203 200332037A 03D403E803
  B603840352 032002EE02 BC028A0258
-------- ROM-ADDRESS: 0xC576 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC605 ---- SIZE       4 ---
 Filling bytes inserted
  001E241E
-------- ROM-ADDRESS: 0xC57A ---- RAM-ADDRESS: 0x241E ---- SIZE      30 ---
+------- ROM-ADDRESS: 0xC609 ---- RAM-ADDRESS: 0x241E ---- SIZE      30 ---
 Name of initialized Object : u16TabStepperPos:40
  033F035303 5B03500331 0335039803
  A703B60384 0352032002 EE02BC028A
-------- ROM-ADDRESS: 0xC598 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC627 ---- SIZE       4 ---
 Filling bytes inserted
  02752446
-------- ROM-ADDRESS: 0xC59C ---- RAM-ADDRESS: 0x2446 ---- SIZE      34 ---
+------- ROM-ADDRESS: 0xC62B ---- RAM-ADDRESS: 0x2446 ---- SIZE      34 ---
 Name of initialized Object : u16TabStepperPos:80
  0371038503 7E03620349 0357035603
  6C039D03A7 03B6038403 52032002EE
  02BC028A
-------- ROM-ADDRESS: 0xC5BE ---- SIZE       6 ---
+------- ROM-ADDRESS: 0xC64D ---- SIZE       6 ---
 Filling bytes inserted
  0000000000 00
-------- ROM-ADDRESS: 0xC5C4 ---- RAM-ADDRESS: 0x246E ---- SIZE     480 ---
+------- ROM-ADDRESS: 0xC653 ---- RAM-ADDRESS: 0x246E ---- SIZE     480 ---
 Name of initialized Object : u16TabStepperPos:120
  0388039C03 9503790368 036A037303
  81039C0393 03A703B603 8403520320
@@ -3400,62 +3420,62 @@ Name of initialized Object : u16TabStepperPos:120
  7003840352 0362037603 600351034E
  0356036303 6403680369 036B036B03
  63035D0354 0361036603 5803700384
-------- ROM-ADDRESS: 0xC7A4 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xC833 ---- SIZE       3 ---
 Filling bytes inserted
  000000
-------- ROM-ADDRESS: 0xC7A7 ---- RAM-ADDRESS: 0x2651 ---- SIZE      25 ---
+------- ROM-ADDRESS: 0xC836 ---- RAM-ADDRESS: 0x2651 ---- SIZE      25 ---
 Name of initialized Object : un16TabStepperCnt:3
  6400C8012C 019001F402 5802BC0320
  038403E804 4C04B00514
-------- ROM-ADDRESS: 0xC7C0 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC84F ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC7C1 ---- RAM-ADDRESS: 0x266B ---- SIZE      27 ---
+------- ROM-ADDRESS: 0xC850 ---- RAM-ADDRESS: 0x266B ---- SIZE      27 ---
 Name of initialized Object : un16TabStepperAD:1
  8700AA00C8 00F5011801 3B0160018B
  01B801DB01 F902210244 025D
-------- ROM-ADDRESS: 0xC7DC ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC86B ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC7DD ---- RAM-ADDRESS: 0x2687 ---- SIZE      21 ---
+------- ROM-ADDRESS: 0xC86C ---- RAM-ADDRESS: 0x2687 ---- SIZE      21 ---
 Name of initialized Object : un16TabPedalAD:1
  F201100145 016C019701 DF020F0244
  027002A202 D4
-------- ROM-ADDRESS: 0xC7F2 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xC881 ---- SIZE       3 ---
 Filling bytes inserted
  000000
-------- ROM-ADDRESS: 0xC7F5 ---- RAM-ADDRESS: 0x269F ---- SIZE      19 ---
+------- ROM-ADDRESS: 0xC884 ---- RAM-ADDRESS: 0x269F ---- SIZE      19 ---
 Name of initialized Object : un16TabPedalPercent:3
  0A0014001E 0028003200 3C00460050
  005A0064
-------- ROM-ADDRESS: 0xC808 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC897 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC809 ---- RAM-ADDRESS: 0x26B3 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC898 ---- RAM-ADDRESS: 0x26B3 ---- SIZE       1 ---
 Name of initialized Object : nStepperPre.3:1
  01
-------- ROM-ADDRESS: 0xC80A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC899 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC80B ---- RAM-ADDRESS: 0x26B5 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89A ---- RAM-ADDRESS: 0x26B5 ---- SIZE       1 ---
 Name of initialized Object : nInjWidePre.4:1
  01
-------- ROM-ADDRESS: 0xC80C ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89B ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC80D ---- RAM-ADDRESS: 0x26B7 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89C ---- RAM-ADDRESS: 0x26B7 ---- SIZE       1 ---
 Name of initialized Object : nDesPosAD.5:1
  87
-------- ROM-ADDRESS: 0xC80E ---- RAM-ADDRESS: 0x26B8 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89D ---- RAM-ADDRESS: 0x26B8 ---- SIZE       1 ---
 Name of initialized Object : nStepperStatus.6
  01
-------- ROM-ADDRESS: 0xC80F ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89E ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC810 ---- RAM-ADDRESS: 0x26BA ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC89F ---- RAM-ADDRESS: 0x26BA ---- SIZE       1 ---
 Name of initialized Object : nPedalADPre.8:1
  19
-------- ROM-ADDRESS: 0xC811 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC8A0 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3469,9 +3489,12 @@ ECT_IC0                   USES _ECT_TFLG1 A_crank _LDIVU _ECT_TC0 u16TCrank.1
 PIT1_ISR                  USES _PITTF DOOutput _PITCE 
 PIT2_ISR                  USES _PITTF _PITCE DOOutput 
 SYSTEM_TIMER_ISR          USES _PITTF nTicks.1 sys_para 
+ECT_IC1                   USES _ECT_TFLG1 A_camshift _LDIVU _ECT_TC0 
+                                u16TCrank.1 u16TCrank0.2 
 _Vector_68                USES PIT2_ISR 
 _Vector_67                USES PIT1_ISR 
 _Vector_66                USES SYSTEM_TIMER_ISR 
+_Vector_9                 USES ECT_IC1 
 _Vector_8                 USES ECT_IC0 
 main                      USES PLLInit MSCANInit DFlashInit PITInit SPIInit 
                                 ATDInit ECTInit DIOModuleInit SensorModuleInit 
@@ -3780,6 +3803,12 @@ DEPENDENCY TREE
  | 
  +- SYSTEM_TIMER_ISR    
       
+ _Vector_9           
+ | 
+ +- ECT_IC1             
+    | 
+    +- _LDIVU               (see above)
+       
 *********************************************************************************************
 STATISTIC SECTION
 ---------------------------------------------------------------------------------------------
@@ -3787,5 +3816,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 10
-Total size of all blocks to be downloaded: 6344
+Total size of all blocks to be downloaded: 6489
 

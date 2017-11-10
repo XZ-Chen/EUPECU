@@ -32,11 +32,11 @@ void ECTInit(void){
   ECT_TCTL1 = 0x00;	    // 后四个通道设置为定时器与输出引脚断开
   ECT_TCTL2 = 0x00;     // 前四个通道设置为定时器与输出引脚断开
   ECT_TCTL3 = 0b00000000;    
-  ECT_TCTL4 = 0b00000101;//IC0 IC1只 捕捉上升沿
+  ECT_TCTL4 = 0b00001010;//IC0 IC1只 捕捉下降沿
   ECT_DLYCT = 0x00;	    // 延迟控制功能禁止
   ECT_ICOVW = 0x00;	    // 对应的寄存器允许被覆盖;  NOVWx = 1, 对应的寄存器不允许覆盖
   ECT_ICSYS = 0x00;	    // 禁止IC及PAC的保持寄存器
-  ECT_TIE   = 0x03;     // 开6、0中断
+  ECT_TIE   = 0x03;     // 开1、0中断
   ECT_TSCR2 = 0x04;	    // 预分频系数pr2-pr0:100,时钟周期为0.4us,使能定时器溢出中断
   ECT_TFLG1 = 0xff;	    // 清除各IC/OC中断标志位
   ECT_TFLG2 = 0xff;     // 清除自由定时器中断标志位

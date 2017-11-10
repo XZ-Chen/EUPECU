@@ -6,6 +6,7 @@
 //±∏◊¢£∫        ”√”⁄MC9S12XS128                          	                 *
 //-------------------------------------------------------------------------*
 #include "InjectorMod.h"
+#include "SysTask.h"
 extern SYS_PARA sys_para;
 #define  G_Inj_HV_Time    sys_para.item.CylinInj_var.un16Inj_HV_Time
 #define  G_Inj_Gap_Time  sys_para.item.CylinInj_var.un16Inj_Gap_Time
@@ -28,7 +29,7 @@ void InjectorTest(uint16 nWide) {
 //Cylinder_1--PK3   Cylinder_2--PA0      
 //PA1--DIESELINJ_HV PP0--DIESELINJ_LV                                                  *
 //-------------------------------------------------------------------------*  
-#pragma CODE_SEG __NEAR_SEG NON_BANKED        
+/*#pragma CODE_SEG __NEAR_SEG NON_BANKED        
 interrupt VectorNumber_Vectch6 void ECT_OC6(void) 
 {
   if(ECT_TFLG1_C6F == 1)
@@ -66,4 +67,4 @@ interrupt VectorNumber_Vectch6 void ECT_OC6(void)
   }
    
 }
-#pragma CODE_SEG DEFAULT 
+#pragma CODE_SEG DEFAULT  */

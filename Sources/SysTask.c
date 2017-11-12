@@ -262,6 +262,41 @@ void SingleModeJudge(void)
 	 }
 }
 ///////////////////////////////////////////////////////
+//怠速工况处理函数			                                 //
+///////////////////////////////////////////////////////
+void IdleCondition()
+{
+	if(A_UI_ShaSpeCrl < A_UI_LtSp)
+	{
+		A_C_Mode = 0;
+		A_C_Idke = 0;
+	}
+	else
+	{
+		if(A_UI_Pedal > 0)
+		{
+			A_C_Mode = 3;
+			A_C_IdKe = 0;
+		}
+		else 
+		{
+			A_UI_IdGoS = look1D_U16_U16(unsigned short xvalue, unsigned short xtable [ ], unsigned char xsize, \ unsigned short ztable [ ])
+			if(A_C_Idke == 0)
+			{
+				A_I_Idle_PID_Array[2] = 0;
+				A_I_Idle_PID_Array[3] = A_UI_InjOilMo;
+				A_C_IdKe = 1;
+			}
+		}
+	}
+}
+
+
+
+
+	
+}
+///////////////////////////////////////////////////////
 //系统双燃料模式处理                                 //
 ///////////////////////////////////////////////////////
 

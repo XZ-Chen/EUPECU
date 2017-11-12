@@ -37,7 +37,7 @@ void ECTInit(void){
   ECT_ICOVW = 0x00;	    // 对应的寄存器允许被覆盖;  NOVWx = 1, 对应的寄存器不允许覆盖
   ECT_ICSYS = 0x00;	    // 禁止IC及PAC的保持寄存器
   ECT_TIE   = 0x03;     // 开1、0中断
-  ECT_TSCR2 = 0x04;	    // 预分频系数pr2-pr0:100,时钟周期为0.4us,使能定时器溢出中断
+  ECT_TSCR2 = 0x14;	    // 开启定时器溢出中断 预分频系数pr2-pr0:100,时钟周期为0.4us,使能定时器溢出中断
   ECT_TFLG1 = 0xff;	    // 清除各IC/OC中断标志位
   ECT_TFLG2 = 0xff;     // 清除自由定时器中断标志位
 }

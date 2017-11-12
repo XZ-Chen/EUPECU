@@ -7,7 +7,7 @@
 #include "ECT.h"
 
 //2  ∫Í∂®“Â
-#define CAMSHIFT_GEAR_NUM     3
+#define CAMSHIFT_GEAR_NUM     4
 
 #define CAMSHIFT_RPM_MAX         1500
 #define CAMSHIFT_RPM_MIN         100
@@ -20,6 +20,7 @@ typedef struct{
 	UINT8 gearnum;
 	UINT16 rpm;
 	uint8 stopcnt;
+	UINT16 CamTeeth;
 } CAMSHIFT_GROUP_ACCUM;
 
 #endif

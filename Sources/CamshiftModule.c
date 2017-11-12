@@ -10,9 +10,10 @@ void CamshiftModuleInit(void){
     A_camshift.gearnum = CAMSHIFT_GEAR_NUM;//for test
     A_camshift.rpm = 0;
     A_camshift.average = 0;
-    A_camshift.index = 0;
+    A_camshift.index = 0;   //齿号初始为零
     A_camshift.accum = 0;
     A_camshift.stopcnt = 0;
+	A_camshift.CamTeeth = 0;
     for(i=0;i<200;i++)
         A_camshift.array[i] = 0;      
     ECT_TSCR1 = 0x80;              //1000   允许ECT主定时器运行
@@ -34,9 +35,9 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
     static uint16 u16TCrank = 0;   //当前时间计数值
     static uint16 u16TCrank0 = 0;  //前次时间计数值
     uint16 u16DTCrank;             //两齿时间间隔计数值
-    ECT_TFLG1_C0F = 1;                 //清中断标志位
+    ECT_TFLG1_C1F = 1;                 //通道1清中断标志位
     A_camshift.stopcnt = 0;
-    A_camshift.index++;
+    A_camshift.index++;   //凸轮齿计数加一
     if(A_camshift.index >= A_camshift.gearnum)
     {
         A_camshift.index = 0;
@@ -44,7 +45,19 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
         A_camshift.average = A_camshift.accum/A_camshift.gearnum;
     }   
     //get the distance between two gear
-  	u16TCrank = ECT_TC0;
+  	u16TCrank = ECT_TC1;
+  	if(u16TCrank0 != 0 && u16TCrank > 2*u16TCrank0) 
+	{  //说明到达多齿后第一齿
+  	   
+  	        A_camshift.CamTeeth = 1;
+  	}
+	else
+	{
+		if(A_camshift.CamTeeth < 4)
+		{
+			A_camshift.CamTeeth ++;
+		}
+	}
   	if(u16TCrank < u16TCrank0)
   	    u16DTCrank = 65535 - u16TCrank0 + u16TCrank + 1;
 		else
@@ -57,4 +70,12 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
        A_camshift.rpm = 1850;
 }
 #pragma CODE_SEG DEFAULT           
-   	    
+
+#pragma CODE_SEG __NEAR_SEG NON_BANKED        
+void interrupt VectorNumber_Vectpaaovf ECT_Overflow(void) {
+
+	static uint16 OverflowCoun = 0;
+	OverflowCoun++; 
+  
+}
+#pragma CODE_SEG DEFAULT   

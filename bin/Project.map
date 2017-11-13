@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "E:\标定系统下位机\EUPECU\bin\Project.abs"
+PROGRAM "I:\ECUEUP\EUPECU\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -14,7 +14,6 @@ FILE SECTION
 ---------------------------------------------------------------------------------------------
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
-rtshc12.c.o (ansixbi.lib)               Model: BANKED,        Lang: ANSI-C
 ATD.c.o                                 Model: BANKED,        Lang: ANSI-C
 CrankModule.c.o                         Model: BANKED,        Lang: ANSI-C
 DataFlash.c.o                           Model: BANKED,        Lang: ANSI-C
@@ -35,6 +34,7 @@ MC9S12XET256.c.o                        Model: BANKED,        Lang: ANSI-C
 DFlashModule.c.o                        Model: BANKED,        Lang: ANSI-C
 InjectorMod.c.o                         Model: BANKED,        Lang: ANSI-C
 CamshiftModule.c.o                      Model: BANKED,        Lang: ANSI-C
+rtshc12.c.o (ansixbf.lib)               Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -643,16 +643,6 @@ MODULE:                 -- Start12.c.o --
      _startupData                              C00F       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          2100       0       0       1               
-MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
-- PROCEDURES:
-     _BSHL                                     C021       8       8       2   NON_BANKED  
-     _ISHRU                                    C029       B      11       1   NON_BANKED  
-     _LMULU16x32                               C034       F      15       1   NON_BANKED  
-     _lDivMod                                  C043      B9     185       1   NON_BANKED  
-     _LDIVU                                    C0FC       E      14       4   NON_BANKED  
-     _COPY                                     C10A       8       8       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C112      14      20       3   NON_BANKED  
-- VARIABLES:
 MODULE:                 -- ATD.c.o --
 - PROCEDURES:
      ATDInit                                 FE8082      22      34       2   .text       
@@ -662,7 +652,7 @@ MODULE:                 -- CrankModule.c.o --
 - PROCEDURES:
      CrankModuleInit                         FE80DD      2F      47       2   .text       
      CrankSpeedRead                          FE810C      22      34       2   .text       
-     ECT_IC0                                   C126      C5     197       1   NON_BANKED  
+     ECT_IC0                                   C021      C5     197       1   NON_BANKED  
 - VARIABLES:
      u16TCrank.1                               26BB       2       2       4   .bss        
      u16TCrank0.2                              26BD       2       2       5   .bss        
@@ -705,15 +695,15 @@ MODULE:                 -- InjectorModule.c.o --
 - PROCEDURES:
      InjectorModuleInit                      FE840C      2F      47       2   .text       
      InjectorWide                            FE843B      58      88       4   .text       
-     PIT1_ISR                                  C1EB      30      48       1   NON_BANKED  
-     PIT2_ISR                                  C21B      2F      47       1   NON_BANKED  
+     PIT1_ISR                                  C0E6      30      48       1   NON_BANKED  
+     PIT2_ISR                                  C116      2F      47       1   NON_BANKED  
 - VARIABLES:
      InjectorIndex                             29FA       2       2       1   .bss        
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
 MODULE:                 -- interrupt.c.o --
 - PROCEDURES:
-     SYSTEM_TIMER_ISR                          C24A      52      82       1   NON_BANKED  
+     SYSTEM_TIMER_ISR                          C145      52      82       1   NON_BANKED  
 - VARIABLES:
      nTicks.1                                  29FC       2       2       7   .bss        
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
@@ -1380,8 +1370,8 @@ MODULE:                 -- InjectorMod.c.o --
      A_EngStructPara                           2E45       F      15       1   .common     
 MODULE:                 -- CamshiftModule.c.o --
 - PROCEDURES:
-     ECT_IC1                                   C29C      B1     177       1   NON_BANKED  
-     ECT_Overflow                              C34D       5       5       1   NON_BANKED  
+     ECT_IC1                                   C197      B1     177       1   NON_BANKED  
+     ECT_Overflow                              C248       5       5       1   NON_BANKED  
 - VARIABLES:
      u16TCrank.1                               2A12       2       2       5   .bss        
      u16TCrank0.2                              2A14       2       2       5   .bss        
@@ -1389,6 +1379,16 @@ MODULE:                 -- CamshiftModule.c.o --
      A_camshift                                2A18     19D     413      21   .bss        
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
      _Vector_17                                FFDC       2       2       0   .abs_section_ffdc
+MODULE:                 -- rtshc12.c.o (ansixbf.lib) --
+- PROCEDURES:
+     _BSHL                                     C24D       8       8       2   NON_BANKED  
+     _ISHRU                                    C255       B      11       1   NON_BANKED  
+     _LMULU16x32                               C260       F      15       1   NON_BANKED  
+     _lDivMod                                  C26F      B9     185       1   NON_BANKED  
+     _LDIVU                                    C328       E      14       4   NON_BANKED  
+     _COPY                                     C336       8       8       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C33E      14      20       3   NON_BANKED  
+- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -1396,7 +1396,6 @@ MODULE STATISTIC
 ---------------------------------------------------------------------------------------------
   main.c.o                                     0     89      0
   Start12.c.o                                  0     56      0
-  rtshc12.c.o (ansixbi.lib)                    0    261      0
   ATD.c.o                                      0     91      0
   CrankModule.c.o                            830    278      2
   DataFlash.c.o                                0    375      0
@@ -1417,6 +1416,7 @@ MODULE STATISTIC
   DFlashModule.c.o                            71    338      0
   InjectorMod.c.o                             15      0      0
   CamshiftModule.c.o                         419    182      4
+  rtshc12.c.o (ansixbf.lib)                    0    261      0
   other                                      256     20   1453
 
 *********************************************************************************************
@@ -1448,13 +1448,13 @@ SECTION: ".bss"
 SECTION: ".init"
   _Startup 
 SECTION: "NON_BANKED"
-  _BSHL _ISHRU _LMULU16x32 _lDivMod _LDIVU _COPY _CASE_CHECKED_BYTE ECT_IC0 
-  PIT1_ISR PIT2_ISR SYSTEM_TIMER_ISR ECT_IC1 ECT_Overflow 
+  ECT_IC0 PIT1_ISR PIT2_ISR SYSTEM_TIMER_ISR ECT_IC1 ECT_Overflow _BSHL _ISHRU 
+  _LMULU16x32 _lDivMod _LDIVU _COPY _CASE_CHECKED_BYTE 
+SECTION: ".abs_section_ffee"
+  _Vector_8 
 SECTION: ".common"
   msg stppos_sensor pedalpos_sensor esttemp_sensor crankspeed_sensor sys_para 
   Buffer_Pedal MapData_read data_read A_EngStructPara 
-SECTION: ".abs_section_ffee"
-  _Vector_8 
 SECTION: ".abs_section_ff78"
   _Vector_67 
 SECTION: ".abs_section_ff76"
@@ -3167,19 +3167,19 @@ OBJECT LIST SORTED BY ADDRESS
      data_read                                 2E2F      16      22       8   .common     
      A_EngStructPara                           2E45       F      15       1   .common     
      _Startup                                  C000       F      15       0   .init       
-     _BSHL                                     C021       8       8       2   NON_BANKED  
-     _ISHRU                                    C029       B      11       1   NON_BANKED  
-     _LMULU16x32                               C034       F      15       1   NON_BANKED  
-     _lDivMod                                  C043      B9     185       1   NON_BANKED  
-     _LDIVU                                    C0FC       E      14       4   NON_BANKED  
-     _COPY                                     C10A       8       8       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C112      14      20       3   NON_BANKED  
-     ECT_IC0                                   C126      C5     197       1   NON_BANKED  
-     PIT1_ISR                                  C1EB      30      48       1   NON_BANKED  
-     PIT2_ISR                                  C21B      2F      47       1   NON_BANKED  
-     SYSTEM_TIMER_ISR                          C24A      52      82       1   NON_BANKED  
-     ECT_IC1                                   C29C      B1     177       1   NON_BANKED  
-     ECT_Overflow                              C34D       5       5       1   NON_BANKED  
+     ECT_IC0                                   C021      C5     197       1   NON_BANKED  
+     PIT1_ISR                                  C0E6      30      48       1   NON_BANKED  
+     PIT2_ISR                                  C116      2F      47       1   NON_BANKED  
+     SYSTEM_TIMER_ISR                          C145      52      82       1   NON_BANKED  
+     ECT_IC1                                   C197      B1     177       1   NON_BANKED  
+     ECT_Overflow                              C248       5       5       1   NON_BANKED  
+     _BSHL                                     C24D       8       8       2   NON_BANKED  
+     _ISHRU                                    C255       B      11       1   NON_BANKED  
+     _LMULU16x32                               C260       F      15       1   NON_BANKED  
+     _lDivMod                                  C26F      B9     185       1   NON_BANKED  
+     _LDIVU                                    C328       E      14       4   NON_BANKED  
+     _COPY                                     C336       8       8       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C33E      14      20       3   NON_BANKED  
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
@@ -3257,12 +3257,6 @@ OBJECT LIST SORTED BY ADDRESS
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-rtshc12.c.o (ansixbi.lib):
-  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRS _LSHL _LSHRU _LSHRS _LADD 
-  _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC _LMUL 
-  _LMULS16x32 _NEG_P _LDIVS _LMODU _LMODS _ILSEXT _CASE_DIRECT 
-  _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 
-  _CASE_SEARCH_8_BYTE _FCALL _FPCMP _PADD _PSUB _PINC _PDEC 
 DataFlash.c.o:
   MapWTFlash 
 DIOModule.c.o:
@@ -3274,12 +3268,16 @@ lookup_table.c.o:
 SysTask.c.o:
   CopyPedalMap 
 InjectorMod.c.o:
-  InjectorTest OilAngle 
+  OilAngle 
 CamshiftModule.c.o:
   CamshiftModuleInit camshiftSpeedRead 
+rtshc12.c.o (ansixbf.lib):
+  _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRS _LSHL _LSHRU _LSHRS _LADD 
+  _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC _LMUL 
+  _LMULS16x32 _NEG_P _LDIVS _LMODU _LMODS _ILSEXT _CASE_DIRECT 
+  _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 
+  _CASE_SEARCH_8_BYTE _FCALL _FPCMP _PADD _PSUB _PINC _PDEC 
 NOT USED VARIABLES
-rtshc12.c.o (ansixbi.lib):
-  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 DataFlash.c.o:
   Buffer date_read 
 DIOModule.c.o:
@@ -3294,7 +3292,9 @@ SysTask.c.o:
 DFlashModule.c.o:
   PeadlSaveCount 
 InjectorMod.c.o:
-  B_InjTimePara 
+  B_InjTimePara A_crank 
+rtshc12.c.o (ansixbf.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -3506,7 +3506,6 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
-_LDIVU                    USES _lDivMod 
 ECT_IC0                   USES _ECT_TFLG1 A_crank _LDIVU _ECT_TC0 u16TCrank.1 
                                 u16TCrank0.2 A_camshift A_EngStructPara 
 PIT1_ISR                  USES _PITTF DOOutput _PITCE 
@@ -3515,6 +3514,7 @@ SYSTEM_TIMER_ISR          USES _PITTF nTicks.1 sys_para
 ECT_IC1                   USES _ECT_TFLG1 A_camshift _LDIVU _ECT_TC1 
                                 u16TCrank.1 u16TCrank0.2 
 ECT_Overflow              USES OverflowCoun.3 
+_LDIVU                    USES _lDivMod 
 _Vector_68                USES PIT2_ISR 
 _Vector_67                USES PIT1_ISR 
 _Vector_66                USES SYSTEM_TIMER_ISR 

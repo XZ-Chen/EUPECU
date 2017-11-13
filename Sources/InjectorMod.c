@@ -7,9 +7,14 @@
 //-------------------------------------------------------------------------*
 #include "InjectorMod.h"
 #include "SysTask.h"
+#include "CrankModule.h"
+
+
 EngStructPara A_EngStructPara;
 InjTimePara   B_InjTimePara;
 extern SYS_PARA sys_para;
+extern GROUP_ACCUM A_crank;
+
 #define  G_Inj_HV_Time    sys_para.item.CylinInj_var.un16Inj_HV_Time
 #define  G_Inj_Gap_Time  sys_para.item.CylinInj_var.un16Inj_Gap_Time
 #define  G_Inj_LV_Time  sys_para.item.CylinInj_var.un16Inj_LV_Time
@@ -17,29 +22,20 @@ extern SYS_PARA sys_para;
 
 	
 
-void InjectorTest(uint16 nWide) {
+//void InjectorTest(uint16 nWide) {
 
-    ECT_TIE   = 0x43;     // 开6中断
+//    ECT_TIE   = 0x43;     // 开6中断
 
-}
+//}
 
 void OilAngle(void) 
 {
     int TDCT;
-    float Va_1;
     int Va_2;
     TDCT = A_EngStructPara.TDC[A_EngStructPara.iR];
-    Va_1 = (float)A_EngStructPara.InjAdvance / 6;
-    Va_2 = A_EngStructPara.InjAdvance/6;
-    if(Va_1 = Va_2){
-        A_EngStructPara.OilTeeth = TDCT - A_EngStructPara.InjAdvance/6;
-        B_InjTimePara.Dtq1 = 0;
-    }
-    else
-    {
-        //A_EngStructPara.OilTeeth = TDCT - int(A_EngStructPara.InjAdvance/6)-1;
-        //Va_2 = (int)(((long)A
-    }
+    A_EngStructPara.OilTeeth = TDCT - (int)(A_EngStructPara.InjAdvance/6) -1;
+    Va_2 = (int)(((long)A_crank.rpm * 6.43)/1000000);
+    B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6- A_EngStructPara.InjAdvance)/Va_2;
 }
 //-------------------------------------------------------------------------* 
 //函数名: ECT_OC6                                                        *

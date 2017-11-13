@@ -47,17 +47,16 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
     //get the distance between two gear
   	u16TCrank = ECT_TC1;
   	if(u16TCrank0 != 0 && u16TCrank > 2*u16TCrank0) 
-	{  //说明到达多齿后第一齿
-  	   
-  	        A_camshift.CamTeeth = 1;
+  	{  //说明到达多齿后第一齿
+  	   A_camshift.CamTeeth = 1;
   	}
-	else
-	{
-		if(A_camshift.CamTeeth < 4)
-		{
-			A_camshift.CamTeeth ++;
-		}
-	}
+  	else
+  	{
+	  	if(A_camshift.CamTeeth < 4)
+	  	{
+		  	A_camshift.CamTeeth ++;
+	  	}
+  	}
   	if(u16TCrank < u16TCrank0)
   	    u16DTCrank = 65535 - u16TCrank0 + u16TCrank + 1;
 		else

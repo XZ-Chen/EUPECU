@@ -24,10 +24,11 @@ typedef struct{
 	UINT16 array[200];
 	UINT32 accum;
 	UINT16 average;
-	UINT8 index;
-	UINT8 gearnum;
+	UINT8  index;
+	UINT8  gearnum;
 	UINT16 rpm;
-	uint8 stopcnt;
+	uint8  stopcnt;
+	UINT16 CrankTeeth;
 } GROUP_ACCUM;
     
 

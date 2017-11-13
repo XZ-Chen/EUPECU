@@ -48,13 +48,13 @@ typedef union _sys_para{
        uint16 un16DO[8];             //Ô¤Áô8¸öÊä³ö
        uint16 un16PedalAd[11];      //46
        struct{
-		uint16 un16Inj_HV_Time;//6
-		uint16 un16Inj_LV_Time;
-		uint16 un16Inj_Gap_Time;
-		uint16 un16InjCurAD;
-		uint16 Reversed1;
-		uint16 Reversed2;
-	   }CylinInj_var;
+	      	uint16 un16Inj_HV_Time;//6
+	      	uint16 un16Inj_LV_Time;
+	      	uint16 un16Inj_Gap_Time;
+	      	uint16 un16InjCurAD;
+	      	uint16 Reversed1;
+	      	uint16 Reversed2;
+	     }CylinInj_var;
 	   
        uint16 un16Reserved[188];
    }item;

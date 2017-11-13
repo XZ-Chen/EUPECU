@@ -6,6 +6,8 @@
 //备注：      适用于MC9S12XS128                          	                 *
 //-------------------------------------------------------------------------*
 #include "CrankModule.h"
+#include "CamshiftModule.h"
+#include "InjectorMod.h"
 
 //-------------------------------------------------------------------------*
 //函数名: CrankModuleInit                                                   	     *
@@ -32,6 +34,7 @@ void CrankModuleInit(void){
     A_crank.index = 0;
     A_crank.accum = 0;
     A_crank.stopcnt = 0;
+    A_crank.CrankTeeth = 0;
     for(i=0;i<200;i++)
         A_crank.array[i] = 0;      
     ECT_TSCR1 = 0x80;              //1000   允许ECT主定时器运行
@@ -47,6 +50,8 @@ uint16 CrankSpeedRead(void) {
 }
 //定时器通道0输入捕捉中断    采样频率为2.5M  每个计数0.4us
 
+extern CAMSHIFT_GROUP_ACCUM A_camshift;
+extern EngStructPara A_EngStructPara;
 #pragma CODE_SEG __NEAR_SEG NON_BANKED        
 void interrupt VectorNumber_Vectch0 ECT_IC0(void) 
 {
@@ -55,7 +60,7 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
     uint16 u16DTCrank;             //两齿时间间隔计数值
     ECT_TFLG1_C0F = 1;                 //清中断标志位
     A_crank.stopcnt = 0;
-    A_crank.index++;
+    
     if(A_crank.index >= A_crank.gearnum)
     {
         A_crank.index = 0;
@@ -64,6 +69,24 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
     }   
     //get the distance between two gear
   	u16TCrank = ECT_TC0;
+  	if(u16TCrank > 2*u16TCrank0) // 当前齿是曲轴缺齿后第一齿
+  	{
+  	    if(A_camshift.CamTeeth == 1) 
+  	    {
+  	        A_crank.index = 0;  
+  	    } else if(A_camshift.CamTeeth == 3){
+  	        A_crank.index = 56; 
+  	    } else {
+  	        A_crank.index++;
+  	    }
+  	}
+  	if(A_crank.index == 0) 
+  	{
+  	    A_EngStructPara.iR = 1; //下一工作气缸是第一缸
+  	} else if(A_crank.index == 13) 
+    {
+        A_EngStructPara.iR = 2; //下一工作气缸是第二缸
+    }
   	if(u16TCrank < u16TCrank0)
   	    u16DTCrank = 65535 - u16TCrank0 + u16TCrank + 1;
 		else

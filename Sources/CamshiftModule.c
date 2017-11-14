@@ -64,9 +64,8 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
    	A_camshift.accum = A_camshift.accum - A_camshift.array[A_camshift.index] + u16DTCrank;
   	A_camshift.array[A_camshift.index] = u16DTCrank;
    	u16TCrank0 = u16TCrank;
-    if(A_camshift.average>0)
-       //A_crank.rpm = 185000000/A_crank.average/A_crank.gearnum;
-       A_camshift.rpm = 1850;
+
+    
 }
 #pragma CODE_SEG DEFAULT           
 

@@ -6,6 +6,7 @@
 #include <MC9S12XET256.h>     /* derivative information */
 #include <hidef.h> 
 #include "ECT.h"
+#include "PinMap.h"
 
 //2  ∫Í∂®“Â
 
@@ -30,4 +31,9 @@ typedef struct {
   UINT16  Dtq3;
   UINT16  Dtq4; 
 }InjTimePara;
+
+void Oil_Sup(void);
+void oil_Supply1(void);
+void oil_Supply2(void); 
+
 #endif

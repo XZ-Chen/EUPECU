@@ -9,6 +9,11 @@
 #include "CamshiftModule.h"
 #include "InjectorMod.h"
 
+static GROUP_ACCUM A_crank;
+extern EngStructPara A_EngStructPara;
+extern CAMSHIFT_GROUP_ACCUM A_camshift;
+extern EngStructPara A_EngStructPara;
+
 //-------------------------------------------------------------------------*
 //函数名: CrankModuleInit                                                   	     *
 //功  能: 初始化定时器模块                                                 * 
@@ -20,9 +25,7 @@
 //用OC行不通，因为大周期不能调，即TCNT不让设置
 //转速高时，没有脉冲信号进来，没法测
 //电路有问题               
-//改用NCV1124转速测量芯片，已经解决：）
-static GROUP_ACCUM A_crank;
-
+//改用NCV1124转速测量芯片，已经解决
 void CrankModuleInit(void){
 //-------------------------------------------------------------------------*
 //    输入捕捉和输出比较PT  	                             	               *
@@ -50,8 +53,7 @@ uint16 CrankSpeedRead(void) {
 }
 //定时器通道0输入捕捉中断    采样频率为2.5M  每个计数0.4us
 
-extern CAMSHIFT_GROUP_ACCUM A_camshift;
-extern EngStructPara A_EngStructPara;
+
 #pragma CODE_SEG __NEAR_SEG NON_BANKED        
 void interrupt VectorNumber_Vectch0 ECT_IC0(void) 
 {
@@ -74,12 +76,16 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
   	    if(A_camshift.CamTeeth == 1) 
   	    {
   	        A_crank.index = 0;  
-  	    } else if(A_camshift.CamTeeth == 3){
+  	    } 
+  	    else if(A_camshift.CamTeeth == 3)
+  	    {
   	        A_crank.index = 56; 
-  	    } else {
-  	        A_crank.index++;
   	    }
   	}
+  	else 
+  	{
+  	   A_crank.index++;
+    }
   	if(A_crank.index == 0) 
   	{
   	    A_EngStructPara.iR = 1; //下一工作气缸是第一缸
@@ -93,10 +99,16 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
 		    u16DTCrank = u16TCrank - u16TCrank0;
    	A_crank.accum = A_crank.accum - A_crank.array[A_crank.index] + u16DTCrank;
   	A_crank.array[A_crank.index] = u16DTCrank;
-   	u16TCrank0 = u16TCrank;
+   	
     if(A_crank.average>0)
        //A_crank.rpm = 185000000/A_crank.average/A_crank.gearnum;
        A_crank.rpm = 1850;
+    if(A_crank.index == A_EngStructPara.OilTeeth) 
+    {
+        Oil_Sup();
+    }
+    
+    u16TCrank0 = u16TCrank;
 }
 #pragma CODE_SEG DEFAULT
    	    

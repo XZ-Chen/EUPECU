@@ -8,6 +8,8 @@
 #include "InjectorMod.h"
 #include "SysTask.h"
 #include "CrankModule.h"
+#include "LedKey.h"
+
 
 
 EngStructPara A_EngStructPara;
@@ -15,6 +17,7 @@ InjTimePara   B_InjTimePara;
 extern SYS_PARA sys_para;
 extern GROUP_ACCUM A_crank;
 
+#define  A_InjWidth      sys_para.item.mem_var.un16InjWide
 #define  G_Inj_HV_Time    sys_para.item.CylinInj_var.un16Inj_HV_Time
 #define  G_Inj_Gap_Time  sys_para.item.CylinInj_var.un16Inj_Gap_Time
 #define  G_Inj_LV_Time  sys_para.item.CylinInj_var.un16Inj_LV_Time
@@ -32,10 +35,27 @@ void OilAngle(void)
 {
     int TDCT;
     int Va_2;
-    TDCT = A_EngStructPara.TDC[A_EngStructPara.iR];
-    A_EngStructPara.OilTeeth = TDCT - (int)(A_EngStructPara.InjAdvance/6) -1;
+    TDCT = A_EngStructPara.TDC[A_EngStructPara.iR+1];
+    A_EngStructPara.OilTeeth = TDCT - (int)(A_EngStructPara.InjAdvance/6.43) -1; //实际喷油信号齿
     Va_2 = (int)(((long)A_crank.rpm * 6.43)/1000000);
-    B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6- A_EngStructPara.InjAdvance)/Va_2;
+    B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6.43- A_EngStructPara.InjAdvance)/Va_2;
+    B_InjTimePara.Dtq4 = A_InjWidth - B_InjTimePara.Dtq2 - B_InjTimePara.Dtq3; 
+}
+void Oil_Sup(void)
+{
+    switch(A_EngStructPara.iR) 
+    {
+      case 1: oil_Supply1();break;
+      case 2: oil_Supply2();break; 
+    }
+}
+void oil_Supply1(void) 
+{
+    LedTurn(LED1,OFF);
+}
+void oil_Supply2(void) 
+{
+    LedTurn(LED2,OFF);
 }
 //-------------------------------------------------------------------------* 
 //函数名: ECT_OC6                                                        *

@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "I:\ECUEUP\EUPECU\bin\Project.abs"
+PROGRAM "E:\标定系统下位机\EUPECU\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -35,6 +35,7 @@ DFlashModule.c.o                        Model: BANKED,        Lang: ANSI-C
 InjectorMod.c.o                         Model: BANKED,        Lang: ANSI-C
 CamshiftModule.c.o                      Model: BANKED,        Lang: ANSI-C
 rtshc12.c.o (ansixbf.lib)               Model: BANKED,        Lang: ANSI-C
+LedKey.c.o                              Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -44,7 +45,7 @@ _startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x2100     3412
-  _Copy    *toCopyDownBeg 0xC352
+  _Copy    *toCopyDownBeg 0xC34F
 } _startupData;
 
 *********************************************************************************************
@@ -53,9 +54,9 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        18     R     0xC00F     0xC020   ROM_C000
-NON_BANKED                       817     R     0xC021     0xC351   ROM_C000
-.copy                           1453     R     0xC352     0xC8FE   ROM_C000
-.text                           4270     R   0xFE8000   0xFE90AD   PAGE_FE
+NON_BANKED                       814     R     0xC021     0xC34E   ROM_C000
+.copy                           1453     R     0xC34F     0xC8FB   ROM_C000
+.text                           4326     R   0xFE8000   0xFE90E5   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .data                           1467   R/W     0x2100     0x26BA   RAM
 .abs_section_ffee                  2     R     0xFFEE     0xFFEF   .absSeg0
@@ -617,7 +618,7 @@ NON_BANKED                       817     R     0xC021     0xC351   ROM_C000
 .vectSeg554_vect                   2     R     0xFFFE     0xFFFF   .vectSeg554
 
 Summary of section sizes per section type:
-READ_ONLY (R):        19BB (dec:     6587)
+READ_ONLY (R):        19F0 (dec:     6640)
 READ_WRITE (R/W):      E54 (dec:     3668)
 NO_INIT (N/I):         2AB (dec:      683)
 
@@ -652,11 +653,11 @@ MODULE:                 -- CrankModule.c.o --
 - PROCEDURES:
      CrankModuleInit                         FE80DD      2F      47       2   .text       
      CrankSpeedRead                          FE810C      22      34       2   .text       
-     ECT_IC0                                   C021      C5     197       1   NON_BANKED  
+     ECT_IC0                                   C021      D1     209       1   NON_BANKED  
 - VARIABLES:
      u16TCrank.1                               26BB       2       2       4   .bss        
      u16TCrank0.2                              26BD       2       2       5   .bss        
-     A_crank                                   26BF     19D     413      32   .bss        
+     A_crank                                   26BF     19D     413      33   .bss        
      _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
      A_camshift                                285C     19D     413       1   .bss        
 MODULE:                 -- DataFlash.c.o --
@@ -674,7 +675,7 @@ MODULE:                 -- DIOModule.c.o --
      LDOOutput                               FE831A      2C      44       2   .text       
      HDOOutput                               FE8346      2F      47       2   .text       
      DIScan                                  FE8375       A      10       2   .text       
-     DOOutput                                FE837F      2D      45      24   .text       
+     DOOutput                                FE837F      2D      45      26   .text       
 - VARIABLES:
      pHDOCtrlPort                              2100      18      24       2   .data       
      pHDOCtrlPortDDR                           2118      18      24       1   .data       
@@ -695,15 +696,15 @@ MODULE:                 -- InjectorModule.c.o --
 - PROCEDURES:
      InjectorModuleInit                      FE840C      2F      47       2   .text       
      InjectorWide                            FE843B      58      88       4   .text       
-     PIT1_ISR                                  C0E6      30      48       1   NON_BANKED  
-     PIT2_ISR                                  C116      2F      47       1   NON_BANKED  
+     PIT1_ISR                                  C0F2      30      48       1   NON_BANKED  
+     PIT2_ISR                                  C122      2F      47       1   NON_BANKED  
 - VARIABLES:
      InjectorIndex                             29FA       2       2       1   .bss        
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
 MODULE:                 -- interrupt.c.o --
 - PROCEDURES:
-     SYSTEM_TIMER_ISR                          C145      52      82       1   NON_BANKED  
+     SYSTEM_TIMER_ISR                          C151      52      82       1   NON_BANKED  
 - VARIABLES:
      nTicks.1                                  29FC       2       2       7   .bss        
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
@@ -1366,28 +1367,35 @@ MODULE:                 -- DFlashModule.c.o --
      data_read                                 2E2F      16      22       8   .common     
 MODULE:                 -- InjectorMod.c.o --
 - PROCEDURES:
+     Oil_Sup                                 FE90AE      16      22       2   .text       
+     oil_Supply1                             FE90C4       A      10       2   .text       
+     oil_Supply2                             FE90CE       A      10       2   .text       
 - VARIABLES:
-     A_EngStructPara                           2E45       F      15       1   .common     
+     A_EngStructPara                           2E45       F      15       3   .common     
 MODULE:                 -- CamshiftModule.c.o --
 - PROCEDURES:
-     ECT_IC1                                   C197      B1     177       1   NON_BANKED  
-     ECT_Overflow                              C248       5       5       1   NON_BANKED  
+     ECT_IC1                                   C1A3      A2     162       1   NON_BANKED  
+     ECT_Overflow                              C245       5       5       1   NON_BANKED  
 - VARIABLES:
      u16TCrank.1                               2A12       2       2       5   .bss        
      u16TCrank0.2                              2A14       2       2       5   .bss        
      OverflowCoun.3                            2A16       2       2       1   .bss        
-     A_camshift                                2A18     19D     413      21   .bss        
+     A_camshift                                2A18     19D     413      19   .bss        
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
      _Vector_17                                FFDC       2       2       0   .abs_section_ffdc
 MODULE:                 -- rtshc12.c.o (ansixbf.lib) --
 - PROCEDURES:
-     _BSHL                                     C24D       8       8       2   NON_BANKED  
-     _ISHRU                                    C255       B      11       1   NON_BANKED  
-     _LMULU16x32                               C260       F      15       1   NON_BANKED  
-     _lDivMod                                  C26F      B9     185       1   NON_BANKED  
-     _LDIVU                                    C328       E      14       4   NON_BANKED  
-     _COPY                                     C336       8       8       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C33E      14      20       3   NON_BANKED  
+     _BSHL                                     C24A       8       8       2   NON_BANKED  
+     _ISHRU                                    C252       B      11       1   NON_BANKED  
+     _LMULU16x32                               C25D       F      15       1   NON_BANKED  
+     _lDivMod                                  C26C      B9     185       1   NON_BANKED  
+     _LDIVU                                    C325       E      14       4   NON_BANKED  
+     _COPY                                     C333       8       8       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C33B      14      20       3   NON_BANKED  
+- VARIABLES:
+MODULE:                 -- LedKey.c.o --
+- PROCEDURES:
+     LedTurn                                 FE90D8       E      14       4   .text       
 - VARIABLES:
 
 *********************************************************************************************
@@ -1397,7 +1405,7 @@ MODULE STATISTIC
   main.c.o                                     0     89      0
   Start12.c.o                                  0     56      0
   ATD.c.o                                      0     91      0
-  CrankModule.c.o                            830    278      2
+  CrankModule.c.o                            830    290      2
   DataFlash.c.o                                0    375      0
   DIOModule.c.o                               73    263      0
   ECT.c.o                                      0     42      0
@@ -1414,9 +1422,10 @@ MODULE STATISTIC
   SysTask.c.o                               1897   1002      0
   MC9S12XET256.c.o                           683      0      0
   DFlashModule.c.o                            71    338      0
-  InjectorMod.c.o                             15      0      0
-  CamshiftModule.c.o                         419    182      4
+  InjectorMod.c.o                             15     42      0
+  CamshiftModule.c.o                         419    167      4
   rtshc12.c.o (ansixbf.lib)                    0    261      0
+  LedKey.c.o                                   0     14      0
   other                                      256     20   1453
 
 *********************************************************************************************
@@ -1434,7 +1443,8 @@ SECTION: ".text"
   SysDuralProcess SysErrProcess SysOutputProcess SysTaskProcess SysDigProcess 
   SingleModeJudge DuralModeJudge SingleAppExcute DuralAppExcute NormalCtrl 
   SpeedLimitCtrl OverAccCtrl OverDecCtrl EngineStopCtrl PedalRead WriteToFlash 
-  JudgeFlashStatus ReadFromFlash CheckSave 
+  JudgeFlashStatus ReadFromFlash CheckSave Oil_Sup oil_Supply1 oil_Supply2 
+  LedTurn 
 SECTION: ".data"
   pHDOCtrlPort pHDOCtrlPortDDR HDOCtrlPortMask pDIPortDDR DIPortMask pPITLDn 
   CMD_L9935_PHASE u16TabSpeedX u16TabPedalY u16TabInjWidth u16TabStepperPos 
@@ -3136,7 +3146,7 @@ OBJECT LIST SORTED BY ADDRESS
      nPedalADPre.8                             26B9       2       2       2   .data       
      u16TCrank.1                               26BB       2       2       4   .bss        
      u16TCrank0.2                              26BD       2       2       5   .bss        
-     A_crank                                   26BF     19D     413      32   .bss        
+     A_crank                                   26BF     19D     413      33   .bss        
      A_camshift                                285C     19D     413       1   .bss        
      LDOStatus                                 29F9       1       1       4   .bss        
      InjectorIndex                             29FA       2       2       1   .bss        
@@ -3155,7 +3165,7 @@ OBJECT LIST SORTED BY ADDRESS
      u16TCrank.1                               2A12       2       2       5   .bss        
      u16TCrank0.2                              2A14       2       2       5   .bss        
      OverflowCoun.3                            2A16       2       2       1   .bss        
-     A_camshift                                2A18     19D     413      21   .bss        
+     A_camshift                                2A18     19D     413      19   .bss        
      msg                                       2BB5       E      14       2   .common     
      stppos_sensor                             2BC3      10      16       3   .common     
      pedalpos_sensor                           2BD3      10      16       3   .common     
@@ -3165,21 +3175,21 @@ OBJECT LIST SORTED BY ADDRESS
      Buffer_Pedal                              2E03      16      22      12   .common     
      MapData_read                              2E19      16      22      12   .common     
      data_read                                 2E2F      16      22       8   .common     
-     A_EngStructPara                           2E45       F      15       1   .common     
+     A_EngStructPara                           2E45       F      15       3   .common     
      _Startup                                  C000       F      15       0   .init       
-     ECT_IC0                                   C021      C5     197       1   NON_BANKED  
-     PIT1_ISR                                  C0E6      30      48       1   NON_BANKED  
-     PIT2_ISR                                  C116      2F      47       1   NON_BANKED  
-     SYSTEM_TIMER_ISR                          C145      52      82       1   NON_BANKED  
-     ECT_IC1                                   C197      B1     177       1   NON_BANKED  
-     ECT_Overflow                              C248       5       5       1   NON_BANKED  
-     _BSHL                                     C24D       8       8       2   NON_BANKED  
-     _ISHRU                                    C255       B      11       1   NON_BANKED  
-     _LMULU16x32                               C260       F      15       1   NON_BANKED  
-     _lDivMod                                  C26F      B9     185       1   NON_BANKED  
-     _LDIVU                                    C328       E      14       4   NON_BANKED  
-     _COPY                                     C336       8       8       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C33E      14      20       3   NON_BANKED  
+     ECT_IC0                                   C021      D1     209       1   NON_BANKED  
+     PIT1_ISR                                  C0F2      30      48       1   NON_BANKED  
+     PIT2_ISR                                  C122      2F      47       1   NON_BANKED  
+     SYSTEM_TIMER_ISR                          C151      52      82       1   NON_BANKED  
+     ECT_IC1                                   C1A3      A2     162       1   NON_BANKED  
+     ECT_Overflow                              C245       5       5       1   NON_BANKED  
+     _BSHL                                     C24A       8       8       2   NON_BANKED  
+     _ISHRU                                    C252       B      11       1   NON_BANKED  
+     _LMULU16x32                               C25D       F      15       1   NON_BANKED  
+     _lDivMod                                  C26C      B9     185       1   NON_BANKED  
+     _LDIVU                                    C325       E      14       4   NON_BANKED  
+     _COPY                                     C333       8       8       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C33B      14      20       3   NON_BANKED  
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
@@ -3202,7 +3212,7 @@ OBJECT LIST SORTED BY ADDRESS
      LDOOutput                               FE831A      2C      44       2   .text       
      HDOOutput                               FE8346      2F      47       2   .text       
      DIScan                                  FE8375       A      10       2   .text       
-     DOOutput                                FE837F      2D      45      24   .text       
+     DOOutput                                FE837F      2D      45      26   .text       
      ECTInit                                 FE83AC      2A      42       2   .text       
      DelayUs                                 FE83D6      1B      27       4   .text       
      DelayMs                                 FE83F1      1B      27       2   .text       
@@ -3252,6 +3262,10 @@ OBJECT LIST SORTED BY ADDRESS
      JudgeFlashStatus                        FE8F6B      6C     108       2   .text       
      ReadFromFlash                           FE8FD7      91     145       3   .text       
      CheckSave                               FE9068      46      70       2   .text       
+     Oil_Sup                                 FE90AE      16      22       2   .text       
+     oil_Supply1                             FE90C4       A      10       2   .text       
+     oil_Supply2                             FE90CE       A      10       2   .text       
+     LedTurn                                 FE90D8       E      14       4   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3299,53 +3313,53 @@ rtshc12.c.o (ansixbf.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC352 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC34F ---- SIZE       4 ---
 Filling bytes inserted
  000C2100
-------- ROM-ADDRESS: 0xC356 ---- RAM-ADDRESS: 0x2100 ---- SIZE      12 ---
+------- ROM-ADDRESS: 0xC353 ---- RAM-ADDRESS: 0x2100 ---- SIZE      12 ---
 Name of initialized Object : pHDOCtrlPort
  0258025802 5802580258 0248
-------- ROM-ADDRESS: 0xC362 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC35F ---- SIZE       4 ---
 Filling bytes inserted
  02FC2118
-------- ROM-ADDRESS: 0xC366 ---- RAM-ADDRESS: 0x2118 ---- SIZE      24 ---
+------- ROM-ADDRESS: 0xC363 ---- RAM-ADDRESS: 0x2118 ---- SIZE      24 ---
 Name of initialized Object : pHDOCtrlPortDDR
  025A025A02 5A025A025A 024A000200
  0200020002 00020002
-------- ROM-ADDRESS: 0xC37E ---- RAM-ADDRESS: 0x2130 ---- SIZE      12 ---
+------- ROM-ADDRESS: 0xC37B ---- RAM-ADDRESS: 0x2130 ---- SIZE      12 ---
 Name of initialized Object : HDOCtrlPortMask
  0102040810 0202040810 2040
-------- ROM-ADDRESS: 0xC38A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC387 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC38B ---- RAM-ADDRESS: 0x213D ---- SIZE       7 ---
+------- ROM-ADDRESS: 0xC388 ---- RAM-ADDRESS: 0x213D ---- SIZE       7 ---
 Name of initialized Object : pDIPortDDR:1
  0300030003 0003
-------- ROM-ADDRESS: 0xC392 ---- RAM-ADDRESS: 0x2144 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC38F ---- RAM-ADDRESS: 0x2144 ---- SIZE       4 ---
 Name of initialized Object : DIPortMask
  02040810
-------- ROM-ADDRESS: 0xC396 ---- RAM-ADDRESS: 0x2148 ---- SIZE       8 ---
+------- ROM-ADDRESS: 0xC393 ---- RAM-ADDRESS: 0x2148 ---- SIZE       8 ---
 Name of initialized Object : pPITLDn
  0348034C03 500354
-------- ROM-ADDRESS: 0xC39E ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC39B ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC39F ---- RAM-ADDRESS: 0x2151 ---- SIZE       7 ---
+------- ROM-ADDRESS: 0xC39C ---- RAM-ADDRESS: 0x2151 ---- SIZE       7 ---
 Name of initialized Object : CMD_L9935_PHASE:1
  1B00130012 001A
-------- ROM-ADDRESS: 0xC3A6 ---- RAM-ADDRESS: 0x2158 ---- SIZE      40 ---
+------- ROM-ADDRESS: 0xC3A3 ---- RAM-ADDRESS: 0x2158 ---- SIZE      40 ---
 Name of initialized Object : u16TabSpeedX
  03E8044C04 B005140578 05DC064006
  A40708076C 07D0083408 9808FC0960
  09C40A280A 8C0AF00BB8
-------- ROM-ADDRESS: 0xC3CE ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC3CB ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC3CF ---- RAM-ADDRESS: 0x2181 ---- SIZE      29 ---
+------- ROM-ADDRESS: 0xC3CC ---- RAM-ADDRESS: 0x2181 ---- SIZE      29 ---
 Name of initialized Object : u16TabPedalY:1
  1400190023 0028002D00 320037003C
  0041004600 4B00500055 005A0064
-------- ROM-ADDRESS: 0xC3EC ---- RAM-ADDRESS: 0x219E ---- SIZE     600 ---
+------- ROM-ADDRESS: 0xC3E9 ---- RAM-ADDRESS: 0x219E ---- SIZE     600 ---
 Name of initialized Object : u16TabInjWidth
  07D007D007 D007D007D0 07D007D007
  D007D007D0 07D007D007 D007D007D0
@@ -3387,29 +3401,29 @@ Name of initialized Object : u16TabInjWidth
  803E803E80 2328232823 2823282328
  2328232823 2823282328 2328232823
  2823282328 2328232823 2823282328
-------- ROM-ADDRESS: 0xC644 ---- RAM-ADDRESS: 0x23F6 ---- SIZE      30 ---
+------- ROM-ADDRESS: 0xC641 ---- RAM-ADDRESS: 0x23F6 ---- SIZE      30 ---
 Name of initialized Object : u16TabStepperPos
  030E032203 200332037A 03D403E803
  B603840352 032002EE02 BC028A0258
-------- ROM-ADDRESS: 0xC662 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC65F ---- SIZE       4 ---
 Filling bytes inserted
  001E241E
-------- ROM-ADDRESS: 0xC666 ---- RAM-ADDRESS: 0x241E ---- SIZE      30 ---
+------- ROM-ADDRESS: 0xC663 ---- RAM-ADDRESS: 0x241E ---- SIZE      30 ---
 Name of initialized Object : u16TabStepperPos:40
  033F035303 5B03500331 0335039803
  A703B60384 0352032002 EE02BC028A
-------- ROM-ADDRESS: 0xC684 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC681 ---- SIZE       4 ---
 Filling bytes inserted
  02752446
-------- ROM-ADDRESS: 0xC688 ---- RAM-ADDRESS: 0x2446 ---- SIZE      34 ---
+------- ROM-ADDRESS: 0xC685 ---- RAM-ADDRESS: 0x2446 ---- SIZE      34 ---
 Name of initialized Object : u16TabStepperPos:80
  0371038503 7E03620349 0357035603
  6C039D03A7 03B6038403 52032002EE
  02BC028A
-------- ROM-ADDRESS: 0xC6AA ---- SIZE       6 ---
+------- ROM-ADDRESS: 0xC6A7 ---- SIZE       6 ---
 Filling bytes inserted
  0000000000 00
-------- ROM-ADDRESS: 0xC6B0 ---- RAM-ADDRESS: 0x246E ---- SIZE     480 ---
+------- ROM-ADDRESS: 0xC6AD ---- RAM-ADDRESS: 0x246E ---- SIZE     480 ---
 Name of initialized Object : u16TabStepperPos:120
  0388039C03 9503790368 036A037303
  81039C0393 03A703B603 8403520320
@@ -3443,62 +3457,62 @@ Name of initialized Object : u16TabStepperPos:120
  7003840352 0362037603 600351034E
  0356036303 6403680369 036B036B03
  63035D0354 0361036603 5803700384
-------- ROM-ADDRESS: 0xC890 ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xC88D ---- SIZE       3 ---
 Filling bytes inserted
  000000
-------- ROM-ADDRESS: 0xC893 ---- RAM-ADDRESS: 0x2651 ---- SIZE      25 ---
+------- ROM-ADDRESS: 0xC890 ---- RAM-ADDRESS: 0x2651 ---- SIZE      25 ---
 Name of initialized Object : un16TabStepperCnt:3
  6400C8012C 019001F402 5802BC0320
  038403E804 4C04B00514
-------- ROM-ADDRESS: 0xC8AC ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8A9 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC8AD ---- RAM-ADDRESS: 0x266B ---- SIZE      27 ---
+------- ROM-ADDRESS: 0xC8AA ---- RAM-ADDRESS: 0x266B ---- SIZE      27 ---
 Name of initialized Object : un16TabStepperAD:1
  8700AA00C8 00F5011801 3B0160018B
  01B801DB01 F902210244 025D
-------- ROM-ADDRESS: 0xC8C8 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8C5 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC8C9 ---- RAM-ADDRESS: 0x2687 ---- SIZE      21 ---
+------- ROM-ADDRESS: 0xC8C6 ---- RAM-ADDRESS: 0x2687 ---- SIZE      21 ---
 Name of initialized Object : un16TabPedalAD:1
  F201100145 016C019701 DF020F0244
  027002A202 D4
-------- ROM-ADDRESS: 0xC8DE ---- SIZE       3 ---
+------- ROM-ADDRESS: 0xC8DB ---- SIZE       3 ---
 Filling bytes inserted
  000000
-------- ROM-ADDRESS: 0xC8E1 ---- RAM-ADDRESS: 0x269F ---- SIZE      19 ---
+------- ROM-ADDRESS: 0xC8DE ---- RAM-ADDRESS: 0x269F ---- SIZE      19 ---
 Name of initialized Object : un16TabPedalPercent:3
  0A0014001E 0028003200 3C00460050
  005A0064
-------- ROM-ADDRESS: 0xC8F4 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8F1 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC8F5 ---- RAM-ADDRESS: 0x26B3 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8F2 ---- RAM-ADDRESS: 0x26B3 ---- SIZE       1 ---
 Name of initialized Object : nStepperPre.3:1
  01
-------- ROM-ADDRESS: 0xC8F6 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8F3 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC8F7 ---- RAM-ADDRESS: 0x26B5 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8F4 ---- RAM-ADDRESS: 0x26B5 ---- SIZE       1 ---
 Name of initialized Object : nInjWidePre.4:1
+ 01
+------- ROM-ADDRESS: 0xC8F5 ---- SIZE       1 ---
+Filling bytes inserted
+ 00
+------- ROM-ADDRESS: 0xC8F6 ---- RAM-ADDRESS: 0x26B7 ---- SIZE       1 ---
+Name of initialized Object : nDesPosAD.5:1
+ 87
+------- ROM-ADDRESS: 0xC8F7 ---- RAM-ADDRESS: 0x26B8 ---- SIZE       1 ---
+Name of initialized Object : nStepperStatus.6
  01
 ------- ROM-ADDRESS: 0xC8F8 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC8F9 ---- RAM-ADDRESS: 0x26B7 ---- SIZE       1 ---
-Name of initialized Object : nDesPosAD.5:1
- 87
-------- ROM-ADDRESS: 0xC8FA ---- RAM-ADDRESS: 0x26B8 ---- SIZE       1 ---
-Name of initialized Object : nStepperStatus.6
- 01
-------- ROM-ADDRESS: 0xC8FB ---- SIZE       1 ---
-Filling bytes inserted
- 00
-------- ROM-ADDRESS: 0xC8FC ---- RAM-ADDRESS: 0x26BA ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8F9 ---- RAM-ADDRESS: 0x26BA ---- SIZE       1 ---
 Name of initialized Object : nPedalADPre.8:1
  19
-------- ROM-ADDRESS: 0xC8FD ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC8FA ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3507,7 +3521,7 @@ OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
 ECT_IC0                   USES _ECT_TFLG1 A_crank _LDIVU _ECT_TC0 u16TCrank.1 
-                                u16TCrank0.2 A_camshift A_EngStructPara 
+                                u16TCrank0.2 A_camshift A_EngStructPara Oil_Sup 
 PIT1_ISR                  USES _PITTF DOOutput _PITCE 
 PIT2_ISR                  USES _PITTF _PITCE DOOutput 
 SYSTEM_TIMER_ISR          USES _PITTF nTicks.1 sys_para 
@@ -3616,6 +3630,10 @@ ReadFromFlash             USES data_Address ReadFromFlash MapData_read
                                 un16TabPedalAD DFlashRead 
 CheckSave                 USES un16TabPedalAD sys_para PedalSaveFlag 
                                 Buffer_Pedal WriteToFlash 
+Oil_Sup                   USES A_EngStructPara oil_Supply1 oil_Supply2 
+oil_Supply1               USES LedTurn 
+oil_Supply2               USES LedTurn 
+LedTurn                   USES DOOutput 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -3811,7 +3829,19 @@ DEPENDENCY TREE
  +- ECT_IC0             
     | 
     +- _LDIVU               (see above)
-       
+    |  
+    +- Oil_Sup             
+       | 
+       +- oil_Supply1         
+       |  | 
+       |  +- LedTurn             
+       |     | 
+       |     +- DOOutput             (see above)
+       |        
+       +- oil_Supply2         
+          | 
+          +- LedTurn              (see above)
+             
  _Vector_67          
  | 
  +- PIT1_ISR            
@@ -3845,5 +3875,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 12
-Total size of all blocks to be downloaded: 6587
+Total size of all blocks to be downloaded: 6640
 

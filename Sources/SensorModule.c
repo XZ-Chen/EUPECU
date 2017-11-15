@@ -8,6 +8,7 @@
 #include "SensorModule.h"
 #include "CrankModule.h"
 #include "DebugConfig.h"
+
 //#include "MAP.h"
 
 //-------------------------------------------------------------------------*
@@ -19,7 +20,7 @@
 //-------------------------------------------------------------------------*
 
 
-sensor stppos_sensor,pedalpos_sensor,esttemp_sensor,crankspeed_sensor;
+sensor batteryVol_sensor,pedalpos_sensor,coolwater_sensor,crankspeed_sensor;
 
 void ValueAverage(sensor *pSensor,uint16 nNewValue) 
 {
@@ -61,9 +62,9 @@ void SensorVarInit(sensor *pSensor){
 }
 void SensorModuleInit(void)
 {  
-    SensorVarInit(&stppos_sensor);            //步进电机位置
+    SensorVarInit(&batteryVol_sensor);        //电池电压
     SensorVarInit(&pedalpos_sensor);          //油门位置
-    SensorVarInit(&esttemp_sensor);           //排气温度
+    SensorVarInit(&coolwater_sensor);         //排气温度
     SensorVarInit(&crankspeed_sensor);        //转速
 }
 
@@ -72,29 +73,35 @@ extern uint16 un16TabPedalAD[11];
 void SensorScan(uint16 *pSensor) 
 {    
     uint16 nNewValue = 0;
+    nNewValue = ATDRead(AD_BATTERYVOL_CH);
+    ValueAverage(&batteryVol_sensor,nNewValue);
     nNewValue = CrankSpeedRead();
     ValueAverage(&crankspeed_sensor,nNewValue);
-    nNewValue = ATDRead(AD_STEPPER_CH);
-    ValueAverage(&stppos_sensor,nNewValue);
     nNewValue = ATDRead(AD_PEDAL_CH);
     ValueAverage(&pedalpos_sensor,nNewValue);
-    /*
-    nTicks++;       
-    //max6675读取时间的间隔不能太短，太短的话数据根本就不会变化，一致接收到的
-    //的是最初的值，读取间隔改成200ms后面，读取正常
-    if(nTicks == 10) {  //200ms
-       nTicks = 0;
-       esttemp_sensor.nValue = ExhasutTempRead();
-    }
-    */
+    nNewValue = ATDRead(AD_COOLWATER_CH);
+    ValueAverage(&coolwater_sensor,nNewValue);
+
     #if(DEBUGMODE == 1)  
     *(pSensor+0) = crankspeed_sensor.value[6];
     #elif(DEBUGMODE == 2)   
     *(pSensor+0) = 2000;
     #endif
     *(pSensor+1) = pedalpos_sensor.value[6];
-    *(pSensor+2) = stppos_sensor.value[6];
-    *(pSensor+3) = esttemp_sensor.value[6];
+    *(pSensor+2) = batteryVol_sensor.value[6];
+    *(pSensor+3) = coolwater_sensor.value[6];
 }
-
+void SensorProcess(uint16 *pSensor)
+{
+    if(*(pSensor+2) <= 930) 
+    {
+        SCI_SendDec16u(*(pSensor+2));  
+        DOOutput(LED1,OFF); 
+    } 
+    else
+    {
+        SCI_SendDec16u(*(pSensor+2));  
+        DOOutput(LED1,ON); 
+    }
+}
  

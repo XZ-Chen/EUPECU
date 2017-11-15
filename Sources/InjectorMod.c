@@ -39,7 +39,7 @@ void OilAngle(void)
     A_EngStructPara.OilTeeth = TDCT - (int)(A_EngStructPara.InjAdvance/6.43) -1; //实际喷油信号齿
     Va_2 = (int)(((long)A_crank.rpm * 6.43)/1000000);
     B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6.43- A_EngStructPara.InjAdvance)/Va_2;
-    B_InjTimePara.Dtq4 = A_InjWidth - B_InjTimePara.Dtq2 - B_InjTimePara.Dtq3; 
+    B_InjTimePara.Dtq4 = A_InjWidth - B_InjTimePara.DtqHvTime - B_InjTimePara.DtGaptime; 
 }
 void Oil_Sup(void)
 {
@@ -52,10 +52,14 @@ void Oil_Sup(void)
 void oil_Supply1(void) 
 {
     LedTurn(LED1,OFF);
+    ECT_TIE = 0x43;     // 开6喷射中断  
+    ECT_TC6 = ECT_TCNT + B_InjTimePara.Dtq1; //齿中断到开启选缸低位开关
 }
 void oil_Supply2(void) 
 {
     LedTurn(LED2,OFF);
+    ECT_TIE = 0x83;     // 开7喷射中断
+    ECT_TC7 = ECT_TCNT + B_InjTimePara.Dtq1; //齿中断到开启选缸低位开关
 }
 //-------------------------------------------------------------------------* 
 //函数名: ECT_OC6                                                        *
@@ -66,9 +70,10 @@ void oil_Supply2(void)
 //Cylinder_1--PK3   Cylinder_2--PA0      
 //PA1--DIESELINJ_HV PP0--DIESELINJ_LV                                                  *
 //-------------------------------------------------------------------------*  
-/*#pragma CODE_SEG __NEAR_SEG NON_BANKED        
+#pragma CODE_SEG __NEAR_SEG NON_BANKED        
 interrupt VectorNumber_Vectch6 void ECT_OC6(void) 
 {
+  static uint8 nSeq = 0;
   if(ECT_TFLG1_C6F == 1)
   {
     ECT_TFLG1_C6F = 1;
@@ -76,32 +81,73 @@ interrupt VectorNumber_Vectch6 void ECT_OC6(void)
   switch(nSeq) {
     case 0:
     DOOutput(Cylinder_1,ON); //PA0
+    ECT_TC6 = ECT_TCNT + B_InjTimePara.Dtq2;  //低位选缸信号到高位开关打开间隔时间
+    nSeq = 1;
+    break;
+    case 1: 
+    DOOutput(DIESELINJ_HV,ON); //PA1
+    ECT_TC6 = ECT_TCNT + B_InjTimePara.DtqHvTime;   //高压开关持续时间 固定值
+    nSeq = 2;
+    break;
+    case 2: 
+    DOOutput(DIESELINJ_HV,OFF); //PP0
+    ECT_TC6 = ECT_TCNT + B_InjTimePara.DtGaptime;  //固定值高低压开关间隔时间  
+    nSeq = 3; 
+    break;
+    case 3:
+    PWMOutput(1,ON);
+    ECT_TC6 = ECT_TCNT + B_InjTimePara.Dtq4; //低压开关打开持续时间
+    break;
+    case 4:
+    PWMOutput(1,OFF);
+    asm NOP;
+    asm NOP;
+    asm NOP;
+    DOOutput(Cylinder_1,OFF);
+ 
+  }
+  ECT_TIE = 0x03;     // 关喷射中断
+   
+}
+#pragma CODE_SEG DEFAULT 
+
+#pragma CODE_SEG __NEAR_SEG NON_BANKED        
+interrupt VectorNumber_Vectch7 void ECT_OC7(void) 
+{
+  static uint8 nSeq2 = 0;
+  if(ECT_TFLG1_C7F == 1)
+  {
+    ECT_TFLG1_C7F = 1;
+  }    
+  switch(nSeq2) {
+    case 0:
+    DOOutput(Cylinder_1,ON); //PA0
     asm NOP;
     asm NOP;
     DOOutput(DIESELINJ_HV,ON); //PA1
-    ECT_TC6 = ECT_TCNT + In;  //开0.4ms
-    nSeq = 1;
+    ECT_TC6 = ECT_TCNT + 1000;  //开0.4ms
+    nSeq2 = 1;
     //LEDCPU = ~LEDCPU;
     break;
     case 1: 
     DOOutput(DIESELINJ_HV,OFF); //PP0
     ECT_TC6 = ECT_TCNT + 1000;   //高低压间隔0.4ms
-    nSeq = 2;
+    nSeq2 = 2;
     break;
     case 2: 
     PWMOutput(1,ON);
     ECT_TC6 = ECT_TCNT + 20000;  //PP1 PWM输出8ms
-    nSeq = 3; 
+    nSeq2 = 3; 
     break;
     case 3:
     PWMOutput(0,OFF);
     asm NOP;
     asm NOP;
     DOOutput(Cylinder_1,OFF);
-    nSeq = 0;
+    nSeq2 = 0;
     ECT_TC6 = ECT_TCNT + 65000;
     break;
   }
-   
+  ECT_TIE = 0x03;     // 关喷射中断 
 }
-#pragma CODE_SEG DEFAULT  */
+#pragma CODE_SEG DEFAULT 

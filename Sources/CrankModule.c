@@ -9,10 +9,10 @@
 #include "CamshiftModule.h"
 #include "InjectorMod.h"
 
-static GROUP_ACCUM A_crank;
-extern EngStructPara A_EngStructPara;
-extern CAMSHIFT_GROUP_ACCUM A_camshift;
-extern EngStructPara A_EngStructPara;
+static GROUP_ACCUM           A_crank;
+extern EngStructPara         A_EngStructPara;
+extern CAMSHIFT_GROUP_ACCUM  A_camshift;
+extern EngStructPara         A_EngStructPara;
 
 //-------------------------------------------------------------------------*
 //º¯ÊýÃû: CrankModuleInit                                                   	     *

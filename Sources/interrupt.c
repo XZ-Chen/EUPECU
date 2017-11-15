@@ -39,8 +39,8 @@ void interrupt VectorNumber_Vpit0 SYSTEM_TIMER_ISR(void)         //PITÖÐ¶Ï
       bIOScan = TRUE;
     if(nTicks%20 == 0)   //20ms   
       bSensorScan = TRUE;
-    if(nTicks%200 == 0)
-    {  //200ms
+    if(nTicks%200 == 0) //200ms
+    {  
       bModeJudge = TRUE;
     }
     if(nTicks == 60000)

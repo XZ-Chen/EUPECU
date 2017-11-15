@@ -32,9 +32,14 @@
 #define PIN14_B2       14
 
 //6路通用AD
-#define PIN15_AD       3
-#define PIN16_AD       4 
-#define PIN17_AD       5
+
+#define PIN15_AD       0
+#define PIN16_AD       1 
+#define PIN17_AD       2
+#define PIN22_AD       4
+#define PIN23_AD       5
+
+
 #define PIN24_AD       11
 #define PIN25_AD       12
 #define PIN26_AD       13
@@ -97,9 +102,9 @@
 #define DO_MAINRLY_PIN  PIN54_HDO
 #define DO_LNGRLY_PIN   PIN53_HDO   
 
-
-#define AD_PEDAL_CH    PIN15_AD    //油门位置AN3
-#define AD_STEPPER_CH  PIN16_AD    //步进电机位置AN4 
+#define AD_BATTERYVOL_CH  PIN15_AD    //步进电机位置AN0 
+#define AD_PEDAL_CH       PIN16_AD    //油门位置AN3
+#define AD_COOLWATER_CH   PIN22_AD    //水温AN04
 
 #define INJECTOR_PIN1 PIN37_HDO
 #define INJECTOR_PIN2 PIN38_HDO
@@ -107,6 +112,13 @@
 #define INJECTOR_PIN4 PIN40_HDO
 #define INJECTOR_PIN5 PIN51_HDO
 #define INJECTOR_PIN6 PIN52_HDO
+
+#define DIESELINJ_HV  PIN52_HDO
+#define DIESELINJ_LV  PIN37_HDO
+#define LNGINJ_HV     PIN39_HDO
+#define LNGINJ_LV     PIN40_HDO
+#define Cylinder_1      PIN51_HDO
+#define Cylinder_2      PIN53_HDO
 
 #define LED1 PIN37_HDO
 #define LED2 PIN38_HDO

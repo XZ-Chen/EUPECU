@@ -14,7 +14,6 @@
 #include "ATD.h"
 #include "PinMap.h"
 
-
 void main(void) {
   //关总中断
   DisableInterrupts;
@@ -31,7 +30,6 @@ void main(void) {
   SensorModuleInit();   //stepper pos; exhaust temp;pedal pos;
   CrankModuleInit();    //crankshaft speed measurement 
   InjectorModuleInit(); //Injector module initial
-  StepperModuleInit();  //Steppermotor initial
   SysVarInit(); 
   StartSystemTimer();  //开启定时器
   _ENABLE_COP_X();      //看门狗设置
@@ -42,6 +40,7 @@ void main(void) {
       SysTaskProcess();   //System task
       MSCANProcess();     //CAN Communication
       SysDigProcess();    //Disgnose
+      MSSCIProcess();
       _FEED_COP();        // feeds the dog 
            
   }

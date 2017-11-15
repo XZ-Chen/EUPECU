@@ -25,12 +25,13 @@ SYS_PARA sys_para;
 #define G_SensorAddrBgn    sys_para.item.un16Sensor                //
 #define G_un16RPM          sys_para.item.un16Sensor[0]             //转速AD值
 #define G_un16PedalPosAD   sys_para.item.un16Sensor[1]             //油门位置AD值
-#define G_un16StepperPosAD sys_para.item.un16Sensor[2]             //步进电机位置AD值
-#define G_un16ExhasutTemp  sys_para.item.un16Sensor[3]          //
+#define G_un16BatteryVolAD sys_para.item.un16Sensor[2]             //步进电机位置AD值
+#define G_un16CoolWaterTemp  sys_para.item.un16Sensor[3]          //
+#define G_un16InjCurAD     sys_para.item.un16Sensor[4]
 #define G_DIAddrBgn        sys_para.item.un16DI                 //
 #define G_DIIGSwitch       sys_para.item.un16DI[0]              //
 #define G_DILNGSwitch      sys_para.item.un16DI[1]              //
-
+#define G_DILNGSwitch      sys_para.item.un16DI[1]
 #define G_DOLNGRVRelay     sys_para.item.un16DO[0]       //LNG减压阀
 #define G_DOMainRelay      sys_para.item.un16DO[1]       //主继电器
 
@@ -94,8 +95,6 @@ void SysSingleProcess(void){
    if(G_DILNGSwitch != ON)
    {
        nSeq = 0;
-       if(G_un16StepperPos != 0)
-          // G_un16StepperPos = 0;
        if(G_DOLNGRVRelay == ON) 
        {
            nTicks ++;
@@ -112,24 +111,26 @@ void SysSingleProcess(void){
    if(nSeq == 0)   //10*0.2s = 2s    继电器闭合
    { 
       nTicks++;
-      if(nTicks == 10) {   
+      if(nTicks == 10) 
+      {   
         G_DOMainRelay = ON;
         nSeq = 1;
         nTicks = 0; 
       }
-   } else if(nSeq == 1) {
-      ////////////////////////////////// for test
-      G_un16StepperPos = 150;         //步进电机复位值 测试值
-      //////////////////////////////////
+   } 
+   else if(nSeq == 1) 
+   {
       G_DOLNGRVRelay = ON;
       nTicks = 0;
       nSeq = 2;
-   }else if(nSeq == 2) {
+   }
+   else if(nSeq == 2) 
+   {
       nTicks++;
-      if(nTicks == 10) { //200ms*10 = 2s
+      if(nTicks == 10) 
+      { //200ms*10 = 2s
         nTicks = 0;
         nSeq = 0;
-        G_un16StepperPos = 0;
         G_DOLNGRVRelay = OFF;
         G_un16SysMode = SYS_DURAL;
       }
@@ -157,10 +158,7 @@ void SysErrProcess(void) {
 //////////////////////////////////////////////////////
 void SysOutputProcess(void)
 {
-   static uint16 nStepperPre = 1; //给1个不为0的初始值
    static uint16 nInjWidePre = 1;
-   static uint16 nDesPosAD = STEPPER_AD_MIN;
-   static uint8 nStepperStatus = STEPPER_RUN;
    static uint16 nCycle;
    uint32 nTemp; 
    if(G_DOMainRelay == ON)    
@@ -173,12 +171,6 @@ void SysOutputProcess(void)
       LNGRVRelayOn();
    else
       LNGRVRelayOff();
-   if(G_un16StepperPos != nStepperPre) {
-      nStepperStatus = STEPPER_RUN;
-      nStepperPre = G_un16StepperPos;
-      nDesPosAD = look1D_U16_U16(G_un16StepperPos,un16TabStepperCnt,13,un16TabStepperAD);   
-   }
-   nStepperStatus = StepperRun(G_un16StepperPos,nDesPosAD,G_un16StepperPosAD);
    if(G_un16InjWide != nInjWidePre){ 
       if(G_un16InjWide != 0) {
         // nTemp = 120000000/G_un16RPM/CRANK_CYLINDER_NUM;
@@ -203,8 +195,9 @@ void SysTaskProcess(void)
     }
     if(G_bSensorScan){
       SensorScan(G_SensorAddrBgn);   //传感器扫描    
-      CheckSave();
-      PedalRead(G_PedalAdBgn);
+      //CheckSave();
+      //PedalRead(G_PedalAdBgn);   //标定read flash功能
+      SensorProcess(G_SensorAddrBgn);
       G_bSensorScan = FALSE;
     }
     if(G_bModeJudge) {  
@@ -234,7 +227,7 @@ void SysDigProcess(void)
     
 }
 ///////////////////////////////////////////////////////
-//系统单燃料模式处理                                 //
+//系统单燃料模式判别                               //
 ///////////////////////////////////////////////////////
 void SingleModeJudge(void)
 {
@@ -381,13 +374,6 @@ void NormalCtrl()
 	G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
 						        	u16TabSpeedX, 19,\
 							        u16TabPedalY, 14,u16TabInjWidth);
-	G_un16StepperPos = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
-						        	u16TabSpeedX, 19,\
-							        u16TabPedalY,14,u16TabStepperPos);
-	//***************步进电机步数计算*******************************//						        
-  nTemp = ((uint32)G_un16StepperPos + (uint32)G_un16StpP1)*((uint32)G_un16StpP2);
-  nTemp = nTemp/100;
-  G_un16StepperPos = nTemp&0xffff;
 	//***************喷射阀脉宽计算*******************//
 	if (G_un16RPM >= G_un16HighSpeed)	
 	{
@@ -441,8 +427,6 @@ void OverDecCtrl()
 /*************************************************************/
 void EngineStopCtrl()
 {
-	 if(G_un16StepperPos != 0)
-       G_un16StepperPos = 0;
    if(G_un16InjWide != 0)
        G_un16InjWide = 0;
    G_DOLNGRVRelay = OFF;

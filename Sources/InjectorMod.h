@@ -30,6 +30,8 @@ typedef struct {
   UINT16  Dtq2;
   UINT16  Dtq3;
   UINT16  Dtq4; 
+  UINT16  DtGaptime;
+  UINT16  DtqHvTime;
 }InjTimePara;
 
 void Oil_Sup(void);

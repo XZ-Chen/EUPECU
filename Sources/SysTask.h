@@ -22,7 +22,7 @@ typedef union _sys_para{
           uint16 un16SysMode;       //0 系统主模式
           uint16 un16DuralMode;     //1 双燃料模式
           uint16 un16InjWide;       //2 喷射时间 喷射脉冲宽度
-          uint16 un16StepperPos;    //3 电机行程    
+          uint16 un16IgSignal;      //3 电机行程    
           uint16 un16LNGState;      //4 LNG状态
           uint16 bSensorScan;       //5 传感器扫描
           uint16 bIOScan;           //6 IO口扫描  

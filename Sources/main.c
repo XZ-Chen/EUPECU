@@ -14,6 +14,9 @@
 #include "ATD.h"
 #include "PinMap.h"
 
+extern SYS_PARA sys_para;
+#define G_un16IgSignal     sys_para.item.mem_var.un16IgSignal      //3点火信号
+
 void main(void) {
   //关总中断
   DisableInterrupts;
@@ -37,12 +40,18 @@ void main(void) {
   EnableInterrupts; 
   for(;;)
   {
-      SysTaskProcess();   //System task
-      MSCANProcess();     //CAN Communication
-      SysDigProcess();    //Disgnose
       MSSCIProcess();
-      _FEED_COP();        // feeds the dog 
-           
+      if(G_un16IgSignal == ON) 
+      {
+         for(;;)
+         {
+           SysTaskProcess();   //System task
+           MSCANProcess();     //CAN Communication
+           SysDigProcess();    //Disgnose
+           MSSCIProcess();
+           _FEED_COP();        // feeds the dog
+         }
+       }        
   }
   /* please make sure that you never leave main */
 }

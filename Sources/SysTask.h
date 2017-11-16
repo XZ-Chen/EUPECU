@@ -22,8 +22,8 @@ typedef union _sys_para{
           uint16 un16SysMode;       //0 系统主模式
           uint16 un16DuralMode;     //1 双燃料模式
           uint16 un16InjWide;       //2 喷射时间 喷射脉冲宽度
-          uint16 un16IgSignal;      //3 电机行程    
-          uint16 un16LNGState;      //4 LNG状态
+          uint16 un16IgSignal;      //3 点火开关   
+          uint16 un16bSingleModeJudge;      //4 LNG状态
           uint16 bSensorScan;       //5 传感器扫描
           uint16 bIOScan;           //6 IO口扫描  
           uint16 bModeJudge;        //7 模式判别
@@ -66,6 +66,15 @@ typedef union _sys_para{
 #define SYS_ERR      3  //出错
 #define SYS_HALT     4  //停止
 
+#define SINGLE_MODE_STOP        0   
+#define SINGLE_MODE_START       1
+#define SINGLE_MODE_IDLE        2
+#define SINGLE_MODE_NORMAL      3
+
+#define DURAL_MODE_OVERACC     4
+#define DURAL_MODE_OVERDEC     5
+#define DURAL_MODE_SPEEDLIMIT  6
+#define DURAL_MODE_OVERSPEED   7
 
 #define DURAL_MODE_STOP        0   
 #define DURAL_MODE_START       1

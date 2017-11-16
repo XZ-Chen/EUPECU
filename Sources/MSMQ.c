@@ -9,7 +9,11 @@
 #include "MsgQueue.h"
 #include "SCI.h"
 
+UINT8 Igtips[]="fire success";
+UINT8 Closetips[]="stop working";
+
 extern SYS_PARA sys_para;
+#define G_un16IgSignal     sys_para.item.mem_var.un16IgSignal      //3点火信号
 #define G_HVInjWide sys_para.item.CylinInj_var.un16Inj_HV_Time
 #define G_LVInjWide sys_para.item.CylinInj_var.un16Inj_LV_Time
 #define G_GapInjWide sys_para.item.CylinInj_var.un16Inj_Gap_Time
@@ -22,15 +26,15 @@ void MSSCIProcess(void){
      if(DeQueue(&ReadMsg,&MsgLine)){
         switch(ReadMsg.data[0])               //解析数据
         {
-          case 'H':
-              G_HVInjWide = ((ReadMsg.data[2] << 8) | ReadMsg.data[1]); //低8位 
-              SCI_SendDec16u(G_HVInjWide);
+          case 'O':
+              //G_HVInjWide = ((ReadMsg.data[2] << 8) | ReadMsg.data[1]); //低8位 
+              G_un16IgSignal = ON;
+              send_string(Igtips);
               SCI_send('\n');
               break;
-          case 'G':
-              G_GapInjWide = (ReadMsg.data[2] << 8) | ReadMsg.data[1]; //低8位 
-              SCI_SendDec16u(G_GapInjWide);
-              SCI_send('\n');
+          case 'C':
+              //G_GapInjWide = (ReadMsg.data[2] << 8) | ReadMsg.data[1]; //低8位 
+              send_string(Closetips);
               break;
           case 'L':
               G_LVInjWide = (ReadMsg.data[2] << 8) | ReadMsg.data[1]; //低8位 

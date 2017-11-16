@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "E:\标定系统下位机\EUPECU\bin\Project.abs"
+PROGRAM "I:\ECUEUP\EUPECU\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -47,7 +47,7 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x2100     3080
+  _Range   pZeroOut       0x2100     3102
   _Copy    *toCopyDownBeg 0xC4CC
 } _startupData;
 
@@ -58,10 +58,10 @@ Section Name                    Size  Type     From       To       Segment
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        18     R     0xC00F     0xC020   ROM_C000
 NON_BANKED                      1195     R     0xC021     0xC4CB   ROM_C000
-.copy                            828     R     0xC4CC     0xC807   ROM_C000
-.text                           4082     R   0xFE8000   0xFE8FF1   PAGE_FE
+.copy                            853     R     0xC4CC     0xC820   ROM_C000
+.text                           3981     R   0xFE8000   0xFE8F8C   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
-.data                            830   R/W     0x2100     0x243D   RAM
+.data                            856   R/W     0x2100     0x2457   RAM
 .abs_section_ffee                  2     R     0xFFEE     0xFFEF   .absSeg0
 .abs_section_ff78                  2     R     0xFF78     0xFF79   .absSeg1
 .abs_section_ff76                  2     R     0xFF76     0xFF77   .absSeg2
@@ -619,13 +619,13 @@ NON_BANKED                      1195     R     0xC021     0xC4CB   ROM_C000
 .abs_section_ffec                  2     R     0xFFEC     0xFFED   .absSeg554
 .abs_section_ffdc                  2     R     0xFFDC     0xFFDD   .absSeg555
 .abs_section_ff86                  2     R     0xFF86     0xFF87   .absSeg556
-.bss                            1275   R/W     0x243E     0x2938   RAM
-.common                          975   R/W     0x2939     0x2D07   RAM
+.bss                            1271   R/W     0x2458     0x294E   RAM
+.common                          975   R/W     0x294F     0x2D1D   RAM
 .vectSeg557_vect                   2     R     0xFFFE     0xFFFF   .vectSeg557
 
 Summary of section sizes per section type:
-READ_ONLY (R):        180E (dec:     6158)
-READ_WRITE (R/W):      D08 (dec:     3336)
+READ_ONLY (R):        17C2 (dec:     6082)
+READ_WRITE (R/W):      D1E (dec:     3358)
 NO_INIT (N/I):         2AB (dec:      683)
 
 *********************************************************************************************
@@ -640,11 +640,11 @@ OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    FE8000      59      89       2   .text       
+     main                                    FE8000      63      99       2   .text       
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    FE8059      29      41       2   .text       
+     Init                                    FE8063      29      41       2   .text       
      _Startup                                  C000       F      15       0   .init       
 - VARIABLES:
      _startupData                              C00F       6       6       3   .startData  
@@ -652,132 +652,132 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          2100       0       0       1               
 MODULE:                 -- ATD.c.o --
 - PROCEDURES:
-     ATDInit                                 FE8082      22      34       2   .text       
-     ATDRead                                 FE80A4      39      57       6   .text       
+     ATDInit                                 FE808C      22      34       2   .text       
+     ATDRead                                 FE80AE      39      57       6   .text       
 - VARIABLES:
 MODULE:                 -- CrankModule.c.o --
 - PROCEDURES:
-     CrankModuleInit                         FE80DD      2F      47       2   .text       
-     CrankSpeedRead                          FE810C      22      34       2   .text       
+     CrankModuleInit                         FE80E7      2F      47       2   .text       
+     CrankSpeedRead                          FE8116      22      34       2   .text       
      ECT_IC0                                   C021      D1     209       1   NON_BANKED  
 - VARIABLES:
-     u16TCrank.1                               243E       2       2       4   .bss        
-     u16TCrank0.2                              2440       2       2       5   .bss        
-     A_crank                                   2442     19D     413      33   .bss        
+     u16TCrank.1                               2458       2       2       4   .bss        
+     u16TCrank0.2                              245A       2       2       5   .bss        
+     A_crank                                   245C     19D     413      33   .bss        
      _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
-     A_camshift                                25DF     19D     413       1   .bss        
+     A_camshift                                25F9     19D     413       1   .bss        
 MODULE:                 -- DataFlash.c.o --
 - PROCEDURES:
-     DFlashInit                              FE812E      13      19       2   .text       
-     DFlashRead                              FE8141      23      35      10   .text       
+     DFlashInit                              FE8138      13      19       2   .text       
+     DFlashRead                              FE814B      23      35      10   .text       
 - VARIABLES:
 MODULE:                 -- DIOModule.c.o --
 - PROCEDURES:
-     A3944Init                               FE8164      1A      26       2   .text       
-     L9733Init                               FE817E      14      20       2   .text       
-     DIOModuleInit                           FE8192      47      71       2   .text       
-     LDOOutput                               FE81D9      2C      44       2   .text       
-     HDOOutput                               FE8205      2F      47       2   .text       
-     DIScan                                  FE8234       A      10       2   .text       
-     DOOutput                                FE823E      2D      45      36   .text       
+     A3944Init                               FE816E      1A      26       2   .text       
+     L9733Init                               FE8188      14      20       2   .text       
+     DIOModuleInit                           FE819C      47      71       2   .text       
+     LDOOutput                               FE81E3      2C      44       2   .text       
+     HDOOutput                               FE820F      2F      47       2   .text       
+     DIScan                                  FE823E       A      10       2   .text       
+     DOOutput                                FE8248      2D      45      36   .text       
 - VARIABLES:
      pHDOCtrlPort                              2100      18      24       2   .data       
      pHDOCtrlPortDDR                           2118      18      24       1   .data       
      HDOCtrlPortMask                           2130       C      12       3   .data       
      pDIPortDDR                                213C       8       8       1   .data       
      DIPortMask                                2144       4       4       1   .data       
-     LDOStatus                                 277C       1       1       4   .bss        
+     LDOStatus                                 2796       1       1       4   .bss        
 MODULE:                 -- ECT.c.o --
 - PROCEDURES:
-     ECTInit                                 FE826B      2A      42       2   .text       
+     ECTInit                                 FE8275      2A      42       2   .text       
 - VARIABLES:
 MODULE:                 -- GeneralFun.c.o --
 - PROCEDURES:
-     DelayUs                                 FE8295      1B      27       4   .text       
+     DelayUs                                 FE829F      1B      27       4   .text       
 - VARIABLES:
 MODULE:                 -- InjectorModule.c.o --
 - PROCEDURES:
-     InjectorModuleInit                      FE82B0      2F      47       2   .text       
-     InjectorWide                            FE82DF      58      88       4   .text       
+     InjectorModuleInit                      FE82BA      2F      47       2   .text       
+     InjectorWide                            FE82E9      58      88       4   .text       
      PIT1_ISR                                  C0F2      30      48       1   NON_BANKED  
      PIT2_ISR                                  C122      2F      47       1   NON_BANKED  
 - VARIABLES:
-     InjectorIndex                             277D       2       2       1   .bss        
+     InjectorIndex                             2797       2       2       1   .bss        
      _Vector_67                                FF78       2       2       0   .abs_section_ff78
      _Vector_68                                FF76       2       2       0   .abs_section_ff76
 MODULE:                 -- interrupt.c.o --
 - PROCEDURES:
      SYSTEM_TIMER_ISR                          C151      52      82       1   NON_BANKED  
 - VARIABLES:
-     nTicks.1                                  277F       2       2       7   .bss        
+     nTicks.1                                  2799       2       2       7   .bss        
      _Vector_66                                FF7A       2       2       0   .abs_section_ff7a
 MODULE:                 -- lookup_table.c.o --
 - PROCEDURES:
-     get_ratio_u16                           FE8337      8E     142       6   .text       
-     look1D_U16_U16                          FE83C5      64     100       4   .text       
-     look2D_U16_U16_U16                      FE8429      EC     236       5   .text       
+     get_ratio_u16                           FE8341      8E     142       6   .text       
+     look1D_U16_U16                          FE83CF      64     100       4   .text       
+     look2D_U16_U16_U16                      FE8433      EC     236       5   .text       
 - VARIABLES:
 MODULE:                 -- MSCAN.c.o --
 - PROCEDURES:
-     MSCANInit                               FE8515      5C      92       2   .text       
-     MSCANSendMsg                            FE8571      60      96       2   .text       
-     MSCANGetMsg                             FE85D1      65     101       2   .text       
-     MSCANCheckRcvdMsg                       FE8636       B      11       2   .text       
-     MSCANMsgProcess                         FE8641      62      98       2   .text       
-     MSCANProcess                            FE86A3      25      37       2   .text       
+     MSCANInit                               FE851F      5C      92       2   .text       
+     MSCANSendMsg                            FE857B      60      96       2   .text       
+     MSCANGetMsg                             FE85DB      65     101       2   .text       
+     MSCANCheckRcvdMsg                       FE8640       B      11       2   .text       
+     MSCANMsgProcess                         FE864B      62      98       2   .text       
+     MSCANProcess                            FE86AD      25      37       2   .text       
 - VARIABLES:
-     msg                                       2939       E      14       2   .common     
+     msg                                       294F       E      14       2   .common     
 MODULE:                 -- PIT.c.o --
 - PROCEDURES:
-     PITInit                                 FE86C8      47      71       2   .text       
-     PITSetCycle                             FE870F      16      22       4   .text       
+     PITInit                                 FE86D2      47      71       2   .text       
+     PITSetCycle                             FE8719      16      22       4   .text       
 - VARIABLES:
      pPITLDn                                   2148       8       8       1   .data       
 MODULE:                 -- PLL.c.o --
 - PROCEDURES:
-     PLLInit                                 FE8725      16      22       2   .text       
+     PLLInit                                 FE872F      16      22       2   .text       
 - VARIABLES:
 MODULE:                 -- PWM.c.o --
 - PROCEDURES:
-     PWMOutput                               FE873B      41      65       6   .text       
+     PWMOutput                               FE8745      41      65       6   .text       
 - VARIABLES:
      pPWMPERn                                  2150      10      16       1   .data       
      pPWMDTYn                                  2160      10      16       1   .data       
 MODULE:                 -- SensorModule.c.o --
 - PROCEDURES:
-     ValueAverage                            FE877C      69     105       2   .text       
-     SensorVarInit                           FE87E5      1E      30       8   .text       
-     SensorModuleInit                        FE8803      1D      29       2   .text       
-     SensorScan                              FE8820      4A      74       2   .text       
-     SensorProcess                           FE886A      24      36       2   .text       
+     ValueAverage                            FE8786      69     105       2   .text       
+     SensorVarInit                           FE87EF      1E      30       8   .text       
+     SensorModuleInit                        FE880D      1D      29       2   .text       
+     SensorScan                              FE882A      4A      74       2   .text       
+     SensorProcess                           FE8874      24      36       2   .text       
 - VARIABLES:
-     batteryVol_sensor                         2947      10      16       3   .common     
-     pedalpos_sensor                           2957      10      16       3   .common     
-     coolwater_sensor                          2967      10      16       3   .common     
-     crankspeed_sensor                         2977      10      16       2   .common     
+     batteryVol_sensor                         295D      10      16       3   .common     
+     pedalpos_sensor                           296D      10      16       3   .common     
+     coolwater_sensor                          297D      10      16       3   .common     
+     crankspeed_sensor                         298D      10      16       2   .common     
 MODULE:                 -- SPI.c.o --
 - PROCEDURES:
-     SPIInit                                 FE888E      55      85       2   .text       
-     SPIReadWord                             FE88E3      D2     210       2   .text       
+     SPIInit                                 FE8898      55      85       2   .text       
+     SPIReadWord                             FE88ED      D2     210       2   .text       
 - VARIABLES:
 MODULE:                 -- SysTask.c.o --
 - PROCEDURES:
-     SysVarInit                              FE89B5      66     102       2   .text       
-     SysSingleProcess                        FE8A1B      7F     127       2   .text       
-     SysDuralProcess                         FE8A9A       9       9       2   .text       
-     SysErrProcess                           FE8AA3       1       1       2   .text       
-     SysOutputProcess                        FE8AA4      5E      94       2   .text       
-     SysTaskProcess                          FE8B02      5C      92       2   .text       
-     SysDigProcess                           FE8B5E       1       1       2   .text       
-     SingleModeJudge                         FE8B5F      25      37       2   .text       
-     DuralModeJudge                          FE8B84      8B     139       2   .text       
-     SingleAppExcute                         FE8C0F       1       1       2   .text       
-     DuralAppExcute                          FE8C10      28      40       2   .text       
-     NormalCtrl                              FE8C38      53      83       2   .text       
-     SpeedLimitCtrl                          FE8C8B      17      23       2   .text       
-     OverAccCtrl                             FE8CA2      2F      47       2   .text       
-     OverDecCtrl                             FE8CD1       D      13       2   .text       
-     EngineStopCtrl                          FE8CDE       E      14       2   .text       
+     SysVarInit                              FE89BF      65     101       2   .text       
+     SysSingleProcess                        FE8A24       9       9       2   .text       
+     SysDuralProcess                         FE8A2D       9       9       2   .text       
+     SysErrProcess                           FE8A36       1       1       2   .text       
+     SysOutputProcess                        FE8A37      5E      94       2   .text       
+     SysTaskProcess                          FE8A95      5C      92       2   .text       
+     SysDigProcess                           FE8AF1       1       1       2   .text       
+     SingleModeJudge                         FE8AF2      35      53       2   .text       
+     DuralModeJudge                          FE8B27      8B     139       2   .text       
+     SingleAppExcute                         FE8BB2       1       1       2   .text       
+     DuralAppExcute                          FE8BB3      28      40       2   .text       
+     NormalCtrl                              FE8BDB      53      83       2   .text       
+     SpeedLimitCtrl                          FE8C2E       E      14       2   .text       
+     OverAccCtrl                             FE8C3C      29      41       2   .text       
+     OverDecCtrl                             FE8C65       7       7       2   .text       
+     EngineStopCtrl                          FE8C6C       E      14       2   .text       
 - VARIABLES:
      u16TabSpeedX                              2170      28      40       2   .data       
      u16TabPedalY                              2198      1E      30       2   .data       
@@ -786,10 +786,8 @@ MODULE:                 -- SysTask.c.o --
      un16TabPedalPercent                       2424      16      22       2   .data       
      nInjWidePre.3                             243A       2       2       2   .data       
      nPedalADPre.5                             243C       2       2       2   .data       
-     nTicks.1                                  2781       2       2       6   .bss        
-     nSeq.2                                    2783       2       2       5   .bss        
-     nCycle.4                                  2785       2       2       3   .bss        
-     sys_para                                  2987     200     512      97   .common     
+     nCycle.4                                  279B       2       2       3   .bss        
+     sys_para                                  299D     200     512      87   .common     
 MODULE:                 -- MC9S12XET256.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1343,36 +1341,36 @@ MODULE:                 -- MC9S12XET256.c.o --
      _XGR7                                      3AE       2       2       0   .abs_section_3ae
 MODULE:                 -- DFlashModule.c.o --
 - PROCEDURES:
-     JudgeFlashStatus                        FE8CEC      6C     108       2   .text       
-     ReadFromFlash                           FE8D58      91     145       3   .text       
+     JudgeFlashStatus                        FE8C7A      6C     108       2   .text       
+     ReadFromFlash                           FE8CE6      91     145       3   .text       
 - VARIABLES:
-     data_Address                              2787       2       2      15   .bss        
-     A_FlashPara                               2789       2       2       2   .bss        
-     MapData_read                              2B87      16      22      12   .common     
-     data_read                                 2B9D      16      22       8   .common     
+     data_Address                              279D       2       2      15   .bss        
+     A_FlashPara                               279F       2       2       2   .bss        
+     MapData_read                              2B9D      16      22      12   .common     
+     data_read                                 2BB3      16      22       8   .common     
 MODULE:                 -- InjectorMod.c.o --
 - PROCEDURES:
-     Oil_Sup                                 FE8DE9      16      22       2   .text       
-     oil_Supply1                             FE8DFF      15      21       2   .text       
-     oil_Supply2                             FE8E14      15      21       2   .text       
+     Oil_Sup                                 FE8D77      16      22       2   .text       
+     oil_Supply1                             FE8D8D      15      21       2   .text       
+     oil_Supply2                             FE8DA2      15      21       2   .text       
      ECT_OC6                                   C1A3      84     132       1   NON_BANKED  
      ECT_OC7                                   C227      84     132       1   NON_BANKED  
 - VARIABLES:
-     nSeq.1                                    278B       1       1       2   .bss        
-     nSeq2.2                                   278C       1       1       3   .bss        
+     nSeq.1                                    27A1       1       1       2   .bss        
+     nSeq2.2                                   27A2       1       1       3   .bss        
      _Vector_14                                FFE2       2       2       0   .abs_section_ffe2
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
-     A_EngStructPara                           2BB3       F      15       3   .common     
-     B_InjTimePara                             2BC2       C      12       6   .common     
+     A_EngStructPara                           2BC9       F      15       3   .common     
+     B_InjTimePara                             2BD8       C      12       6   .common     
 MODULE:                 -- CamshiftModule.c.o --
 - PROCEDURES:
      ECT_IC1                                   C2AB      A2     162       1   NON_BANKED  
      ECT_Overflow                              C34D       5       5       1   NON_BANKED  
 - VARIABLES:
-     u16TCrank.1                               278D       2       2       5   .bss        
-     u16TCrank0.2                              278F       2       2       5   .bss        
-     OverflowCoun.3                            2791       2       2       1   .bss        
-     A_camshift                                2793     19D     413      19   .bss        
+     u16TCrank.1                               27A3       2       2       5   .bss        
+     u16TCrank0.2                              27A5       2       2       5   .bss        
+     OverflowCoun.3                            27A7       2       2       1   .bss        
+     A_camshift                                27A9     19D     413      19   .bss        
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
      _Vector_17                                FFDC       2       2       0   .abs_section_ffdc
 MODULE:                 -- rtshc12.c.o (ansixbf.lib) --
@@ -1386,41 +1384,44 @@ MODULE:                 -- rtshc12.c.o (ansixbf.lib) --
 - VARIABLES:
 MODULE:                 -- LedKey.c.o --
 - PROCEDURES:
-     LedTurn                                 FE8E29       E      14       4   .text       
+     LedTurn                                 FE8DB7       E      14       4   .text       
 - VARIABLES:
 MODULE:                 -- MSMQ.c.o --
 - PROCEDURES:
-     MSSCIProcess                            FE8E37      5D      93       2   .text       
+     MSSCIProcess                            FE8DC5      59      89       4   .text       
 - VARIABLES:
-     ReadMsg                                   2BCE       6       6       4   .common     
+     Igtips                                    243E       D      13       1   .data       
+     Closetips                                 244B       D      13       1   .data       
+     ReadMsg                                   2BE4       6       6       4   .common     
 MODULE:                 -- MsgQueue.c.o --
 - PROCEDURES:
-     QueueIsFull                             FE8E94       F      15       2   .text       
-     QueueIsEmpty                            FE8EA3       C      12       4   .text       
-     CopyToQueue                             FE8EAF      22      34       2   .text       
-     CopyToMsg                               FE8ED1      22      34       2   .text       
-     EnQueue                                 FE8EF3      58      88       2   .text       
-     DeQueue                                 FE8F4B      50      80       2   .text       
+     QueueIsFull                             FE8E1E       F      15       2   .text       
+     QueueIsEmpty                            FE8E2D       C      12       4   .text       
+     CopyToQueue                             FE8E39      22      34       2   .text       
+     CopyToMsg                               FE8E5B      22      34       2   .text       
+     EnQueue                                 FE8E7D      58      88       2   .text       
+     DeQueue                                 FE8ED5      50      80       2   .text       
      receivedata                               C448      84     132       1   NON_BANKED  
 - VARIABLES:
-     Data_receive                              2930       1       1       3   .bss        
-     DataRec_Count                             2931       1       1       4   .bss        
-     DataSuccess_Flag                          2932       1       1       4   .bss        
-     NewMsg                                    2933       6       6       8   .bss        
+     Data_receive                              2946       1       1       3   .bss        
+     DataRec_Count                             2947       1       1       4   .bss        
+     DataSuccess_Flag                          2948       1       1       4   .bss        
+     NewMsg                                    2949       6       6       8   .bss        
      _Vector_60                                FF86       2       2       0   .abs_section_ff86
-     MsgLine                                   2BD4     134     308       2   .common     
+     MsgLine                                   2BEA     134     308       2   .common     
 MODULE:                 -- SCI.c.o --
 - PROCEDURES:
-     SCI_send                                FE8F9B       B      11      10   .text       
-     SCI_SendDec16u                          FE8FA6      43      67      10   .text       
-     SCI_receive                             FE8FE9       9       9       2   .text       
+     SCI_send                                FE8F25       B      11      12   .text       
+     SCI_SendDec16u                          FE8F30      43      67      10   .text       
+     send_string                             FE8F73      11      17       4   .text       
+     SCI_receive                             FE8F84       9       9       2   .text       
 - VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
-  main.c.o                                     0     89      0
+  main.c.o                                     0     99      0
   Start12.c.o                                  0     56      0
   ATD.c.o                                      0     91      0
   CrankModule.c.o                            830    290      2
@@ -1437,17 +1438,17 @@ MODULE STATISTIC
   PWM.c.o                                     32     65      0
   SensorModule.c.o                            64    274      0
   SPI.c.o                                      0    295      0
-  SysTask.c.o                               1236    823      0
+  SysTask.c.o                               1232    699      0
   MC9S12XET256.c.o                           683      0      0
   DFlashModule.c.o                            48    253      0
   InjectorMod.c.o                             29    328      4
   CamshiftModule.c.o                         419    167      4
   rtshc12.c.o (ansixbf.lib)                    0    246      0
   LedKey.c.o                                   0     14      0
-  MSMQ.c.o                                     6     93      0
+  MSMQ.c.o                                    32     89      0
   MsgQueue.c.o                               317    395      2
-  SCI.c.o                                      0     87      0
-  other                                      256     20    828
+  SCI.c.o                                      0    104      0
+  other                                      256     20    853
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
@@ -1464,16 +1465,16 @@ SECTION: ".text"
   DuralModeJudge SingleAppExcute DuralAppExcute NormalCtrl SpeedLimitCtrl 
   OverAccCtrl OverDecCtrl EngineStopCtrl JudgeFlashStatus ReadFromFlash Oil_Sup 
   oil_Supply1 oil_Supply2 LedTurn MSSCIProcess QueueIsFull QueueIsEmpty 
-  CopyToQueue CopyToMsg EnQueue DeQueue SCI_send SCI_SendDec16u SCI_receive 
+  CopyToQueue CopyToMsg EnQueue DeQueue SCI_send SCI_SendDec16u send_string 
+  SCI_receive 
 SECTION: ".data"
   pHDOCtrlPort pHDOCtrlPortDDR HDOCtrlPortMask pDIPortDDR DIPortMask pPITLDn 
   pPWMPERn pPWMDTYn u16TabSpeedX u16TabPedalY u16TabInjWidth un16TabPedalAD 
-  un16TabPedalPercent nInjWidePre.3 nPedalADPre.5 
+  un16TabPedalPercent nInjWidePre.3 nPedalADPre.5 Igtips Closetips 
 SECTION: ".bss"
   u16TCrank.1 u16TCrank0.2 A_crank A_camshift LDOStatus InjectorIndex nTicks.1 
-  nTicks.1 nSeq.2 nCycle.4 data_Address A_FlashPara nSeq.1 nSeq2.2 u16TCrank.1 
-  u16TCrank0.2 OverflowCoun.3 A_camshift Data_receive DataRec_Count 
-  DataSuccess_Flag NewMsg 
+  nCycle.4 data_Address A_FlashPara nSeq.1 nSeq2.2 u16TCrank.1 u16TCrank0.2 
+  OverflowCoun.3 A_camshift Data_receive DataRec_Count DataSuccess_Flag NewMsg 
 SECTION: ".init"
   _Startup 
 SECTION: "NON_BANKED"
@@ -3165,40 +3166,40 @@ OBJECT LIST SORTED BY ADDRESS
      un16TabPedalPercent                       2424      16      22       2   .data       
      nInjWidePre.3                             243A       2       2       2   .data       
      nPedalADPre.5                             243C       2       2       2   .data       
-     u16TCrank.1                               243E       2       2       4   .bss        
-     u16TCrank0.2                              2440       2       2       5   .bss        
-     A_crank                                   2442     19D     413      33   .bss        
-     A_camshift                                25DF     19D     413       1   .bss        
-     LDOStatus                                 277C       1       1       4   .bss        
-     InjectorIndex                             277D       2       2       1   .bss        
-     nTicks.1                                  277F       2       2       7   .bss        
-     nTicks.1                                  2781       2       2       6   .bss        
-     nSeq.2                                    2783       2       2       5   .bss        
-     nCycle.4                                  2785       2       2       3   .bss        
-     data_Address                              2787       2       2      15   .bss        
-     A_FlashPara                               2789       2       2       2   .bss        
-     nSeq.1                                    278B       1       1       2   .bss        
-     nSeq2.2                                   278C       1       1       3   .bss        
-     u16TCrank.1                               278D       2       2       5   .bss        
-     u16TCrank0.2                              278F       2       2       5   .bss        
-     OverflowCoun.3                            2791       2       2       1   .bss        
-     A_camshift                                2793     19D     413      19   .bss        
-     Data_receive                              2930       1       1       3   .bss        
-     DataRec_Count                             2931       1       1       4   .bss        
-     DataSuccess_Flag                          2932       1       1       4   .bss        
-     NewMsg                                    2933       6       6       8   .bss        
-     msg                                       2939       E      14       2   .common     
-     batteryVol_sensor                         2947      10      16       3   .common     
-     pedalpos_sensor                           2957      10      16       3   .common     
-     coolwater_sensor                          2967      10      16       3   .common     
-     crankspeed_sensor                         2977      10      16       2   .common     
-     sys_para                                  2987     200     512      97   .common     
-     MapData_read                              2B87      16      22      12   .common     
-     data_read                                 2B9D      16      22       8   .common     
-     A_EngStructPara                           2BB3       F      15       3   .common     
-     B_InjTimePara                             2BC2       C      12       6   .common     
-     ReadMsg                                   2BCE       6       6       4   .common     
-     MsgLine                                   2BD4     134     308       2   .common     
+     Igtips                                    243E       D      13       1   .data       
+     Closetips                                 244B       D      13       1   .data       
+     u16TCrank.1                               2458       2       2       4   .bss        
+     u16TCrank0.2                              245A       2       2       5   .bss        
+     A_crank                                   245C     19D     413      33   .bss        
+     A_camshift                                25F9     19D     413       1   .bss        
+     LDOStatus                                 2796       1       1       4   .bss        
+     InjectorIndex                             2797       2       2       1   .bss        
+     nTicks.1                                  2799       2       2       7   .bss        
+     nCycle.4                                  279B       2       2       3   .bss        
+     data_Address                              279D       2       2      15   .bss        
+     A_FlashPara                               279F       2       2       2   .bss        
+     nSeq.1                                    27A1       1       1       2   .bss        
+     nSeq2.2                                   27A2       1       1       3   .bss        
+     u16TCrank.1                               27A3       2       2       5   .bss        
+     u16TCrank0.2                              27A5       2       2       5   .bss        
+     OverflowCoun.3                            27A7       2       2       1   .bss        
+     A_camshift                                27A9     19D     413      19   .bss        
+     Data_receive                              2946       1       1       3   .bss        
+     DataRec_Count                             2947       1       1       4   .bss        
+     DataSuccess_Flag                          2948       1       1       4   .bss        
+     NewMsg                                    2949       6       6       8   .bss        
+     msg                                       294F       E      14       2   .common     
+     batteryVol_sensor                         295D      10      16       3   .common     
+     pedalpos_sensor                           296D      10      16       3   .common     
+     coolwater_sensor                          297D      10      16       3   .common     
+     crankspeed_sensor                         298D      10      16       2   .common     
+     sys_para                                  299D     200     512      87   .common     
+     MapData_read                              2B9D      16      22      12   .common     
+     data_read                                 2BB3      16      22       8   .common     
+     A_EngStructPara                           2BC9       F      15       3   .common     
+     B_InjTimePara                             2BD8       C      12       6   .common     
+     ReadMsg                                   2BE4       6       6       4   .common     
+     MsgLine                                   2BEA     134     308       2   .common     
      _Startup                                  C000       F      15       0   .init       
      ECT_IC0                                   C021      D1     209       1   NON_BANKED  
      PIT1_ISR                                  C0F2      30      48       1   NON_BANKED  
@@ -3224,77 +3225,78 @@ OBJECT LIST SORTED BY ADDRESS
      _Vector_14                                FFE2       2       2       0   .abs_section_ffe2
      _Vector_9                                 FFEC       2       2       0   .abs_section_ffec
      _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
-     main                                    FE8000      59      89       2   .text       
-     Init                                    FE8059      29      41       2   .text       
-     ATDInit                                 FE8082      22      34       2   .text       
-     ATDRead                                 FE80A4      39      57       6   .text       
-     CrankModuleInit                         FE80DD      2F      47       2   .text       
-     CrankSpeedRead                          FE810C      22      34       2   .text       
-     DFlashInit                              FE812E      13      19       2   .text       
-     DFlashRead                              FE8141      23      35      10   .text       
-     A3944Init                               FE8164      1A      26       2   .text       
-     L9733Init                               FE817E      14      20       2   .text       
-     DIOModuleInit                           FE8192      47      71       2   .text       
-     LDOOutput                               FE81D9      2C      44       2   .text       
-     HDOOutput                               FE8205      2F      47       2   .text       
-     DIScan                                  FE8234       A      10       2   .text       
-     DOOutput                                FE823E      2D      45      36   .text       
-     ECTInit                                 FE826B      2A      42       2   .text       
-     DelayUs                                 FE8295      1B      27       4   .text       
-     InjectorModuleInit                      FE82B0      2F      47       2   .text       
-     InjectorWide                            FE82DF      58      88       4   .text       
-     get_ratio_u16                           FE8337      8E     142       6   .text       
-     look1D_U16_U16                          FE83C5      64     100       4   .text       
-     look2D_U16_U16_U16                      FE8429      EC     236       5   .text       
-     MSCANInit                               FE8515      5C      92       2   .text       
-     MSCANSendMsg                            FE8571      60      96       2   .text       
-     MSCANGetMsg                             FE85D1      65     101       2   .text       
-     MSCANCheckRcvdMsg                       FE8636       B      11       2   .text       
-     MSCANMsgProcess                         FE8641      62      98       2   .text       
-     MSCANProcess                            FE86A3      25      37       2   .text       
-     PITInit                                 FE86C8      47      71       2   .text       
-     PITSetCycle                             FE870F      16      22       4   .text       
-     PLLInit                                 FE8725      16      22       2   .text       
-     PWMOutput                               FE873B      41      65       6   .text       
-     ValueAverage                            FE877C      69     105       2   .text       
-     SensorVarInit                           FE87E5      1E      30       8   .text       
-     SensorModuleInit                        FE8803      1D      29       2   .text       
-     SensorScan                              FE8820      4A      74       2   .text       
-     SensorProcess                           FE886A      24      36       2   .text       
-     SPIInit                                 FE888E      55      85       2   .text       
-     SPIReadWord                             FE88E3      D2     210       2   .text       
-     SysVarInit                              FE89B5      66     102       2   .text       
-     SysSingleProcess                        FE8A1B      7F     127       2   .text       
-     SysDuralProcess                         FE8A9A       9       9       2   .text       
-     SysErrProcess                           FE8AA3       1       1       2   .text       
-     SysOutputProcess                        FE8AA4      5E      94       2   .text       
-     SysTaskProcess                          FE8B02      5C      92       2   .text       
-     SysDigProcess                           FE8B5E       1       1       2   .text       
-     SingleModeJudge                         FE8B5F      25      37       2   .text       
-     DuralModeJudge                          FE8B84      8B     139       2   .text       
-     SingleAppExcute                         FE8C0F       1       1       2   .text       
-     DuralAppExcute                          FE8C10      28      40       2   .text       
-     NormalCtrl                              FE8C38      53      83       2   .text       
-     SpeedLimitCtrl                          FE8C8B      17      23       2   .text       
-     OverAccCtrl                             FE8CA2      2F      47       2   .text       
-     OverDecCtrl                             FE8CD1       D      13       2   .text       
-     EngineStopCtrl                          FE8CDE       E      14       2   .text       
-     JudgeFlashStatus                        FE8CEC      6C     108       2   .text       
-     ReadFromFlash                           FE8D58      91     145       3   .text       
-     Oil_Sup                                 FE8DE9      16      22       2   .text       
-     oil_Supply1                             FE8DFF      15      21       2   .text       
-     oil_Supply2                             FE8E14      15      21       2   .text       
-     LedTurn                                 FE8E29       E      14       4   .text       
-     MSSCIProcess                            FE8E37      5D      93       2   .text       
-     QueueIsFull                             FE8E94       F      15       2   .text       
-     QueueIsEmpty                            FE8EA3       C      12       4   .text       
-     CopyToQueue                             FE8EAF      22      34       2   .text       
-     CopyToMsg                               FE8ED1      22      34       2   .text       
-     EnQueue                                 FE8EF3      58      88       2   .text       
-     DeQueue                                 FE8F4B      50      80       2   .text       
-     SCI_send                                FE8F9B       B      11      10   .text       
-     SCI_SendDec16u                          FE8FA6      43      67      10   .text       
-     SCI_receive                             FE8FE9       9       9       2   .text       
+     main                                    FE8000      63      99       2   .text       
+     Init                                    FE8063      29      41       2   .text       
+     ATDInit                                 FE808C      22      34       2   .text       
+     ATDRead                                 FE80AE      39      57       6   .text       
+     CrankModuleInit                         FE80E7      2F      47       2   .text       
+     CrankSpeedRead                          FE8116      22      34       2   .text       
+     DFlashInit                              FE8138      13      19       2   .text       
+     DFlashRead                              FE814B      23      35      10   .text       
+     A3944Init                               FE816E      1A      26       2   .text       
+     L9733Init                               FE8188      14      20       2   .text       
+     DIOModuleInit                           FE819C      47      71       2   .text       
+     LDOOutput                               FE81E3      2C      44       2   .text       
+     HDOOutput                               FE820F      2F      47       2   .text       
+     DIScan                                  FE823E       A      10       2   .text       
+     DOOutput                                FE8248      2D      45      36   .text       
+     ECTInit                                 FE8275      2A      42       2   .text       
+     DelayUs                                 FE829F      1B      27       4   .text       
+     InjectorModuleInit                      FE82BA      2F      47       2   .text       
+     InjectorWide                            FE82E9      58      88       4   .text       
+     get_ratio_u16                           FE8341      8E     142       6   .text       
+     look1D_U16_U16                          FE83CF      64     100       4   .text       
+     look2D_U16_U16_U16                      FE8433      EC     236       5   .text       
+     MSCANInit                               FE851F      5C      92       2   .text       
+     MSCANSendMsg                            FE857B      60      96       2   .text       
+     MSCANGetMsg                             FE85DB      65     101       2   .text       
+     MSCANCheckRcvdMsg                       FE8640       B      11       2   .text       
+     MSCANMsgProcess                         FE864B      62      98       2   .text       
+     MSCANProcess                            FE86AD      25      37       2   .text       
+     PITInit                                 FE86D2      47      71       2   .text       
+     PITSetCycle                             FE8719      16      22       4   .text       
+     PLLInit                                 FE872F      16      22       2   .text       
+     PWMOutput                               FE8745      41      65       6   .text       
+     ValueAverage                            FE8786      69     105       2   .text       
+     SensorVarInit                           FE87EF      1E      30       8   .text       
+     SensorModuleInit                        FE880D      1D      29       2   .text       
+     SensorScan                              FE882A      4A      74       2   .text       
+     SensorProcess                           FE8874      24      36       2   .text       
+     SPIInit                                 FE8898      55      85       2   .text       
+     SPIReadWord                             FE88ED      D2     210       2   .text       
+     SysVarInit                              FE89BF      65     101       2   .text       
+     SysSingleProcess                        FE8A24       9       9       2   .text       
+     SysDuralProcess                         FE8A2D       9       9       2   .text       
+     SysErrProcess                           FE8A36       1       1       2   .text       
+     SysOutputProcess                        FE8A37      5E      94       2   .text       
+     SysTaskProcess                          FE8A95      5C      92       2   .text       
+     SysDigProcess                           FE8AF1       1       1       2   .text       
+     SingleModeJudge                         FE8AF2      35      53       2   .text       
+     DuralModeJudge                          FE8B27      8B     139       2   .text       
+     SingleAppExcute                         FE8BB2       1       1       2   .text       
+     DuralAppExcute                          FE8BB3      28      40       2   .text       
+     NormalCtrl                              FE8BDB      53      83       2   .text       
+     SpeedLimitCtrl                          FE8C2E       E      14       2   .text       
+     OverAccCtrl                             FE8C3C      29      41       2   .text       
+     OverDecCtrl                             FE8C65       7       7       2   .text       
+     EngineStopCtrl                          FE8C6C       E      14       2   .text       
+     JudgeFlashStatus                        FE8C7A      6C     108       2   .text       
+     ReadFromFlash                           FE8CE6      91     145       3   .text       
+     Oil_Sup                                 FE8D77      16      22       2   .text       
+     oil_Supply1                             FE8D8D      15      21       2   .text       
+     oil_Supply2                             FE8DA2      15      21       2   .text       
+     LedTurn                                 FE8DB7       E      14       4   .text       
+     MSSCIProcess                            FE8DC5      59      89       4   .text       
+     QueueIsFull                             FE8E1E       F      15       2   .text       
+     QueueIsEmpty                            FE8E2D       C      12       4   .text       
+     CopyToQueue                             FE8E39      22      34       2   .text       
+     CopyToMsg                               FE8E5B      22      34       2   .text       
+     EnQueue                                 FE8E7D      58      88       2   .text       
+     DeQueue                                 FE8ED5      50      80       2   .text       
+     SCI_send                                FE8F25       B      11      12   .text       
+     SCI_SendDec16u                          FE8F30      43      67      10   .text       
+     send_string                             FE8F73      11      17       4   .text       
+     SCI_receive                             FE8F84       9       9       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3329,7 +3331,7 @@ rtshc12.c.o (ansixbf.lib):
 MsgQueue.c.o:
   InitializeQueue QueueItemCount 
 SCI.c.o:
-  INIT_SCI send_string 
+  INIT_SCI 
 NOT USED VARIABLES
 DataFlash.c.o:
   Buffer date_read Buffer_Pedal 
@@ -3342,7 +3344,7 @@ SysTask.c.o:
   un16TabWatTemp un16TabLNGPresAD un16TabLNGPres un16TabExstTempAD 
   un16TabExstTemp un16TabLambdaAD un16TabLambda u16TabIdlingSpeed 
   u16TabStepperPos un16TabStepperCnt un16TabStepperAD 
-  u16TabDieselIdlingInjWidth un16TabPedalADbuffer 
+  u16TabDieselIdlingInjWidth un16TabPedalADbuffer nTicks.1 nSeq.2 
 DFlashModule.c.o:
   PedalSaveFlag PeadlSaveCount Buffer_Pedal 
 InjectorMod.c.o:
@@ -3361,7 +3363,7 @@ Name of initialized Object : pHDOCtrlPort
  0258025802 5802580258 0248
 ------- ROM-ADDRESS: 0xC4DC ---- SIZE       4 ---
 Filling bytes inserted
- 03262118
+ 033F2118
 ------- ROM-ADDRESS: 0xC4E0 ---- RAM-ADDRESS: 0x2118 ---- SIZE      24 ---
 Name of initialized Object : pHDOCtrlPortDDR
  025A025A02 5A025A025A 024A000200
@@ -3469,7 +3471,16 @@ Filling bytes inserted
 ------- ROM-ADDRESS: 0xC805 ---- RAM-ADDRESS: 0x243D ---- SIZE       1 ---
 Name of initialized Object : nPedalADPre.5:1
  19
-------- ROM-ADDRESS: 0xC806 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC806 ---- RAM-ADDRESS: 0x243E ---- SIZE      12 ---
+Name of initialized Object : Igtips
+ 6669726520 7375636365 7373
+------- ROM-ADDRESS: 0xC812 ---- SIZE       1 ---
+Filling bytes inserted
+ 00
+------- ROM-ADDRESS: 0xC813 ---- RAM-ADDRESS: 0x244B ---- SIZE      12 ---
+Name of initialized Object : Closetips
+ 73746F7020 776F726B69 6E67
+------- ROM-ADDRESS: 0xC81F ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3504,8 +3515,8 @@ _Vector_8                 USES ECT_IC0
 main                      USES PLLInit MSCANInit DFlashInit PITInit SPIInit 
                                 ATDInit ECTInit DIOModuleInit SensorModuleInit 
                                 CrankModuleInit InjectorModuleInit SysVarInit _PITCE 
-                                JudgeFlashStatus SysTaskProcess MSCANProcess SysDigProcess 
-                                MSSCIProcess 
+                                JudgeFlashStatus MSSCIProcess sys_para SysTaskProcess 
+                                MSCANProcess SysDigProcess 
 Init                      USES _startupData 
 ATDInit                   USES _ATD0CTL01 _ATD1CTL01 _ATD0CTL23 _ATD1CTL23 
                                 _ATD0CTL45 _ATD1CTL45 _ATD0DIEN _ATD1DIEN 
@@ -3556,8 +3567,7 @@ SPIInit                   USES _SPI0CR1 _SPI1CR1 _SPI2CR1 _SPI0CR2 _SPI1CR2
 SPIReadWord               USES _CASE_CHECKED_BYTE _PORTE _SPI0SR _SPI0DR _PTS 
                                 _SPI1SR _SPI1DR _SPI2CR1 _SPI2CR2 _SPI2SR _SPI2DR 
 SysVarInit                USES sys_para InjectorWide DOOutput 
-SysSingleProcess          USES SingleModeJudge SingleAppExcute sys_para nSeq.2 
-                                nTicks.1 
+SysSingleProcess          USES SingleModeJudge SingleAppExcute 
 SysDuralProcess           USES DuralModeJudge DuralAppExcute 
 SysOutputProcess          USES sys_para DOOutput nInjWidePre.3 nCycle.4 
                                 InjectorWide 
@@ -3587,13 +3597,14 @@ oil_Supply1               USES LedTurn _ECT_TIE _ECT_TCNT B_InjTimePara
 oil_Supply2               USES LedTurn _ECT_TIE _ECT_TCNT B_InjTimePara 
                                 _ECT_TC7 
 LedTurn                   USES DOOutput 
-MSSCIProcess              USES ReadMsg MsgLine DeQueue sys_para SCI_SendDec16u 
-                                SCI_send 
+MSSCIProcess              USES ReadMsg MsgLine DeQueue sys_para Igtips 
+                                send_string Closetips SCI_SendDec16u SCI_send 
 EnQueue                   USES QueueIsFull QueueIsEmpty CopyToQueue 
                                 SCI_SendDec16u SCI_send 
 DeQueue                   USES QueueIsEmpty CopyToMsg SCI_SendDec16u SCI_send 
 SCI_send                  USES _SCI4SR1 _SCI4DRL 
 SCI_SendDec16u            USES SCI_send 
+send_string               USES SCI_send 
 SCI_receive               USES _SCI4SR1 _SCI4DRL 
 
 *********************************************************************************************
@@ -3667,6 +3678,28 @@ DEPENDENCY TREE
  |  |     | 
  |  |     +- DFlashRead           (see above)
  |  |        
+ |  +- MSSCIProcess        
+ |  |  | 
+ |  |  +- DeQueue             
+ |  |  |  | 
+ |  |  |  +- QueueIsEmpty        
+ |  |  |  |    
+ |  |  |  +- CopyToMsg           
+ |  |  |  |    
+ |  |  |  +- SCI_SendDec16u      
+ |  |  |  |  | 
+ |  |  |  |  +- SCI_send            
+ |  |  |  |       
+ |  |  |  +- SCI_send             (see above)
+ |  |  |     
+ |  |  +- send_string         
+ |  |  |  | 
+ |  |  |  +- SCI_send             (see above)
+ |  |  |     
+ |  |  +- SCI_SendDec16u       (see above)
+ |  |  |  
+ |  |  +- SCI_send             (see above)
+ |  |     
  |  +- SysTaskProcess      
  |  |  | 
  |  |  +- DIScan              
@@ -3681,10 +3714,8 @@ DEPENDENCY TREE
  |  |  |       
  |  |  +- SensorProcess       
  |  |  |  | 
- |  |  |  +- SCI_SendDec16u      
- |  |  |  |  | 
- |  |  |  |  +- SCI_send            
- |  |  |  |       
+ |  |  |  +- SCI_SendDec16u       (see above)
+ |  |  |  |  
  |  |  |  +- DOOutput             (see above)
  |  |  |     
  |  |  +- _CASE_CHECKED_BYTE   (see above)
@@ -3752,23 +3783,7 @@ DEPENDENCY TREE
  |  |     +- MSCANSendMsg        
  |  |          
  |  +- SysDigProcess       
- |  |    
- |  +- MSSCIProcess        
- |     | 
- |     +- DeQueue             
- |     |  | 
- |     |  +- QueueIsEmpty        
- |     |  |    
- |     |  +- CopyToMsg           
- |     |  |    
- |     |  +- SCI_SendDec16u       (see above)
- |     |  |  
- |     |  +- SCI_send             (see above)
- |     |     
- |     +- SCI_SendDec16u       (see above)
- |     |  
- |     +- SCI_send             (see above)
- |        
+ |       
  +- _Startup            
     | 
     +- Init                
@@ -3866,5 +3881,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 15
-Total size of all blocks to be downloaded: 6158
+Total size of all blocks to be downloaded: 6082
 

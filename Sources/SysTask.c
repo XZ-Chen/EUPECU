@@ -15,7 +15,8 @@ SYS_PARA sys_para;
 #define G_un16SysMode      sys_para.item.mem_var.un16SysMode       //0系统主模式
 #define G_un16DuralMode    sys_para.item.mem_var.un16DuralMode     //1双燃料模式
 #define G_un16InjWide      sys_para.item.mem_var.un16InjWide       //2喷射时间
-#define G_un16StepperPos   sys_para.item.mem_var.un16StepperPos    //3电机位置
+#define G_un16IgSignal     sys_para.item.mem_var.un16IgSignal      //3点火信号
+#define G_un16SingleModeJudge   sys_para.item.mem_var.un16bSingleModeJudge
 
 #define G_un16Pedal        sys_para.item.mem_var.un16Pedal         //4
 #define G_bSensorScan      sys_para.item.mem_var.bSensorScan       //
@@ -54,7 +55,7 @@ void SysVarInit(void)
        *(G_SysParaBgn + i) = 0;
     }
     //for test/////////////////////////////////
-    G_un16StepperPos = 0;        //尝试给不同的值
+           //尝试给不同的值
     G_un16HSK1 = LNG_HSK1;
     G_un16LSK2 = LNG_LSK2;
     G_un16StpP1 = STEPPER_P1;
@@ -62,6 +63,7 @@ void SysVarInit(void)
     G_un16HighSpeed = LNG_HIGHSPEED;
     G_un16InjWide = 0;
     //for test/////////////////////////////////
+    G_un16IgSignal = OFF;
     G_un16SysMode = SYS_SINGLE;
     G_un16DuralMode = DURAL_MODE_STOP;
     G_DOLNGRVRelay = OFF;
@@ -92,7 +94,7 @@ void SysSingleProcess(void){
    static uint16 nSeq = 0;
    SingleModeJudge();
    SingleAppExcute();
-   if(G_DILNGSwitch != ON)
+/*   if(G_DILNGSwitch != ON)
    {
        nSeq = 0;
        if(G_DOLNGRVRelay == ON) 
@@ -134,7 +136,7 @@ void SysSingleProcess(void){
         G_DOLNGRVRelay = OFF;
         G_un16SysMode = SYS_DURAL;
       }
-   }
+   }  */
 }
 
 
@@ -200,7 +202,8 @@ void SysTaskProcess(void)
       SensorProcess(G_SensorAddrBgn);
       G_bSensorScan = FALSE;
     }
-    if(G_bModeJudge) {  
+    if(G_bModeJudge) 
+    {  
       switch(G_un16SysMode) {
         case SYS_SINGLE:
           SysSingleProcess();    //单燃料模式处理          
@@ -211,8 +214,8 @@ void SysTaskProcess(void)
         case SYS_ERR:
           SysErrProcess();
           break;  
-      }
-      G_bModeJudge = FALSE;
+    }
+    G_bModeJudge = FALSE;
     }
     if(G_bOutput) { 
       SysOutputProcess();
@@ -234,6 +237,11 @@ void SingleModeJudge(void)
 	if(G_DILNGSwitch == ON) { //确保双燃料开关关闭
 	   G_un16SysMode = SYS_DURAL;
 	   return;
+	}
+	if(G_un16IgSignal == ON) 
+       {
+		G_un16IgSignal = OFF;
+		G_un16DuralMode = SINGLE_MODE_IDLE;
 	}
 	G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
 	 //nPedalRatio = 1000 + 2*G_un16PedalPosAD - 2*nPedalADPre;
@@ -344,7 +352,7 @@ void SingleAppExcute(void)
 ///////////////////////////////////////////////////////
 void DuralAppExcute(void){
   
-	switch( G_un16DuralMode)
+	switch(G_un16DuralMode)
 	{
 		case DURAL_MODE_STOP:
 			EngineStopCtrl();
@@ -394,8 +402,6 @@ void NormalCtrl()
 /*************************************************************/
 void SpeedLimitCtrl()
 {
-	 if(G_un16StepperPos != 0)	  
-       G_un16StepperPos = 0;
 	 
    if(G_un16InjWide != 0)
        G_un16InjWide = 0;
@@ -408,7 +414,6 @@ void SpeedLimitCtrl()
 void OverAccCtrl()
 {
     G_DOLNGRVRelay = ON;
-    G_un16StepperPos = 500;
     G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
 						        	u16TabSpeedX, 19,\
 							        u16TabPedalY, 14,u16TabInjWidth);
@@ -419,7 +424,6 @@ void OverAccCtrl()
 void OverDecCtrl()
 {   
     G_DOLNGRVRelay = ON;
-    G_un16StepperPos = 300;
     //G_un16InjWide = 1500;
 }
 /*************************************************************/

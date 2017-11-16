@@ -68,6 +68,7 @@ typedef union _sys_para{
 	        uint16 un16InjEnable; 
 	        uint16 un16InjOilMo;
 	        uint16 un16InjWidth;
+	        uint16 un16InjRadian;
        uint16 un16Reserved[179];
    }item;
 }SYS_PARA;

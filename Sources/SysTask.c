@@ -6,7 +6,7 @@
 //备注：      适用于MC9S12XS128               			                       *
 //-------------------------------------------------------------------------*
 #include "SysTask.h"
-#include "MAP.h"
+//#include "MAP.h"
 #include "Includes.h"
 #include "DFlashModule.h"
 
@@ -252,7 +252,7 @@ void SingleModeJudge(void)
 		G_un16IgSignal = OFF;
 		G_un16DuralMode = SINGLE_MODE_IDLE;
 	}
-	G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
+	//G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
 	 //nPedalRatio = 1000 + 2*G_un16PedalPosAD - 2*nPedalADPre;
 	 //********************怠速工况****************************//
 	 if(G_DIIGSwitch == ON) //判断点火开关 
@@ -318,7 +318,7 @@ void DuralModeJudge(void)
 	   return;
 	}
   G_un16DuralMode = DURAL_MODE_STOP; //    DURAL_MODE_STOP = 0
-  G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
+  //G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
   nPedalRatio = 1000 + 2*G_un16PedalPosAD - 2*nPedalADPre;  
   //********************超速工况****************************//
   if(G_un16RPM>2800)  
@@ -404,9 +404,9 @@ void NormalCtrl()
   uint32 nTemp;
   G_DOLNGRVRelay = ON;
 	//***************查询map*******************************//
-	G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
-						        	u16TabSpeedX, 19,\
-							        u16TabPedalY, 14,u16TabInjWidth);
+	//G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
+						        	//u16TabSpeedX, 19,\
+							        //u16TabPedalY, 14,u16TabInjWidth);
 	//***************喷射阀脉宽计算*******************//
 	if (G_un16RPM >= G_un16HighSpeed)	
 	{
@@ -439,9 +439,9 @@ void SpeedLimitCtrl()
 void OverAccCtrl()
 {
     G_DOLNGRVRelay = ON;
-    G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
+  /*  G_un16InjWide = look2D_U16_U16_U16(G_un16RPM,G_un16Pedal, \
 						        	u16TabSpeedX, 19,\
-							        u16TabPedalY, 14,u16TabInjWidth);
+							        u16TabPedalY, 14,u16TabInjWidth);  */
 }
 /*************************************************************/
 /*                      双燃料急减速模式                     */

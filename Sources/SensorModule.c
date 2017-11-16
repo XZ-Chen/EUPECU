@@ -9,8 +9,6 @@
 #include "CrankModule.h"
 #include "DebugConfig.h"
 
-//#include "MAP.h"
-
 //-------------------------------------------------------------------------*
 //函数名: SensorModuleInit                                                 	     *
 //功  能: 初始化各个传感器模块                                                    * 

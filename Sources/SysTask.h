@@ -23,10 +23,10 @@ typedef union _sys_para{
           uint16 un16DuralMode;     //1 双燃料模式
           uint16 un16InjWide;       //2 喷射时间 喷射脉冲宽度
           uint16 un16IgSignal;      //3 点火开关   
-          uint16 un16bSingleModeJudge;      //4 LNG状态
+          uint16 un16bSingleMode;      //4 单燃料模式工况
           uint16 bSensorScan;       //5 传感器扫描
           uint16 bIOScan;           //6 IO口扫描  
-          uint16 bModeJudge;        //7 模式判别
+          uint16 bModeJudge;        //7 双燃料模式判别
           uint16 bOutput;           //8 输出
           uint16 un16Pedal;         //9 油门位置
                        
@@ -55,8 +55,20 @@ typedef union _sys_para{
 	      	uint16 Reversed1;
 	      	uint16 Reversed2;
 	     }CylinInj_var;
-	   
-       uint16 un16Reserved[188];
+	     struct{    //8
+	        uint16 StartSp;  //停止工况运行最高转速
+	        uint16 LowStp;   //启动工况的最低转速
+	        uint16 HiStp;    //启动工况最高转速
+	        uint16 OilStp;   //启动工况中开始供油转速
+	        uint8  HiStCount;     //统计次数：超过HiStp
+	        uint8  PaTiSt;    //最高启动转数检测次数
+	        uint16 Reversed1;
+	      	uint16 Reversed2;
+	     }StartCondition_var;
+	        uint16 un16InjEnable; 
+	        uint16 un16InjOilMo;
+	        uint16 un16InjWidth;
+       uint16 un16Reserved[179];
    }item;
 }SYS_PARA;
 
@@ -71,10 +83,10 @@ typedef union _sys_para{
 #define SINGLE_MODE_IDLE        2
 #define SINGLE_MODE_NORMAL      3
 
-#define DURAL_MODE_OVERACC     4
-#define DURAL_MODE_OVERDEC     5
-#define DURAL_MODE_SPEEDLIMIT  6
-#define DURAL_MODE_OVERSPEED   7
+#define SINGLE_MODE_OVERACC     4
+#define SINGLE_MODE_OVERDEC     5
+#define SINGLE_MODE_SPEEDLIMIT  6
+#define SINGLE_MODE_OVERSPEED   7
 
 #define DURAL_MODE_STOP        0   
 #define DURAL_MODE_START       1
@@ -131,4 +143,6 @@ void SpeedLimitCtrl(void);
 void EngineTestCtrl(void);
 void CopyPedalMap(void);
 
+void IdleCondition(void);
+void StartCondition(void);
 #endif

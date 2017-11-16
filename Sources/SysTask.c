@@ -9,14 +9,16 @@
 #include "MAP.h"
 #include "Includes.h"
 #include "DFlashModule.h"
+
 SYS_PARA sys_para;
-                           
+
+#define G_InjEnable        sys_para.item.un16InjEnable                           
 #define G_SysParaBgn       sys_para.data
 #define G_un16SysMode      sys_para.item.mem_var.un16SysMode       //0系统主模式
 #define G_un16DuralMode    sys_para.item.mem_var.un16DuralMode     //1双燃料模式
 #define G_un16InjWide      sys_para.item.mem_var.un16InjWide       //2喷射时间
 #define G_un16IgSignal     sys_para.item.mem_var.un16IgSignal      //3点火信号
-#define G_un16SingleModeJudge   sys_para.item.mem_var.un16bSingleModeJudge
+#define G_un16SingleMode   sys_para.item.mem_var.un16bSingleMode
 
 #define G_un16Pedal        sys_para.item.mem_var.un16Pedal         //4
 #define G_bSensorScan      sys_para.item.mem_var.bSensorScan       //
@@ -44,6 +46,12 @@ SYS_PARA sys_para;
 
 #define G_PedalAdBgn       sys_para.item.un16PedalAd
 
+#define G_STLowStp     sys_para.item.StartCondition_var.LowStp //
+#define G_STHiStp      sys_para.item.StartCondition_var.HiStp //
+#define G_STOilStp     sys_para.item.StartCondition_var.OilStp //
+#define G_STHiStCount  sys_para.item.StartCondition_var.HiStCount //
+#define G_STPaTiSt     sys_para.item.StartCondition_var.PaTiSt //
+
 
 ////////////////////////////////////////////////////////
 //全局变量初始化                                      //
@@ -63,6 +71,7 @@ void SysVarInit(void)
     G_un16HighSpeed = LNG_HIGHSPEED;
     G_un16InjWide = 0;
     //for test/////////////////////////////////
+    G_InjEnable = OFF;
     G_un16IgSignal = OFF;
     G_un16SysMode = SYS_SINGLE;
     G_un16DuralMode = DURAL_MODE_STOP;
@@ -263,40 +272,38 @@ void SingleModeJudge(void)
 	 }
 }
 ///////////////////////////////////////////////////////
-//怠速工况处理函数			                                 //
+//怠速工况处理函数		
+/*#define G_STLowStp     //
+#define G_STHiStp        //
+#define G_STOilStp      //
+#define G_STHiStCount   //
+#define G_STPaTiSt	                                 // */
 ///////////////////////////////////////////////////////
-/*void IdleCondition()
+void IdleCondition(void)
 {
-	if(A_UI_ShaSpeCrl < A_UI_LtSp)
+	if(G_un16RPM < G_STLowStp)  //如果当前转速低于最低启动转速
 	{
-		A_C_Mode = 0;
-		A_C_Idke = 0;
+		G_un16SingleMode = SINGLE_MODE_STOP;   //工况转为停止工况
 	}
 	else
 	{
-		if(A_UI_Pedal > 0)
+		if(G_un16RPM > G_STHiStp)
 		{
-			A_C_Mode = 3;
-			A_C_IdKe = 0;
+			G_STHiStCount++;
+			if(G_STHiStCount > G_STPaTiSt)
+			    G_un16SingleMode = SINGLE_MODE_IDLE; //转速提高 启动成功进入怠速工况
+			else
+			    StartCondition_Sub();  //如果没有进入启动控制策略
 		}
-		else 
-		{
-			A_UI_IdGoS = look1D_U16_U16(unsigned short xvalue, unsigned short xtable [ ], unsigned char xsize, \ unsigned short ztable [ ])
-			if(A_C_Idke == 0)
-			{
-				A_I_Idle_PID_Array[2] = 0;
-				A_I_Idle_PID_Array[3] = A_UI_InjOilMo;
-				A_C_IdKe = 1;
-			}
-		}
+  	else 
+	  {
+  	  	G_STHiStCount = 0;
+  	  	StartCondition_Sub();
+	  }
 	}
 }
-         
 
-
-
-	
-}       */
+    	      
 ///////////////////////////////////////////////////////
 //系统双燃料模式处理                                 //
 ///////////////////////////////////////////////////////
@@ -345,7 +352,25 @@ void DuralModeJudge(void)
 ///////////////////////////////////////////////////////
 void SingleAppExcute(void)
 {
-
+ 	switch(G_un16SingleMode)
+	{
+		case SINGLE_MODE_STOP:
+			IdleCondition();
+			break;
+	
+		case SINGLE_MODE_NORMAL:
+			//NormalCtrl();
+			break;
+		case SINGLE_MODE_SPEEDLIMIT:
+			//SpeedLimitCtrl();
+			break;
+		case SINGLE_MODE_OVERACC:
+			//OverAccCtrl();
+			break;
+		case SINGLE_MODE_OVERDEC:
+			//OverDecCtrl();
+			break;
+	}
 }
 ///////////////////////////////////////////////////////
 //系统双燃料执行器输出处理                           //

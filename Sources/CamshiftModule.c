@@ -1,5 +1,5 @@
 #include "CamshiftModule.h"
-
+#include "MAP.h"
 static CAMSHIFT_GROUP_ACCUM A_camshift;
 
 void CamshiftModuleInit(void){

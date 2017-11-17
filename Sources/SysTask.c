@@ -71,6 +71,11 @@ void SysVarInit(void)
     G_un16HighSpeed = LNG_HIGHSPEED;
     G_un16InjWide = 0;
     //for test/////////////////////////////////
+    G_STOilStp = 0;
+    G_InjEnable = OFF;
+    G_STHiStCount = 0;
+    G_STHiStp = 600;
+    G_STLowStp = 100; //最低启动转速
     G_InjEnable = OFF;
     G_un16IgSignal = OFF;
     G_un16SysMode = SYS_SINGLE;
@@ -247,29 +252,14 @@ void SingleModeJudge(void)
 	   G_un16SysMode = SYS_DURAL;
 	   return;
 	}
-	if(G_un16IgSignal == ON) 
-       {
+	
+	if(G_un16IgSignal == ON)   //如果收到点火信号 调试阶段由串口接收 后续由IO中断发生
+  {
 		G_un16IgSignal = OFF;
-		G_un16DuralMode = SINGLE_MODE_IDLE;
-	}
-	//G_un16Pedal = look1D_U16_U16(G_un16PedalPosAD,un16TabPedalAD,10,un16TabPedalPercent);  //查找油门踏板MAP	
-	 //nPedalRatio = 1000 + 2*G_un16PedalPosAD - 2*nPedalADPre;
-	 //********************怠速工况****************************//
-	 if(G_DIIGSwitch == ON) //判断点火开关 
-	 {
-		 if(G_un16RPM>400 )  
-		{
-		//	if(arriveTDC)
-		//	{
-				 //***************查询map*******************************//
-				//G_un16InjWide =look1D_U16_U16(G_un16RPM,u16TabDieselIdlingInjWidth,10,u16TabIdlingSpeed);  //查找油门踏板MAP	
-		//	}
-		}
-	 }
-	 else
-	 {
-	 	return;
-	 }
+		G_un16DuralMode = SINGLE_MODE_IDLE; //进入启动工况
+		return;
+  }
+
 }
 ///////////////////////////////////////////////////////
 //怠速工况处理函数		
@@ -279,7 +269,7 @@ void SingleModeJudge(void)
 #define G_STHiStCount   //
 #define G_STPaTiSt	                                 // */
 ///////////////////////////////////////////////////////
-void IdleCondition(void)
+void StartCondition(void)
 {
 	if(G_un16RPM < G_STLowStp)  //如果当前转速低于最低启动转速
 	{
@@ -354,8 +344,8 @@ void SingleAppExcute(void)
 {
  	switch(G_un16SingleMode)
 	{
-		case SINGLE_MODE_STOP:
-			IdleCondition();
+		case SINGLE_MODE_START:
+			StartCondition();
 			break;
 	
 		case SINGLE_MODE_NORMAL:

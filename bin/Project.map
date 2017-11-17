@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "I:\ECUEUP\EUPECU\bin\Project.abs"
+PROGRAM "E:\标定系统下位机\EUPECU\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -64,7 +64,7 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        18     R     0xC00F     0xC020   ROM_C000
 NON_BANKED                      1748     R     0xC021     0xC6F4   ROM_C000
 .copy                           1522     R     0xC6F5     0xCCE6   ROM_C000
-.text                           3971     R   0xFE8000   0xFE8F82   PAGE_FE
+.text                           4048     R   0xFE8000   0xFE8FCF   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .data                           1524   R/W     0x2100     0x26F3   RAM
 .abs_section_ffee                  2     R     0xFFEE     0xFFEF   .absSeg0
@@ -629,7 +629,7 @@ NON_BANKED                      1748     R     0xC021     0xC6F4   ROM_C000
 .vectSeg557_vect                   2     R     0xFFFE     0xFFFF   .vectSeg557
 
 Summary of section sizes per section type:
-READ_ONLY (R):        1C7E (dec:     7294)
+READ_ONLY (R):        1CCB (dec:     7371)
 READ_WRITE (R/W):      FBA (dec:     4026)
 NO_INIT (N/I):         2AB (dec:      683)
 
@@ -719,7 +719,7 @@ MODULE:                 -- interrupt.c.o --
 MODULE:                 -- lookup_table.c.o --
 - PROCEDURES:
      get_ratio_u16                           FE8341      8E     142       4   .text       
-     look2D_U16_U16_U16                      FE83CF      EC     236       5   .text       
+     look2D_U16_U16_U16                      FE83CF      EC     236       7   .text       
 - VARIABLES:
 MODULE:                 -- MSCAN.c.o --
 - PROCEDURES:
@@ -766,28 +766,28 @@ MODULE:                 -- SPI.c.o --
 - VARIABLES:
 MODULE:                 -- SysTask.c.o --
 - PROCEDURES:
-     SysVarInit                              FE895B      68     104       2   .text       
-     SysSingleProcess                        FE89C3       9       9       2   .text       
-     SysDuralProcess                         FE89CC       9       9       2   .text       
-     SysErrProcess                           FE89D5       1       1       2   .text       
-     SysOutputProcess                        FE89D6      5E      94       2   .text       
-     SysTaskProcess                          FE8A34      5C      92       2   .text       
-     SysDigProcess                           FE8A90       1       1       2   .text       
-     SingleModeJudge                         FE8A91      1E      30       2   .text       
-     IdleCondition                           FE8AAF      2C      44       2   .text       
-     DuralModeJudge                          FE8ADB      75     117       2   .text       
-     SingleAppExcute                         FE8B50       A      10       2   .text       
-     DuralAppExcute                          FE8B5A      28      40       2   .text       
-     NormalCtrl                              FE8B82      31      49       2   .text       
-     SpeedLimitCtrl                          FE8BB3       E      14       2   .text       
-     OverAccCtrl                             FE8BC1       7       7       2   .text       
-     OverDecCtrl                             FE8BC8       7       7       2   .text       
-     EngineStopCtrl                          FE8BCF       E      14       2   .text       
+     SysVarInit                              FE895B      7A     122       2   .text       
+     SysSingleProcess                        FE89D5       9       9       2   .text       
+     SysDuralProcess                         FE89DE       9       9       2   .text       
+     SysErrProcess                           FE89E7       1       1       2   .text       
+     SysOutputProcess                        FE89E8      5E      94       2   .text       
+     SysTaskProcess                          FE8A46      5C      92       2   .text       
+     SysDigProcess                           FE8AA2       1       1       2   .text       
+     SingleModeJudge                         FE8AA3      1E      30       2   .text       
+     StartCondition                          FE8AC1      2C      44       2   .text       
+     DuralModeJudge                          FE8AED      75     117       2   .text       
+     SingleAppExcute                         FE8B62       B      11       2   .text       
+     DuralAppExcute                          FE8B6D      28      40       2   .text       
+     NormalCtrl                              FE8B95      31      49       2   .text       
+     SpeedLimitCtrl                          FE8BC6       E      14       2   .text       
+     OverAccCtrl                             FE8BD4       7       7       2   .text       
+     OverDecCtrl                             FE8BDB       7       7       2   .text       
+     EngineStopCtrl                          FE8BE2       E      14       2   .text       
 - VARIABLES:
      nInjWidePre.3                             2170       2       2       2   .data       
      nPedalADPre.5                             2172       2       2       2   .data       
      nCycle.4                                  2A37       2       2       3   .bss        
-     sys_para                                  2C39     200     512      99   .common     
+     sys_para                                  2C39     200     512     108   .common     
 MODULE:                 -- MC9S12XET256.c.o --
 - PROCEDURES:
 - VARIABLES:
@@ -1341,8 +1341,8 @@ MODULE:                 -- MC9S12XET256.c.o --
      _XGR7                                      3AE       2       2       0   .abs_section_3ae
 MODULE:                 -- DFlashModule.c.o --
 - PROCEDURES:
-     JudgeFlashStatus                        FE8BDD      6C     108       2   .text       
-     ReadFromFlash                           FE8C49      91     145       3   .text       
+     JudgeFlashStatus                        FE8BF0      6C     108       2   .text       
+     ReadFromFlash                           FE8C5C      91     145       3   .text       
 - VARIABLES:
      data_Address                              2A39       2       2      15   .bss        
      A_FlashPara                               2A3B       2       2       2   .bss        
@@ -1350,9 +1350,9 @@ MODULE:                 -- DFlashModule.c.o --
      data_read                                 2E4F      16      22       8   .common     
 MODULE:                 -- InjectorMod.c.o --
 - PROCEDURES:
-     Oil_Sup                                 FE8CDA      16      22       2   .text       
-     oil_Supply1                             FE8CF0      15      21       2   .text       
-     oil_Supply2                             FE8D05      15      21       2   .text       
+     Oil_Sup                                 FE8CED      16      22       2   .text       
+     oil_Supply1                             FE8D03      15      21       2   .text       
+     oil_Supply2                             FE8D18      15      21       2   .text       
      ECT_OC6                                   C1A3      84     132       1   NON_BANKED  
      ECT_OC7                                   C227      84     132       1   NON_BANKED  
 - VARIABLES:
@@ -1415,23 +1415,23 @@ MODULE:                 -- VREGS.C.o (ansixbf.lib) --
 - VARIABLES:
 MODULE:                 -- LedKey.c.o --
 - PROCEDURES:
-     LedTurn                                 FE8D1A       E      14       4   .text       
+     LedTurn                                 FE8D2D       E      14       4   .text       
 - VARIABLES:
 MODULE:                 -- MSMQ.c.o --
 - PROCEDURES:
-     MSSCIProcess                            FE8D28      59      89       4   .text       
+     MSSCIProcess                            FE8D3B      59      89       4   .text       
 - VARIABLES:
      Igtips                                    2174       D      13       1   .data       
      Closetips                                 2181       D      13       1   .data       
      ReadMsg                                   2E80       6       6       4   .common     
 MODULE:                 -- MsgQueue.c.o --
 - PROCEDURES:
-     QueueIsFull                             FE8D81       F      15       2   .text       
-     QueueIsEmpty                            FE8D90       C      12       4   .text       
-     CopyToQueue                             FE8D9C      22      34       2   .text       
-     CopyToMsg                               FE8DBE      22      34       2   .text       
-     EnQueue                                 FE8DE0      58      88       2   .text       
-     DeQueue                                 FE8E38      50      80       2   .text       
+     QueueIsFull                             FE8D94       F      15       2   .text       
+     QueueIsEmpty                            FE8DA3       C      12       4   .text       
+     CopyToQueue                             FE8DAF      22      34       2   .text       
+     CopyToMsg                               FE8DD1      22      34       2   .text       
+     EnQueue                                 FE8DF3      58      88       2   .text       
+     DeQueue                                 FE8E4B      50      80       2   .text       
      receivedata                               C671      84     132       1   NON_BANKED  
 - VARIABLES:
      Data_receive                              2BE2       1       1       3   .bss        
@@ -1442,21 +1442,21 @@ MODULE:                 -- MsgQueue.c.o --
      MsgLine                                   2E86     134     308       2   .common     
 MODULE:                 -- SCI.c.o --
 - PROCEDURES:
-     SCI_send                                FE8E88       B      11      12   .text       
-     SCI_SendDec16u                          FE8E93      43      67      10   .text       
-     send_string                             FE8ED6      11      17       4   .text       
-     SCI_receive                             FE8EE7       9       9       2   .text       
+     SCI_send                                FE8E9B       B      11      12   .text       
+     SCI_SendDec16u                          FE8EA6      43      67      10   .text       
+     send_string                             FE8EE9      11      17       4   .text       
+     SCI_receive                             FE8EFA       9       9       2   .text       
 - VARIABLES:
 MODULE:                 -- ConditionProcess.c.o --
 - PROCEDURES:
-     StartCondition_Sub                      FE8EF0      93     147       2   .text       
+     StartCondition_Sub                      FE8F03      CD     205       2   .text       
 - VARIABLES:
-     u16TabCWTX                                218E      14      20       1   .data       
-     u16TabSTSpeedY                            21A2      3C      60       1   .data       
+     u16TabCWTX                                218E      14      20       2   .data       
+     u16TabSTSpeedY                            21A2      3C      60       2   .data       
      u16TabInjOilMoX                           21DE      14      20       1   .data       
      u16TabSpeedY                              21F2      3C      60       1   .data       
      u16TabInjWidth                            222E     258     600       1   .data       
-     u16TabStartOil                            2486     258     600       1   .data       
+     u16TabStartOil                            2486     258     600       2   .data       
      un16TabPedalAD                            26DE      16      22       2   .data       
 
 *********************************************************************************************
@@ -1480,7 +1480,7 @@ MODULE STATISTIC
   PWM.c.o                                     32     65      0
   SensorModule.c.o                            64    274      0
   SPI.c.o                                      0    295      0
-  SysTask.c.o                                518    642      0
+  SysTask.c.o                                518    661      0
   MC9S12XET256.c.o                           683      0      0
   DFlashModule.c.o                            48    253      0
   InjectorMod.c.o                             29    328      4
@@ -1494,7 +1494,7 @@ MODULE STATISTIC
   MSMQ.c.o                                    32     89      0
   MsgQueue.c.o                               317    395      2
   SCI.c.o                                      0    104      0
-  ConditionProcess.c.o                      1382    147      0
+  ConditionProcess.c.o                      1382    205      0
   other                                      256     20   1522
 
 *********************************************************************************************
@@ -1508,7 +1508,7 @@ SECTION: ".text"
   MSCANMsgProcess MSCANProcess PITInit PITSetCycle PLLInit PWMOutput 
   ValueAverage SensorVarInit SensorModuleInit SensorScan SensorProcess SPIInit 
   SPIReadWord SysVarInit SysSingleProcess SysDuralProcess SysErrProcess 
-  SysOutputProcess SysTaskProcess SysDigProcess SingleModeJudge IdleCondition 
+  SysOutputProcess SysTaskProcess SysDigProcess SingleModeJudge StartCondition 
   DuralModeJudge SingleAppExcute DuralAppExcute NormalCtrl SpeedLimitCtrl 
   OverAccCtrl OverDecCtrl EngineStopCtrl JudgeFlashStatus ReadFromFlash Oil_Sup 
   oil_Supply1 oil_Supply2 LedTurn MSSCIProcess QueueIsFull QueueIsEmpty 
@@ -3212,12 +3212,12 @@ OBJECT LIST SORTED BY ADDRESS
      nPedalADPre.5                             2172       2       2       2   .data       
      Igtips                                    2174       D      13       1   .data       
      Closetips                                 2181       D      13       1   .data       
-     u16TabCWTX                                218E      14      20       1   .data       
-     u16TabSTSpeedY                            21A2      3C      60       1   .data       
+     u16TabCWTX                                218E      14      20       2   .data       
+     u16TabSTSpeedY                            21A2      3C      60       2   .data       
      u16TabInjOilMoX                           21DE      14      20       1   .data       
      u16TabSpeedY                              21F2      3C      60       1   .data       
      u16TabInjWidth                            222E     258     600       1   .data       
-     u16TabStartOil                            2486     258     600       1   .data       
+     u16TabStartOil                            2486     258     600       2   .data       
      un16TabPedalAD                            26DE      16      22       2   .data       
      u16TCrank.1                               26F4       2       2       4   .bss        
      u16TCrank0.2                              26F6       2       2       5   .bss        
@@ -3244,7 +3244,7 @@ OBJECT LIST SORTED BY ADDRESS
      pedalpos_sensor                           2C09      10      16       3   .common     
      coolwater_sensor                          2C19      10      16       3   .common     
      crankspeed_sensor                         2C29      10      16       2   .common     
-     sys_para                                  2C39     200     512      99   .common     
+     sys_para                                  2C39     200     512     108   .common     
      MapData_read                              2E39      16      22      12   .common     
      data_read                                 2E4F      16      22       8   .common     
      A_EngStructPara                           2E65       F      15       3   .common     
@@ -3315,7 +3315,7 @@ OBJECT LIST SORTED BY ADDRESS
      InjectorModuleInit                      FE82BA      2F      47       2   .text       
      InjectorWide                            FE82E9      58      88       4   .text       
      get_ratio_u16                           FE8341      8E     142       4   .text       
-     look2D_U16_U16_U16                      FE83CF      EC     236       5   .text       
+     look2D_U16_U16_U16                      FE83CF      EC     236       7   .text       
      MSCANInit                               FE84BB      5C      92       2   .text       
      MSCANSendMsg                            FE8517      60      96       2   .text       
      MSCANGetMsg                             FE8577      65     101       2   .text       
@@ -3333,41 +3333,41 @@ OBJECT LIST SORTED BY ADDRESS
      SensorProcess                           FE8810      24      36       2   .text       
      SPIInit                                 FE8834      55      85       2   .text       
      SPIReadWord                             FE8889      D2     210       2   .text       
-     SysVarInit                              FE895B      68     104       2   .text       
-     SysSingleProcess                        FE89C3       9       9       2   .text       
-     SysDuralProcess                         FE89CC       9       9       2   .text       
-     SysErrProcess                           FE89D5       1       1       2   .text       
-     SysOutputProcess                        FE89D6      5E      94       2   .text       
-     SysTaskProcess                          FE8A34      5C      92       2   .text       
-     SysDigProcess                           FE8A90       1       1       2   .text       
-     SingleModeJudge                         FE8A91      1E      30       2   .text       
-     IdleCondition                           FE8AAF      2C      44       2   .text       
-     DuralModeJudge                          FE8ADB      75     117       2   .text       
-     SingleAppExcute                         FE8B50       A      10       2   .text       
-     DuralAppExcute                          FE8B5A      28      40       2   .text       
-     NormalCtrl                              FE8B82      31      49       2   .text       
-     SpeedLimitCtrl                          FE8BB3       E      14       2   .text       
-     OverAccCtrl                             FE8BC1       7       7       2   .text       
-     OverDecCtrl                             FE8BC8       7       7       2   .text       
-     EngineStopCtrl                          FE8BCF       E      14       2   .text       
-     JudgeFlashStatus                        FE8BDD      6C     108       2   .text       
-     ReadFromFlash                           FE8C49      91     145       3   .text       
-     Oil_Sup                                 FE8CDA      16      22       2   .text       
-     oil_Supply1                             FE8CF0      15      21       2   .text       
-     oil_Supply2                             FE8D05      15      21       2   .text       
-     LedTurn                                 FE8D1A       E      14       4   .text       
-     MSSCIProcess                            FE8D28      59      89       4   .text       
-     QueueIsFull                             FE8D81       F      15       2   .text       
-     QueueIsEmpty                            FE8D90       C      12       4   .text       
-     CopyToQueue                             FE8D9C      22      34       2   .text       
-     CopyToMsg                               FE8DBE      22      34       2   .text       
-     EnQueue                                 FE8DE0      58      88       2   .text       
-     DeQueue                                 FE8E38      50      80       2   .text       
-     SCI_send                                FE8E88       B      11      12   .text       
-     SCI_SendDec16u                          FE8E93      43      67      10   .text       
-     send_string                             FE8ED6      11      17       4   .text       
-     SCI_receive                             FE8EE7       9       9       2   .text       
-     StartCondition_Sub                      FE8EF0      93     147       2   .text       
+     SysVarInit                              FE895B      7A     122       2   .text       
+     SysSingleProcess                        FE89D5       9       9       2   .text       
+     SysDuralProcess                         FE89DE       9       9       2   .text       
+     SysErrProcess                           FE89E7       1       1       2   .text       
+     SysOutputProcess                        FE89E8      5E      94       2   .text       
+     SysTaskProcess                          FE8A46      5C      92       2   .text       
+     SysDigProcess                           FE8AA2       1       1       2   .text       
+     SingleModeJudge                         FE8AA3      1E      30       2   .text       
+     StartCondition                          FE8AC1      2C      44       2   .text       
+     DuralModeJudge                          FE8AED      75     117       2   .text       
+     SingleAppExcute                         FE8B62       B      11       2   .text       
+     DuralAppExcute                          FE8B6D      28      40       2   .text       
+     NormalCtrl                              FE8B95      31      49       2   .text       
+     SpeedLimitCtrl                          FE8BC6       E      14       2   .text       
+     OverAccCtrl                             FE8BD4       7       7       2   .text       
+     OverDecCtrl                             FE8BDB       7       7       2   .text       
+     EngineStopCtrl                          FE8BE2       E      14       2   .text       
+     JudgeFlashStatus                        FE8BF0      6C     108       2   .text       
+     ReadFromFlash                           FE8C5C      91     145       3   .text       
+     Oil_Sup                                 FE8CED      16      22       2   .text       
+     oil_Supply1                             FE8D03      15      21       2   .text       
+     oil_Supply2                             FE8D18      15      21       2   .text       
+     LedTurn                                 FE8D2D       E      14       4   .text       
+     MSSCIProcess                            FE8D3B      59      89       4   .text       
+     QueueIsFull                             FE8D94       F      15       2   .text       
+     QueueIsEmpty                            FE8DA3       C      12       4   .text       
+     CopyToQueue                             FE8DAF      22      34       2   .text       
+     CopyToMsg                               FE8DD1      22      34       2   .text       
+     EnQueue                                 FE8DF3      58      88       2   .text       
+     DeQueue                                 FE8E4B      50      80       2   .text       
+     SCI_send                                FE8E9B       B      11      12   .text       
+     SCI_SendDec16u                          FE8EA6      43      67      10   .text       
+     send_string                             FE8EE9      11      17       4   .text       
+     SCI_receive                             FE8EFA       9       9       2   .text       
+     StartCondition_Sub                      FE8F03      CD     205       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3726,9 +3726,9 @@ SysTaskProcess            USES sys_para DIScan SensorScan SensorProcess
                                 _CASE_CHECKED_BYTE SysSingleProcess SysDuralProcess SysErrProcess 
                                 SysOutputProcess 
 SingleModeJudge           USES sys_para 
-IdleCondition             USES sys_para StartCondition_Sub 
+StartCondition            USES sys_para StartCondition_Sub 
 DuralModeJudge            USES sys_para nPedalADPre.5 
-SingleAppExcute           USES sys_para IdleCondition 
+SingleAppExcute           USES sys_para StartCondition 
 DuralAppExcute            USES sys_para _CASE_CHECKED_BYTE EngineStopCtrl 
                                 NormalCtrl SpeedLimitCtrl OverAccCtrl OverDecCtrl 
 NormalCtrl                USES sys_para _LDIVU 
@@ -3878,7 +3878,7 @@ DEPENDENCY TREE
  |  |  |  |    
  |  |  |  +- SingleAppExcute     
  |  |  |     | 
- |  |  |     +- IdleCondition       
+ |  |  |     +- StartCondition      
  |  |  |        | 
  |  |  |        +- StartCondition_Sub  
  |  |  |           | 
@@ -4083,5 +4083,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 14
-Total size of all blocks to be downloaded: 7294
+Total size of all blocks to be downloaded: 7371
 

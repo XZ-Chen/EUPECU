@@ -23,7 +23,7 @@ extern SYS_PARA sys_para;
 #define bIOScan          sys_para.item.mem_var.bIOScan
 #define bModeJudge       sys_para.item.mem_var.bModeJudge
 #define bOutput          sys_para.item.mem_var.bOutput
-
+#define bOilAngle        sys_para.item.CylinInj_var.bOilAngle
 //************************ÖÐ¶Ïº¯Êý************************   
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED 
@@ -44,7 +44,7 @@ void interrupt VectorNumber_Vpit0 SYSTEM_TIMER_ISR(void)         //PITÖÐ¶Ï
       bModeJudge = TRUE;
     }
     if(nTicks == 60000)
-      nTicks = 0;
+      nTicks = 0;          
 }
 #pragma CODE_SEG DEFAULT
 

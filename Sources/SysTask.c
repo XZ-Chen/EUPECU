@@ -25,6 +25,7 @@ SYS_PARA sys_para;
 #define G_bIOScan          sys_para.item.mem_var.bIOScan           //
 #define G_bModeJudge       sys_para.item.mem_var.bModeJudge        //
 #define G_bOutput          sys_para.item.mem_var.bOutput           //
+#define G_bOilAngle        sys_para.item.CylinInj_var.bOilAngle
 #define G_SensorAddrBgn    sys_para.item.un16Sensor                //
 #define G_un16RPM          sys_para.item.un16Sensor[0]             //转速AD值
 #define G_un16PedalPosAD   sys_para.item.un16Sensor[1]             //油门位置AD值
@@ -88,7 +89,7 @@ void SysVarInit(void)
     G_bOutput = FALSE;    
     MainRelayOff();
     LNGRVRelayOff();
-    InjectorOff();  
+    //InjectorOff();  
 }
 
 ///////////////////////////////////////////////////////
@@ -165,7 +166,8 @@ void SysDuralProcess(void)
 ///////////////////////////////////////////////////////
 //系统出错模式处理                                   //
 ///////////////////////////////////////////////////////
-void SysErrProcess(void) {
+void SysErrProcess(void) 
+{
   
 }
 
@@ -195,7 +197,7 @@ void SysOutputProcess(void)
       }
       else
          nCycle = 0;
-      InjectorWide(nCycle,G_un16InjWide);
+      //InjectorWide(nCycle,G_un16InjWide);
       nInjWidePre = G_un16InjWide;
    }
 }
@@ -205,6 +207,11 @@ void SysOutputProcess(void)
 
 void SysTaskProcess(void)
 {
+    if(G_bOilAngle)
+    {
+      OilAngle();
+      G_bOilAngle = FALSE;
+    }
     if(G_bIOScan){ 
       DIScan(G_DIAddrBgn);       //输入扫描  点火开关 LNG高压阀开关
       G_bIOScan = FALSE;

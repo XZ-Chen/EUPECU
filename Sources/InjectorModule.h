@@ -29,6 +29,6 @@
 
 void InjectorModuleInit(void);
 void InjectorWide(uint16 nCycle,uint16 nWide); 
-#define InjectorOff() InjectorWide(0,0) 
+//#define InjectorOff() InjectorWide(0,0) 
 
 #endif

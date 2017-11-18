@@ -52,7 +52,7 @@ typedef union _sys_para{
 	      	uint16 un16Inj_LV_Time;
 	      	uint16 un16Inj_Gap_Time;
 	      	uint16 un16InjCurAD;
-	      	uint16 Reversed1;
+	      	uint16 bOilAngle;
 	      	uint16 Reversed2;
 	     }CylinInj_var;
 	     struct{    //8
@@ -71,6 +71,7 @@ typedef union _sys_para{
 	        uint16 un16InjRadian;
 	        uint16 un16InjAdvance;
 	        uint16 un16InjAdTime;
+	        
        uint16 un16Reserved[179];
    }item;
 }SYS_PARA;
@@ -146,6 +147,4 @@ void SpeedLimitCtrl(void);
 void EngineTestCtrl(void);
 void CopyPedalMap(void);
 
-void IdleCondition(void);
-void StartCondition(void);
 #endif

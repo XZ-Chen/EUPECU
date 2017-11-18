@@ -8,6 +8,10 @@
 #include "CrankModule.h"
 #include "CamshiftModule.h"
 #include "InjectorMod.h"
+#include "SysTask.h"
+
+extern SYS_PARA sys_para;
+#define G_bOilAngle          sys_para.item.CylinInj_var.bOilAngle
 
 static GROUP_ACCUM           A_crank;
 extern EngStructPara         A_EngStructPara;
@@ -53,6 +57,8 @@ uint16 CrankSpeedRead(void) {
 }
 //定时器通道0输入捕捉中断    采样频率为2.5M  每个计数0.4us
 
+
+//OilAngle 在曲轴中断中调用，后期曲轴中断应该另写为扩展函数 CSI_Sub
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED        
 void interrupt VectorNumber_Vectch0 ECT_IC0(void) 
@@ -101,8 +107,16 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
   	A_crank.array[A_crank.index] = u16DTCrank;
    	
     if(A_crank.average>0)
-       //A_crank.rpm = 185000000/A_crank.average/A_crank.gearnum;
-       A_crank.rpm = 1850;
+       A_crank.rpm = 185000000/A_crank.average/A_crank.gearnum;
+ 
+    if(A_crank.index == A_EngStructPara.TDC[A_EngStructPara.iR] + 15) 
+        A_EngStructPara.iR = A_EngStructPara.FireSeq[A_EngStructPara.iR];
+    
+    if(A_crank.index == A_EngStructPara.TDC[A_EngStructPara.iR] - 12)
+    {
+        G_bOilAngle = TRUE;            //激活Oilangle（）
+    }
+    
     if(A_crank.index == A_EngStructPara.OilTeeth) 
     {
         Oil_Sup();

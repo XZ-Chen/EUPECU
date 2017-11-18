@@ -13,6 +13,9 @@
 #include "MSCan.h"
 #include "ATD.h"
 #include "PinMap.h"
+#include "MsgQueue.h"
+#include "SCI.h"
+#include "MSMQ.h"
 
 extern SYS_PARA sys_para;
 #define G_un16IgSignal     sys_para.item.mem_var.un16IgSignal      //3点火信号
@@ -32,15 +35,17 @@ void main(void) {
   DIOModuleInit();      //PORTB 4 input,4 output
   SensorModuleInit();   //stepper pos; exhaust temp;pedal pos;
   CrankModuleInit();    //crankshaft speed measurement 
-  InjectorModuleInit(); //Injector module initial
+  //InjectorModuleInit(); //Injector module initial
   SysVarInit(); 
   StartSystemTimer();  //开启定时器
   _ENABLE_COP_X();      //看门狗设置
-  JudgeFlashStatus();   //判断Flash是否被写入
+  //JudgeFlashStatus();   //判断Flash是否被写入
+  InitializeQueue();
+  INIT_SCI();
   EnableInterrupts; 
   for(;;)
   {
-      MSSCIProcess();
+       MSSCIProcess();
       if(G_un16IgSignal == ON) 
       {
          for(;;)

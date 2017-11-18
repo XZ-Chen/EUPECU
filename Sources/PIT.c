@@ -22,7 +22,7 @@ void PITInit(void){
    PITMUX_PMUX3 = 0;           //ch3 connected to micro timer 0
    PITMTLD0 = 39 ;             //micro time base 0 equals 39 clock cycles   1us
    PITMTLD1 = 39 ;             //micro time base 1 equals 39 clock cycles   1us  
-   PITLD0 = 999;               //time-out period = (PITMTLD + 1) * (PITLD + 1) / fBUS. 
+   PITLD0 = 999;               //time-out period = (PITMTLD + 1) * (PITLD + 1) / fBUS.   1ms 周期
    //1ms的周期中断                  
    PITINTE_PINTE0 = 1;        //enable interupt channel 0
    PITINTE_PINTE1 = 1;        //enable interupt channel 1  
@@ -35,12 +35,12 @@ void PITInit(void){
    PITCE_PCE3 = 0;
                               
 }
-static uint16 *pPITLDn[4] = {&PITLD0,&PITLD1,&PITLD2,&PITLD3};
+/*static uint16 *pPITLDn[4] = {&PITLD0,&PITLD1,&PITLD2,&PITLD3};
 void PITSetCycle(uint8 nCh,uint16 nUs) {
 
      if(nCh > 3)
          return;
      *pPITLDn[nCh] = nUs - 1;
-}
+}   */
 
 

@@ -1,0 +1,6 @@
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "stppos_sensor.value[6]"
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "data_read"
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "un16TabPedalAD"
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "msg"
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "MSCAN.c::msg.data"
+Data:1 < ADDXPR ONLY_ADD_IF_NEW "un16TabPedalADTest"

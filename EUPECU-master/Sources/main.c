@@ -39,7 +39,7 @@ void main(void) {
   SysVarInit(); 
   StartSystemTimer();  //开启定时器
   _ENABLE_COP_X();      //看门狗设置
-  //JudgeFlashStatus();   //判断Flash是否被写入
+  JudgeFlashStatus();   //判断Flash是否被写入
   InitializeQueue();
   INIT_SCI();
   EnableInterrupts; 

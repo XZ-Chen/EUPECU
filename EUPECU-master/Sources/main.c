@@ -50,7 +50,7 @@ void main(void) {
       {
          for(;;)
          {
-           SysTaskProcess();   //System task
+          // SysTaskProcess();   //System task
            MSCANProcess();     //CAN Communication
            SysDigProcess();    //Disgnose
            MSSCIProcess();

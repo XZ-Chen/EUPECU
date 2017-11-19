@@ -1,7 +1,6 @@
 #include "SCI.h"
 #include "derivative.h"
-#define BUS_CLOCK	  32000000	   //总线频率
-
+#define BUS_CLOCK	  40000000	   //总线频率
 #define BAUD 9600
 
 /*************************************************************/

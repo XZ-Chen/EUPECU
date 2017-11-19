@@ -104,13 +104,17 @@ static uint8 DataRec_Count = 0;
 uint8  DataSuccess_Flag = 0;
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
-void interrupt VectorNumber_Vsci4 receivedata(void) 
+void interrupt VectorNumber_Vsci2 receivedata(void) 
 {
     Data_receive = SCI_receive();
     if(Data_receive == 0xaa && DataRec_Count == 0 && DataSuccess_Flag == 0) {
        DataRec_Count = 1; 
        NewMsg.MsgHead = Data_receive;
-    } else if(DataRec_Count == 1) {
+    }else if(Data_receive ==  'C') {
+       DataRec_Count = 2; 
+       NewMsg.data[0] = Data_receive;
+    } 
+    else if(DataRec_Count == 1) {
        DataRec_Count = 2; 
        NewMsg.data[0] = Data_receive;
     } else if(DataRec_Count == 2) {

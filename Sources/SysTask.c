@@ -53,8 +53,9 @@ SYS_PARA sys_para;
 #define G_STHiStCount      sys_para.item.StartCondition_var.HiStCount //
 #define G_STPaTiSt         sys_para.item.StartCondition_var.PaTiSt //
 
-
-
+#define G_IdLowSp        sys_para.item.IdleCondition_var.IdLowSp
+#define G_IdleFlag	  sys_para.item.IdleCondition_var.IdleFlag
+#define G_PID_ArrayBgn	  sys_para.item.IdleCondition_var.PID_Array
 ////////////////////////////////////////////////////////
 //全局变量初始化                                      //
 ////////////////////////////////////////////////////////
@@ -307,8 +308,29 @@ void StartCondition(void)
 ///////////////////////////////////////////////////////
 void IdleCondition(void) 
 {
-   if(G_un16RPM < )
-   IdleCondition_Sub(); 
+   if(G_un16RPM < G_IdLowSp)
+   {
+	G_un16SingleMode = SINGLE_MODE_STOP;
+	G_IdleFlag = 0;
+   }
+   else
+   {
+	if(G_un16Pedal > 0)
+	{
+		G_un16SingleMode = SINGLE_MODE_NORMAL;
+		G_IdleFlag = 0;
+	}
+	else
+	{
+		if(G_IdleFlag == 0)
+		{
+			G_PID_ArrayBgn[2] = 0;
+			G_PID_ArrayBgn[3] = G_InjOilMo;
+			G_IdleFlag = 1;
+		}
+		
+	}
+   }
 }
 ///////////////////////////////////////////////////////
 //停止工况处理函数		

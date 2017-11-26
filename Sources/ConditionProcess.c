@@ -66,7 +66,7 @@ void StartCondition_Sub(void)
     G_InjAdTime = G_un16RPM * 3600 /(60*1000*1000)/G_InjAdvance;  //确定供油提前时间
 }
         
-void IdleCondition_Sub(void) 
+void IdleCondition_PID(void) 
 {
     // 
 }

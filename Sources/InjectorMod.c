@@ -18,27 +18,43 @@ extern SYS_PARA sys_para;
 extern GROUP_ACCUM A_crank;
 
 #define  A_InjWidth      sys_para.item.mem_var.un16InjWide
+#define  A_InjAdvance      sys_para.item.un16InjAdvance
 #define  G_Inj_HV_Time    sys_para.item.CylinInj_var.un16Inj_HV_Time
 #define  G_Inj_Gap_Time  sys_para.item.CylinInj_var.un16Inj_Gap_Time
 #define  G_Inj_LV_Time  sys_para.item.CylinInj_var.un16Inj_LV_Time
-
-
 	
-
-//void InjectorTest(uint16 nWide) {
-
-//    ECT_TIE   = 0x43;     // 开6中断
-
-//}
+void InjectorInit(void) 
+{
+    A_EngStructPara.DtcCrankI = 17;
+    A_EngStructPara.CrankToCam = 17;  
+    //A_EngStructPara.TDCAngle =   //依靠凸轮正时才需要上止点角度
+    A_EngStructPara.FireSeq[0]= 1;
+    A_EngStructPara.FireSeq[1]= 2;
+    A_EngStructPara.iMax = 2;
+    A_EngStructPara.TDC[0] = 17; //缺齿后第十七个下降沿
+    A_EngStructPara.TDC[1] = 47;
+    A_EngStructPara.iR = 1;
+}
 
 void OilAngle(void) 
 {
     int TDCT;
+    int Va_1;
     int Va_2;
-    TDCT = A_EngStructPara.TDC[A_EngStructPara.iR+1];
-    A_EngStructPara.OilTeeth = TDCT - (int)(A_EngStructPara.InjAdvance/6.43) -1; //实际喷油信号齿
-    Va_2 = (int)(((long)A_crank.rpm * 6.43)/1000000);
-    B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6.43- A_EngStructPara.InjAdvance)/Va_2;
+    TDCT = A_EngStructPara.TDC[A_EngStructPara.iR];
+    Va_1 = (float)A_InjAdvance/6;
+    Va_2 =  A_InjAdvance/6;
+    if(Va_1 == Va_2)
+    {
+       A_EngStructPara.OilTeeth = TDCT - A_InjAdvance/6;
+       B_InjTimePara.Dtq1 = 0;
+    } 
+    else
+    {
+       A_EngStructPara.OilTeeth = TDCT - (int)(A_InjAdvance/6) -1; //实际喷油信号齿
+       Va_2 = (int)(((long)A_crank.rpm * 6)/1000000);
+       B_InjTimePara.Dtq1 = ((TDCT - A_EngStructPara.OilTeeth) * 6- A_InjAdvance)/Va_2;
+    }
     B_InjTimePara.Dtq4 = A_InjWidth - B_InjTimePara.DtqHvTime - B_InjTimePara.DtGaptime; 
 }
 void Oil_Sup(void)
@@ -115,6 +131,7 @@ interrupt VectorNumber_Vectch6 void ECT_OC6(void)
 interrupt VectorNumber_Vectch7 void ECT_OC7(void) 
 {
   static uint8 nSeq2 = 0;
+  EnableInterrupts;
   if(ECT_TFLG1_C7F == 1)
   {
     ECT_TFLG1_C7F = 1;

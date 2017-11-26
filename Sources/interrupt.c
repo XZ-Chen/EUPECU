@@ -17,6 +17,7 @@
 #include <MC9S12XET256.h>     /* derivative information */
 #include <hidef.h> 
 #include "SysTask.h"
+#include "interrupt.h"
 
 extern SYS_PARA sys_para;
 #define bSensorScan      sys_para.item.mem_var.bSensorScan
@@ -25,12 +26,26 @@ extern SYS_PARA sys_para;
 #define bOutput          sys_para.item.mem_var.bOutput
 #define bOilAngle        sys_para.item.CylinInj_var.bOilAngle
 //************************中断函数************************   
+void Interrupt_Priority_Set(void){
+    INT_CFADDR=0x70;  //PIT0  7A
+    INT_CFDATA5=0x03;
+    INT_CFADDR=0xE0;  //ECT0  EE
+    INT_CFDATA6=0x04;
+    INT_CFADDR=0xE0;  //ECT1  EC
+    INT_CFDATA6=0x05;
+    INT_CFADDR=0xE0;  //ECT6  E2
+    INT_CFDATA1=0x06;
+    INT_CFADDR=0x80;  //SCI2  8A
+    INT_CFDATA5=0x07;
+}
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED 
 void interrupt VectorNumber_Vpit0 SYSTEM_TIMER_ISR(void)         //PIT中断               
 { 
+    //EnableInterrupts;
     // 40MHZ 1ms timer overflow
     static uint16 nTicks = 0;           //静态变量 初始化一次
+    EnableInterrupts;
     PITTF = 0x01;    //CLER FLAG
     nTicks ++;
     if(nTicks%2 == 0) //2ms

@@ -35,6 +35,7 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
     static uint16 u16TCrank = 0;   //当前时间计数值
     static uint16 u16TCrank0 = 0;  //前次时间计数值
     uint16 u16DTCrank;             //两齿时间间隔计数值
+    EnableInterrupts;
     ECT_TFLG1_C1F = 1;                 //通道1清中断标志位
     A_camshift.stopcnt = 0;
     A_camshift.index++;   //凸轮齿计数加一

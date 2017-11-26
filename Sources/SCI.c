@@ -1,7 +1,6 @@
 #include "SCI.h"
 #include "derivative.h"
-#define BUS_CLOCK	  32000000	   //总线频率
-
+#define BUS_CLOCK	  40000000	   //总线频率
 #define BAUD 9600
 
 /*************************************************************/
@@ -11,7 +10,7 @@ void INIT_SCI(void)
 {
   SCI2BD = BUS_CLOCK/16/BAUD;   //设置SCI0波特率为9600
   SCI2CR1 = 0x00;        //设置SCI0为正常模式，八位数据位，无奇偶校验
-  SCI2CR2 = 0x2c;        //允许接收和发送数据，允许接收中断功能 
+  SCI2CR2 = 0x2c;        //允许接收和发送数据，允许接收中断功能
 }                                                            
 /*************************************************************/
 /*                       串口发送函数                        */
@@ -61,8 +60,8 @@ void send_string(unsigned char *putchar)
 /*************************************************************/
 unsigned char SCI_receive(void) 
 {
-  while(!SCI2SR1_RDRF);          //等待发送数据寄存器满
-  return(SCI2DRL);
+   while(!SCI2SR1_RDRF);          //等待发送数据寄存器满
+   return(SCI2DRL);
 }
 
 

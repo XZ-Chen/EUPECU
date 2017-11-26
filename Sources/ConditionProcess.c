@@ -59,18 +59,22 @@ void StartCondition_Sub(void)
     G_DieInjWidth = Vary_InjWidth;
     G_InjRadian = 6.43 * G_DieInjWidth * G_un16RPM / 100000; 
     Vary_InjAdvance = look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
-                    	u16TabCWTX, 9,\
-                    	u16TabSTSpeedY, 29,u16TabStartOil);
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);
     //此处可根据液温对提前角进行修正
     G_InjAdvance = Vary_InjAdvance;  //确定供油提前角
     G_InjAdTime = G_un16RPM * 3600 /(60*1000*1000)/G_InjAdvance;  //确定供油提前时间
 }
         
-void IdleCondition(void) 
+void IdleCondition_Sub(void) 
 {
-     
+    // 
 }
 
+void StopCondition_Sub(void)
+{
+     //关闭外围设备 如涡轮等
+}
 
 
 

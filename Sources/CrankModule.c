@@ -66,6 +66,7 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
     static uint16 u16TCrank = 0;   //当前时间计数值
     static uint16 u16TCrank0 = 0;  //前次时间计数值
     uint16 u16DTCrank;             //两齿时间间隔计数值
+    EnableInterrupts;
     ECT_TFLG1_C0F = 1;                 //清中断标志位
     A_crank.stopcnt = 0;
     
@@ -85,17 +86,16 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
   	    } 
   	    else if(A_camshift.CamTeeth == 3)
   	    {
-  	        A_crank.index = 56; 
+  	        A_crank.index = 60; 
   	    }
-  	}
-  	else 
+  	}else 
   	{
   	   A_crank.index++;
     }
-  	if(A_crank.index == 0) 
+  	if(A_crank.index == 2)      //当前齿号为2 下一工作汽缸是第一缸
   	{
   	    A_EngStructPara.iR = 1; //下一工作气缸是第一缸
-  	} else if(A_crank.index == 13) 
+  	} else if(A_crank.index == 62)  //当前齿号为62 下一工作汽缸是第一缸
     {
         A_EngStructPara.iR = 2; //下一工作气缸是第二缸
     }
@@ -115,11 +115,11 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
     if(A_crank.index == A_EngStructPara.TDC[A_EngStructPara.iR] - 12)
     {
         G_bOilAngle = TRUE;            //激活Oilangle（）
-    }
+    }   //根据供油提前角得到Dtq1和Dtq2
     
     if(A_crank.index == A_EngStructPara.OilTeeth) 
     {
-        Oil_Sup();
+        Oil_Sup();                           
     }
     
     u16TCrank0 = u16TCrank;

@@ -72,8 +72,8 @@ Bool EnQueue(T_SciMsg Msg,Queue *pq) {
      	 pq->rear = &(pq->Msgdata[pq->items]);  //链接到队列尾端	                               
   CopyToQueue(Msg, pq);  
   pq->items++;                //队列项目个数增加
- 	SCI_SendDec16u(pq->items);
- 	SCI_send('\n');
+ 	//SCI_SendDec16u(pq->items);
+ 	//SCI_send('\n');
   return TRUE;  
 }
 /*************************************************************/
@@ -97,27 +97,31 @@ Bool DeQueue(T_SciMsg *Msg,Queue *pq) {
 
 /*************************************************************/
 /*                     串口中断接收函数                      */
-/*************************************************************/
-static T_SciMsg NewMsg;
-static uint8 Data_receive = 0;
-static uint8 DataRec_Count = 0;
+/**************************************************************/
+T_SciMsg NewMsg;
+uint8 Data_receive = 0;
+uint8 DataRec_Count = 0;
 uint8  DataSuccess_Flag = 0;
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
-void interrupt VectorNumber_Vsci4 receivedata(void) 
+void interrupt VectorNumber_Vsci2 receivedata(void) 
 {
     Data_receive = SCI_receive();
     if(Data_receive == 0xaa && DataRec_Count == 0 && DataSuccess_Flag == 0) {
        DataRec_Count = 1; 
+       SCI_send('1');
        NewMsg.MsgHead = Data_receive;
     } else if(DataRec_Count == 1) {
        DataRec_Count = 2; 
+       SCI_send('2');
        NewMsg.data[0] = Data_receive;
     } else if(DataRec_Count == 2) {
        DataRec_Count = 3; 
+       SCI_send('3');
        NewMsg.data[1] = Data_receive;
     } else if(DataRec_Count == 3){
        DataRec_Count = 4; 
+       SCI_send('4');
        NewMsg.data[2] = Data_receive;
     } else if(Data_receive == 0x55 && DataRec_Count == 4){
        DataRec_Count = 0; 
@@ -126,7 +130,19 @@ void interrupt VectorNumber_Vsci4 receivedata(void)
     } 
     if(DataSuccess_Flag == 1) {
        DataSuccess_Flag = 0;
+       SCI_send('Y');
        EnQueue(NewMsg,&MsgLine); 
-    }   
+    }  
+    //data_receive = SCI_receive();
+    /*if(Data_receive == 'O') 
+    {
+      SCI_send('Y');
+      //LEDCPU = LED_ON;
+    }
+    if(Data_receive == 'C')
+    {
+      SCI_send('V');
+      //LEDCPU = LED_OFF;   
+    }       */
 }
 #pragma CODE_SEG DEFAULT                              

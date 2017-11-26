@@ -21,7 +21,7 @@ typedef struct{
 	UINT8  iMax;
 	uint8  iR;
 	UINT16 TDC[2]; //…œ÷πµ„≥›∫≈
-	UINT16 InjAdvance;
+//	UINT16 InjAdvance;
 	UINT8  OilTeeth;
 } EngStructPara;
 
@@ -37,5 +37,5 @@ typedef struct {
 void Oil_Sup(void);
 void oil_Supply1(void);
 void oil_Supply2(void); 
-
+void InjectorInit(void); 
 #endif

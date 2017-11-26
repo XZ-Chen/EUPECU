@@ -46,12 +46,13 @@ SYS_PARA sys_para;
 #define G_un16StpP2        sys_para.item.const_var.un16StpP2      //
 
 #define G_PedalAdBgn       sys_para.item.un16PedalAd
+#define G_StartSp          sys_para.item.StartCondition_var.StartSp
+#define G_STLowStp         sys_para.item.StartCondition_var.LowStp //
+#define G_STHiStp          sys_para.item.StartCondition_var.HiStp //
+#define G_STOilStp         sys_para.item.StartCondition_var.OilStp //
+#define G_STHiStCount      sys_para.item.StartCondition_var.HiStCount //
+#define G_STPaTiSt         sys_para.item.StartCondition_var.PaTiSt //
 
-#define G_STLowStp     sys_para.item.StartCondition_var.LowStp //
-#define G_STHiStp      sys_para.item.StartCondition_var.HiStp //
-#define G_STOilStp     sys_para.item.StartCondition_var.OilStp //
-#define G_STHiStCount  sys_para.item.StartCondition_var.HiStCount //
-#define G_STPaTiSt     sys_para.item.StartCondition_var.PaTiSt //
 
 
 ////////////////////////////////////////////////////////
@@ -109,6 +110,8 @@ void SysSingleProcess(void){
    static uint16 nSeq = 0;
    SingleModeJudge();
    SingleAppExcute();
+   
+   
 /*   if(G_DILNGSwitch != ON)
    {
        nSeq = 0;
@@ -269,7 +272,7 @@ void SingleModeJudge(void)
 
 }
 ///////////////////////////////////////////////////////
-//怠速工况处理函数		
+//起动工况处理函数		
 /*#define G_STLowStp     //
 #define G_STHiStp        //
 #define G_STOilStp      //
@@ -299,7 +302,31 @@ void StartCondition(void)
 	  }
 	}
 }
-
+///////////////////////////////////////////////////////
+//怠速工况处理函数		
+///////////////////////////////////////////////////////
+void IdleCondition(void) 
+{
+   if(G_un16RPM < )
+   IdleCondition_Sub(); 
+}
+///////////////////////////////////////////////////////
+//停止工况处理函数		
+///////////////////////////////////////////////////////
+void StopCondition(void) 
+{
+   if(G_un16RPM > G_StartSp)
+     	G_un16SingleMode = SINGLE_MODE_START;   //工况转为起动工况
+   else
+   {
+      G_InjEnable = 0;
+      if(G_un16RPM == 0) 
+      {
+          G_STHiStCount = 0;
+          StopCondition_Sub(); 
+      }
+   }
+}
     	      
 ///////////////////////////////////////////////////////
 //系统双燃料模式处理                                 //
@@ -349,25 +376,35 @@ void DuralModeJudge(void)
 ///////////////////////////////////////////////////////
 void SingleAppExcute(void)
 {
- 	switch(G_un16SingleMode)
-	{
-		case SINGLE_MODE_START:
-			StartCondition();
-			break;
-	
-		case SINGLE_MODE_NORMAL:
-			//NormalCtrl();
-			break;
-		case SINGLE_MODE_SPEEDLIMIT:
-			//SpeedLimitCtrl();
-			break;
-		case SINGLE_MODE_OVERACC:
-			//OverAccCtrl();
-			break;
-		case SINGLE_MODE_OVERDEC:
-			//OverDecCtrl();
-			break;
-	}
+  uint16 Var_SingleMode;
+  Var_SingleMode = G_un16SingleMode;
+  while(Var_SingleMode == G_un16SingleMode)
+  {
+     	switch(G_un16SingleMode)
+    	{
+    	  case SINGLE_MODE_STOP:
+    			StopCondition();
+    			break;
+    		case SINGLE_MODE_START:
+    			StartCondition();
+    			break;
+    	  case SINGLE_MODE_IDLE:
+    			IdleCondition();
+    			break;
+    		case SINGLE_MODE_NORMAL:
+    			//NormalCtrl();
+    			break;
+    		case SINGLE_MODE_SPEEDLIMIT:
+    			//SpeedLimitCtrl();
+    			break;
+    		case SINGLE_MODE_OVERACC:
+    			//OverAccCtrl();
+    			break;
+    		case SINGLE_MODE_OVERDEC:
+    			//OverDecCtrl();
+    			break;
+    	}
+   }	
 }
 ///////////////////////////////////////////////////////
 //系统双燃料执行器输出处理                           //

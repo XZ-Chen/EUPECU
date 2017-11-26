@@ -18,6 +18,7 @@
 
 //3¡¢º¯ÊýÉùÃ÷
 void StartCondition_Sub(void);
-void IdleCondition(void);
+void IdleCondition_Sub(void);
+void StopCondition_Sub(void);
 
 #endif

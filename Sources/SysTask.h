@@ -65,12 +65,22 @@ typedef union _sys_para{
 	        uint16 Reversed1;
 	      	uint16 Reversed2;
 	     }StartCondition_var;
-	        uint16 un16InjEnable; 
-	        uint16 un16InjOilMo;
-	        uint16 un16InjWidth;
-	        uint16 un16InjRadian;
-	        uint16 un16InjAdvance;
-	        uint16 un16InjAdTime;
+	     struct{    //8
+	        uint16 StartSp;  //停止工况运行最高转速
+	        uint16 IdLowSp;   //启动工况的最低转速
+	        uint16 HiStp;    //启动工况最高转速
+	        uint16 OilStp;   //启动工况中开始供油转速
+	        uint8  HiStCount;     //统计次数：超过HiStp
+	        uint8  PaTiSt;    //最高启动转数检测次数
+	        uint16 Reversed1;
+	      	uint16 Reversed2;
+	     }IdleCondition_var;
+	        uint16 un16InjEnable; //供油使能
+	        uint16 un16InjOilMo;  //供油量
+	        uint16 un16InjWidth;  //供油脉宽
+	        uint16 un16InjRadian; //供油持续角
+	        uint16 un16InjAdvance;  //供油提前角
+	        uint16 un16InjAdTime;  //供油提前时间
 	        
        uint16 un16Reserved[179];
    }item;
@@ -146,5 +156,8 @@ void SpeedLimitCtrl(void);
 
 void EngineTestCtrl(void);
 void CopyPedalMap(void);
+void StartCondition(void);
+void IdleCondition(void); 
+void StopCondition(void);
 
 #endif

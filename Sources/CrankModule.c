@@ -60,6 +60,7 @@ uint16 CrankSpeedRead(void) {
 
 
 //OilAngle 在曲轴中断中调用，后期曲轴中断应该另写为扩展函数 CSI_Sub
+UINT8 OilAngleTips[]="execute OilAngle";
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED        
 void interrupt VectorNumber_Vectch0 ECT_IC0(void) 
@@ -121,7 +122,8 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
     
     if(A_crank.index == A_EngStructPara.OilTeeth) 
     {
-        Oil_Sup();                           
+        Oil_Sup();   
+        send_string(OilAngleTips);                        
     }
     
     u16TCrank0 = u16TCrank;

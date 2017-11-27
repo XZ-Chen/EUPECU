@@ -45,6 +45,7 @@ void main(void) {
   InitializeQueue();
   INIT_SCI();
   Interrupt_Priority_Set();
+  InitLed();
   EnableInterrupts; 
   for(;;)
   {

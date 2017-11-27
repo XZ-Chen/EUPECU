@@ -14,3 +14,11 @@ void LedTurn(uint8 pin,uint8 val)
 {
    DOOutput(pin,val);
 }
+
+void InitLed(void) 
+{
+    LedTurn(LED1,ON);
+    LedTurn(LED2,ON);
+    LedTurn(LED3,ON);
+    LedTurn(LED4,ON);
+}

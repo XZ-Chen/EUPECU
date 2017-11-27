@@ -57,6 +57,7 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
 	  	if(A_camshift.CamTeeth < 4)
 	  	{
 		  	A_camshift.CamTeeth ++;
+		  	SCI_SendDec16u(A_camshift.CamTeeth);
 	  	}
   	}
   	if(u16TCrank < u16TCrank0)

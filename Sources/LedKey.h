@@ -10,6 +10,7 @@
 
 //void LedTurnOn(void);
 void LedTurn(uint8 pin,uint8 val);
+void InitLed(void); 
 
 
 

@@ -9,6 +9,7 @@
 #include "CamshiftModule.h"
 #include "InjectorMod.h"
 #include "SysTask.h"
+#include "SCI.h"
 
 extern SYS_PARA sys_para;
 #define G_bOilAngle          sys_para.item.CylinInj_var.bOilAngle
@@ -91,6 +92,7 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
   	}else 
   	{
   	   A_crank.index++;
+  	   SCI_SendDec16u(A_crank.index);
     }
   	if(A_crank.index == 2)      //当前齿号为2 下一工作汽缸是第一缸
   	{
@@ -106,7 +108,7 @@ void interrupt VectorNumber_Vectch0 ECT_IC0(void)
    	A_crank.accum = A_crank.accum - A_crank.array[A_crank.index] + u16DTCrank;
   	A_crank.array[A_crank.index] = u16DTCrank;
    	
-    if(A_crank.average>0)
+    if(A_crank.average>0)  
        A_crank.rpm = 185000000/A_crank.average/A_crank.gearnum;
  
     if(A_crank.index == A_EngStructPara.TDC[A_EngStructPara.iR] + 15) 

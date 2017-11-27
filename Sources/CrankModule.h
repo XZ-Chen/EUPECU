@@ -24,7 +24,7 @@ typedef struct{
 	UINT16 array[200];
 	UINT32 accum;
 	UINT16 average;
-	UINT8  index;
+	UINT16  index;
 	UINT8  gearnum;
 	UINT16 rpm;
 	uint8  stopcnt;

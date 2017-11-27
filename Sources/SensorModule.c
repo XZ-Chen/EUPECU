@@ -81,6 +81,7 @@ void SensorScan(uint16 *pSensor)
     ValueAverage(&coolwater_sensor,nNewValue);
 
     #if(DEBUGMODE == 1)  
+    SCI_SendDec16u(crankspeed_sensor.value[6]);
     *(pSensor+0) = crankspeed_sensor.value[6];
     #elif(DEBUGMODE == 2)   
     *(pSensor+0) = 2000;

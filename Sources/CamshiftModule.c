@@ -39,6 +39,7 @@ void interrupt VectorNumber_Vectch1 ECT_IC1(void)
     ECT_TFLG1_C1F = 1;                 //通道1清中断标志位
     A_camshift.stopcnt = 0;
     A_camshift.index++;   //凸轮齿计数加一
+    SCI_SendDec16u(A_camshift.index);
     if(A_camshift.index >= A_camshift.gearnum)
     {
         A_camshift.index = 0;

@@ -325,7 +325,7 @@ void IdleCondition(void)
 		if(G_IdleFlag == 0)
 		{
 			G_PID_ArrayBgn[2] = 0;
-			G_PID_ArrayBgn[3] = G_InjOilMo;
+		//	G_PID_ArrayBgn[3] = G_InjOilMo;
 			G_IdleFlag = 1;
 		}
 		

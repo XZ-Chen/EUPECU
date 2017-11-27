@@ -10,7 +10,7 @@
 #define _DEBUGCONFIG_H_
 
 
-//#define DEBUGMODE  1     //普通模式
-#define DEBUGMODE  2     //调试模式
+#define DEBUGMODE  1     //普通模式
+//#define DEBUGMODE  2     //调试模式
 
 #endif

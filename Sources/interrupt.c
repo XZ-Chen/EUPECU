@@ -25,6 +25,10 @@ extern SYS_PARA sys_para;
 #define bModeJudge       sys_para.item.mem_var.bModeJudge
 #define bOutput          sys_para.item.mem_var.bOutput
 #define bOilAngle        sys_para.item.CylinInj_var.bOilAngle
+#define G_bIdlePID     sys_para.item.IdleCondition_var.bIdlePID
+#define G_un16SingleMode   sys_para.item.mem_var.un16bSingleMode
+#define G_Idle_Time   sys_para.item.IdleCondition_var.Idle_Time
+
 //************************ÖÐ¶Ïº¯Êý************************   
 void Interrupt_Priority_Set(void){
     INT_CFADDR=0x70;  //PIT0  7A
@@ -54,6 +58,13 @@ void interrupt VectorNumber_Vpit0 SYSTEM_TIMER_ISR(void)         //PITÖÐ¶Ï
       bIOScan = TRUE;
     if(nTicks%20 == 0)   //20ms   
       bSensorScan = TRUE;
+    if(G_un16SingleMode == SINGLE_MODE_IDLE)
+    {
+	  if(nTicks % 120 == 0)
+	  {
+		 G_bIdlePID = TRUE;
+	  }
+    }
     if(nTicks%200 == 0) //200ms
     {  
       bModeJudge = TRUE;

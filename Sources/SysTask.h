@@ -66,13 +66,13 @@ typedef union _sys_para{
 	      	uint16 Reversed2;
 	     }StartCondition_var;
 	     struct{    //8
-	        uint16 StartSp;  //停止工况运行最高转速
+	        uint16 Idle_Time;  //
 	        uint16 IdLowSp;   //怠速工况的最低转速
 	        uint16 IdleFlag;    //启动工况最高转速
 	        uint16 PID_Array[4];   //启动工况中开始供油转速
-	        uint8  HiStCount;     //统计次数：超过HiStp
-	        uint8  PaTiSt;    //最高启动转数检测次数
-	        uint16 Reversed1;
+	        uint16 IdGoSp;     //怠速目标转速
+	        uint16 IdGoSpOffset;    //最高启动转数检测次数
+	        uint16 bIdlePID;
 	      	uint16 Reversed2;
 	     }IdleCondition_var;
 	        uint16 un16InjEnable; //供油使能

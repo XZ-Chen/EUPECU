@@ -26,6 +26,9 @@ extern SYS_PARA sys_para;
 #define G_STHiStCount  sys_para.item.StartCondition_var.HiStCount         //
 #define G_STPaTiSt     sys_para.item.StartCondition_var.PaTiSt            //
 #define G_InjRadian    sys_para.item.un16InjRadian     //
+#define G_IdGoSp          sys_para.item.IdleCondition_var.IdGoSp
+#define G_IdGoSpOffset sys_para.item.IdleCondition_var.IdGoSpOffset
+#define G_PID_ArrayBgn	  sys_para.item.IdleCondition_var.PID_Array
 //-------------------------------------------------------------------------*
 //函数名: void StartCondition_Sub(void) 					                             	                 *
 //说  明: 启动工况处理函数											                           *
@@ -68,7 +71,40 @@ void StartCondition_Sub(void)
         
 void IdleCondition_PID(void) 
 {
-    // 
+  int Error,Derror,Output;
+  int Vary_InjWidth, Vary_InjAdvance;
+  Error = G_IdGoSp - G_un16RPM; //本次处理的转速偏差 -积分项
+  if(Error < G_IdGoSpOffset)
+		return;
+	Derror = Error - *(G_PID_ArrayBgn+2); //二次偏差
+	*(G_PID_ArrayBgn) =  look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);
+	*(G_PID_ArrayBgn+1) =  look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);
+	Output = *(G_PID_ArrayBgn) * Derror;
+	Output += *(G_PID_ArrayBgn+3);
+	*(G_PID_ArrayBgn+2) = Error;//记录本次偏差供下次使用
+	*(G_PID_ArrayBgn+3) = look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);//查map求等转速油量限制
+   if(Output > *(G_PID_ArrayBgn+3))
+   {
+		Output = *(G_PID_ArrayBgn+3);//目标油量取限制值
+	 }
+	 *(G_PID_ArrayBgn+3) = look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);//记录本次调整后的供油量供下次使用
+         G_InjOilMo = Output;
+	  Vary_InjWidth =  look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle);//记录本次调整后的供油量供下次使用
+    /*     Vary_InjWidth *=  look2D_U16_U16_U16(G_InjOilMo,G_un16RPM, \
+                    	u16TabInjOilMoX, 9,\
+                    	u16TabOilAngleSpeedY, 29,u16TabOilAdAngle)  / 100;//根据电压值做修正 */
+	  G_DieInjWidth = Vary_InjWidth; //确定最终怠速供油脉宽 
+	  G_InjAdTime = G_un16RPM * 3600/(60*1000*1000)/G_InjAdvance;//确定供油提前时间 可由上位机提供
 }
 
 void StopCondition_Sub(void)

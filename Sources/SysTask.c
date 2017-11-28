@@ -51,11 +51,14 @@ SYS_PARA sys_para;
 #define G_STHiStp          sys_para.item.StartCondition_var.HiStp //
 #define G_STOilStp         sys_para.item.StartCondition_var.OilStp //
 #define G_STHiStCount      sys_para.item.StartCondition_var.HiStCount //
+#define G_InjOilMo         sys_para.item.un16InjOilMo
 #define G_STPaTiSt         sys_para.item.StartCondition_var.PaTiSt //
 
-#define G_IdLowSp        sys_para.item.IdleCondition_var.IdLowSp
-#define G_IdleFlag	  sys_para.item.IdleCondition_var.IdleFlag
+#define G_IdLowSp         sys_para.item.IdleCondition_var.IdLowSp
+#define G_IdleFlag	      sys_para.item.IdleCondition_var.IdleFlag
 #define G_PID_ArrayBgn	  sys_para.item.IdleCondition_var.PID_Array
+#define G_IdGoSp          sys_para.item.IdleCondition_var.IdGoSp
+#define G_bIdlePID     sys_para.item.IdleCondition_var.bIdlePID
 ////////////////////////////////////////////////////////
 //全局变量初始化                                      //
 ////////////////////////////////////////////////////////
@@ -74,6 +77,7 @@ void SysVarInit(void)
     G_un16HighSpeed = LNG_HIGHSPEED;
     G_un16InjWide = 0;
     //for test/////////////////////////////////
+    G_bIdlePID = OFF;
     G_STOilStp = 0;
     G_InjEnable = OFF;
     G_STHiStCount = 0;
@@ -242,6 +246,10 @@ void SysTaskProcess(void)
     }
     G_bModeJudge = FALSE;
     }
+    if(G_bIdlePID)
+    {
+		 IdleCondition_PID();
+    }
     if(G_bOutput) { 
       SysOutputProcess();
       G_bOutput = FALSE;
@@ -306,6 +314,8 @@ void StartCondition(void)
 ///////////////////////////////////////////////////////
 //怠速工况处理函数		
 ///////////////////////////////////////////////////////
+extern  uint16 un16TabWatTemp[9];
+extern  uint16 un16TabIdleSpeed[9];
 void IdleCondition(void) 
 {
    if(G_un16RPM < G_IdLowSp)
@@ -322,14 +332,15 @@ void IdleCondition(void)
 	}
 	else
 	{
+	  G_IdGoSp = look1D_U16_U16(G_un16CoolWaterTemp,un16TabWatTemp,9,un16TabIdleSpeed);  //查找油门踏板MAP
 		if(G_IdleFlag == 0)
 		{
 			G_PID_ArrayBgn[2] = 0;
-		//	G_PID_ArrayBgn[3] = G_InjOilMo;
+			G_PID_ArrayBgn[3] = G_InjOilMo;
 			G_IdleFlag = 1;
-		}
-		
+		} 		
 	}
+   
    }
 }
 ///////////////////////////////////////////////////////
